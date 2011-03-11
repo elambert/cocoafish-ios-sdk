@@ -1,0 +1,563 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1D3623260D0F684500981E51 /* DemoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* DemoAppDelegate.m */; };
+		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		28AD73880D9D96C1002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD73870D9D96C1002E5188 /* MainWindow.xib */; };
+		B613B34812692EDA00EC9ABA /* UserController.m in Sources */ = {isa = PBXBuildFile; fileRef = B613B34612692EDA00EC9ABA /* UserController.m */; };
+		B613B34912692EDA00EC9ABA /* UserController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B613B34712692EDA00EC9ABA /* UserController.xib */; };
+		B613B684126BAC4300EC9ABA /* ProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B613B682126BAC4300EC9ABA /* ProgressViewController.m */; };
+		B613B685126BAC4300EC9ABA /* ProgressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B613B683126BAC4300EC9ABA /* ProgressViewController.xib */; };
+		B6544E50125E83A4003AFCAB /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6544E4E125E83A4003AFCAB /* MapViewController.m */; };
+		B6544E51125E83A4003AFCAB /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6544E4F125E83A4003AFCAB /* MapViewController.xib */; };
+		B6544E55125E83F7003AFCAB /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6544E53125E83F7003AFCAB /* MainViewController.m */; };
+		B6544E56125E83F7003AFCAB /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6544E54125E83F7003AFCAB /* MainViewController.xib */; };
+		B6544E5B125E8651003AFCAB /* ListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6544E59125E8651003AFCAB /* ListViewController.m */; };
+		B6544E5C125E8651003AFCAB /* ListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6544E5A125E8651003AFCAB /* ListViewController.xib */; };
+		B6544FEC125F9480003AFCAB /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6544FEB125F9480003AFCAB /* MapKit.framework */; };
+		B6544FF9125FC8A9003AFCAB /* Annotation.m in Sources */ = {isa = PBXBuildFile; fileRef = B6544FF6125FC8A9003AFCAB /* Annotation.m */; };
+		B6544FFA125FC8A9003AFCAB /* AnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6544FF8125FC8A9003AFCAB /* AnnotationView.m */; };
+		B6898BE612C0328F006D4ED8 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6898BE512C0328F006D4ED8 /* CoreLocation.framework */; };
+		B6898C1012C03445006D4ED8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6898C0F12C03445006D4ED8 /* UIKit.framework */; };
+		B6898C1212C03445006D4ED8 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B6898C1112C03445006D4ED8 /* libz.dylib */; };
+		B6A1A9A31321895D00D31CD3 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A1A9A11321895D00D31CD3 /* RegisterViewController.m */; };
+		B6A1A9A41321895D00D31CD3 /* RegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6A1A9A21321895D00D31CD3 /* RegisterViewController.xib */; };
+		B6A1A9A81321898300D31CD3 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A1A9A61321898300D31CD3 /* LoginViewController.m */; };
+		B6A1A9A91321898300D31CD3 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6A1A9A71321898300D31CD3 /* LoginViewController.xib */; };
+		B6A1AA181321921800D31CD3 /* CocoaFishLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A1AA171321921800D31CD3 /* CocoaFishLibrary.m */; };
+		B6A1AA39132197F200D31CD3 /* icon-nearby.png in Resources */ = {isa = PBXBuildFile; fileRef = B6A1AA35132197F200D31CD3 /* icon-nearby.png */; };
+		B6A1AA3A132197F200D31CD3 /* icon-person.png in Resources */ = {isa = PBXBuildFile; fileRef = B6A1AA36132197F200D31CD3 /* icon-person.png */; };
+		B6A1AA3B132197F200D31CD3 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = B6A1AA37132197F200D31CD3 /* Icon.png */; };
+		B6A1AA3C132197F200D31CD3 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B6A1AA38132197F200D31CD3 /* Icon@2x.png */; };
+		B6A1AA5413219CC700D31CD3 /* CheckinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A1AA5213219CC700D31CD3 /* CheckinViewController.m */; };
+		B6A1AA5513219CC700D31CD3 /* CheckinViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6A1AA5313219CC700D31CD3 /* CheckinViewController.xib */; };
+		B6A1AA6B13248C8200D31CD3 /* TapDetectingImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A1AA6A13248C8200D31CD3 /* TapDetectingImageView.m */; };
+		B6C83D621329E9AF005933D4 /* libCocoafish.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B6C83D611329E98D005933D4 /* libCocoafish.a */; };
+		B6C83DB71329EEB9005933D4 /* YAJL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6C83DB61329EEB9005933D4 /* YAJL.framework */; };
+		B6CCC4AB12F77532006E33E7 /* FBConnect.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B6CCC4AA12F77532006E33E7 /* FBConnect.bundle */; };
+		B6CCC4BF12F7754B006E33E7 /* FBLoginButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B6CCC4BE12F7754B006E33E7 /* FBLoginButton.m */; };
+		B6E3001E126BEFC500B26837 /* PlaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6E3001C126BEFC500B26837 /* PlaceViewController.m */; };
+		B6E3001F126BEFC500B26837 /* PlaceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6E3001D126BEFC500B26837 /* PlaceViewController.xib */; };
+		B6F564CB12C7E45F00C60A9C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6F564CA12C7E45F00C60A9C /* CFNetwork.framework */; };
+		B6F564CD12C7E45F00C60A9C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6F564CC12C7E45F00C60A9C /* CoreGraphics.framework */; };
+		B6F564CF12C7E45F00C60A9C /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6F564CE12C7E45F00C60A9C /* MobileCoreServices.framework */; };
+		B6F564D112C7E45F00C60A9C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6F564D012C7E45F00C60A9C /* SystemConfiguration.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B6C83D5E1329E98D005933D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B6C83D591329E98D005933D4 /* Cocoafish-ios-sdk.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1D6058910D05DD3D006BFB54 /* Cocoafish-ios-sdk.app */;
+			remoteInfo = "Cocoafish-ios-sdk";
+		};
+		B6C83D601329E98D005933D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B6C83D591329E98D005933D4 /* Cocoafish-ios-sdk.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B689924712C2FBE7006D4ED8 /* libCocoafish.a */;
+			remoteInfo = libCocoafish;
+		};
+		B6C83D651329E9D5005933D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B6C83D591329E98D005933D4 /* Cocoafish-ios-sdk.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = B689924612C2FBE7006D4ED8 /* libCocoafish */;
+			remoteInfo = libCocoafish;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1D3623240D0F684500981E51 /* DemoAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoAppDelegate.h; sourceTree = "<group>"; };
+		1D3623250D0F684500981E51 /* DemoAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DemoAppDelegate.m; sourceTree = "<group>"; };
+		1D6058910D05DD3D006BFB54 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		28A0AB4B0D9B1048005BE974 /* Demo_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Demo_Prefix.pch; sourceTree = "<group>"; };
+		28AD73870D9D96C1002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* Demo-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Demo-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		B613B34512692EDA00EC9ABA /* UserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserController.h; sourceTree = "<group>"; };
+		B613B34612692EDA00EC9ABA /* UserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserController.m; sourceTree = "<group>"; };
+		B613B34712692EDA00EC9ABA /* UserController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserController.xib; sourceTree = "<group>"; };
+		B613B681126BAC4300EC9ABA /* ProgressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressViewController.h; sourceTree = "<group>"; };
+		B613B682126BAC4300EC9ABA /* ProgressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressViewController.m; sourceTree = "<group>"; };
+		B613B683126BAC4300EC9ABA /* ProgressViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProgressViewController.xib; sourceTree = "<group>"; };
+		B6544E4D125E83A4003AFCAB /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		B6544E4E125E83A4003AFCAB /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		B6544E4F125E83A4003AFCAB /* MapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapViewController.xib; sourceTree = "<group>"; };
+		B6544E52125E83F7003AFCAB /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		B6544E53125E83F7003AFCAB /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		B6544E54125E83F7003AFCAB /* MainViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
+		B6544E58125E8651003AFCAB /* ListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListViewController.h; sourceTree = "<group>"; };
+		B6544E59125E8651003AFCAB /* ListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListViewController.m; sourceTree = "<group>"; };
+		B6544E5A125E8651003AFCAB /* ListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ListViewController.xib; sourceTree = "<group>"; };
+		B6544FEB125F9480003AFCAB /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		B6544FF5125FC8A9003AFCAB /* Annotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Annotation.h; sourceTree = "<group>"; };
+		B6544FF6125FC8A9003AFCAB /* Annotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Annotation.m; sourceTree = "<group>"; };
+		B6544FF7125FC8A9003AFCAB /* AnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnnotationView.h; sourceTree = "<group>"; };
+		B6544FF8125FC8A9003AFCAB /* AnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnnotationView.m; sourceTree = "<group>"; };
+		B6898BE512C0328F006D4ED8 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		B6898C0F12C03445006D4ED8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		B6898C1112C03445006D4ED8 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		B68993E512C31063006D4ED8 /* libCocoafish.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCocoafish.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B6A1A9A01321895D00D31CD3 /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		B6A1A9A11321895D00D31CD3 /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		B6A1A9A21321895D00D31CD3 /* RegisterViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RegisterViewController.xib; sourceTree = "<group>"; };
+		B6A1A9A51321898300D31CD3 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		B6A1A9A61321898300D31CD3 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		B6A1A9A71321898300D31CD3 /* LoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
+		B6A1AA161321921800D31CD3 /* CocoaFishLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CocoaFishLibrary.h; path = Classes/CocoaFishLibrary.h; sourceTree = "<group>"; };
+		B6A1AA171321921800D31CD3 /* CocoaFishLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CocoaFishLibrary.m; path = Classes/CocoaFishLibrary.m; sourceTree = "<group>"; };
+		B6A1AA35132197F200D31CD3 /* icon-nearby.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-nearby.png"; path = "images/icon-nearby.png"; sourceTree = "<group>"; };
+		B6A1AA36132197F200D31CD3 /* icon-person.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-person.png"; path = "images/icon-person.png"; sourceTree = "<group>"; };
+		B6A1AA37132197F200D31CD3 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = images/Icon.png; sourceTree = "<group>"; };
+		B6A1AA38132197F200D31CD3 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "images/Icon@2x.png"; sourceTree = "<group>"; };
+		B6A1AA5113219CC700D31CD3 /* CheckinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckinViewController.h; sourceTree = "<group>"; };
+		B6A1AA5213219CC700D31CD3 /* CheckinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckinViewController.m; sourceTree = "<group>"; };
+		B6A1AA5313219CC700D31CD3 /* CheckinViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CheckinViewController.xib; sourceTree = "<group>"; };
+		B6A1AA6913248C8200D31CD3 /* TapDetectingImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TapDetectingImageView.h; sourceTree = "<group>"; };
+		B6A1AA6A13248C8200D31CD3 /* TapDetectingImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TapDetectingImageView.m; sourceTree = "<group>"; };
+		B6C83D591329E98D005933D4 /* Cocoafish-ios-sdk.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Cocoafish-ios-sdk.xcodeproj"; path = "../../src/Cocoafish-ios-sdk.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		B6C83DB61329EEB9005933D4 /* YAJL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = YAJL.framework; path = ../../src/YAJL.framework; sourceTree = SOURCE_ROOT; };
+		B6CCC4AA12F77532006E33E7 /* FBConnect.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FBConnect.bundle; sourceTree = "<group>"; };
+		B6CCC4BD12F7754B006E33E7 /* FBLoginButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBLoginButton.h; sourceTree = "<group>"; };
+		B6CCC4BE12F7754B006E33E7 /* FBLoginButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBLoginButton.m; sourceTree = "<group>"; };
+		B6E3001B126BEFC500B26837 /* PlaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceViewController.h; sourceTree = "<group>"; };
+		B6E3001C126BEFC500B26837 /* PlaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceViewController.m; sourceTree = "<group>"; };
+		B6E3001D126BEFC500B26837 /* PlaceViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaceViewController.xib; sourceTree = "<group>"; };
+		B6F564CA12C7E45F00C60A9C /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		B6F564CC12C7E45F00C60A9C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		B6F564CE12C7E45F00C60A9C /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		B6F564D012C7E45F00C60A9C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1D60588F0D05DD3D006BFB54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B6C83D621329E9AF005933D4 /* libCocoafish.a in Frameworks */,
+				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
+				B6544FEC125F9480003AFCAB /* MapKit.framework in Frameworks */,
+				B6898BE612C0328F006D4ED8 /* CoreLocation.framework in Frameworks */,
+				B6898C1012C03445006D4ED8 /* UIKit.framework in Frameworks */,
+				B6898C1212C03445006D4ED8 /* libz.dylib in Frameworks */,
+				B6F564CB12C7E45F00C60A9C /* CFNetwork.framework in Frameworks */,
+				B6F564CD12C7E45F00C60A9C /* CoreGraphics.framework in Frameworks */,
+				B6F564CF12C7E45F00C60A9C /* MobileCoreServices.framework in Frameworks */,
+				B6F564D112C7E45F00C60A9C /* SystemConfiguration.framework in Frameworks */,
+				B6C83DB71329EEB9005933D4 /* YAJL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				B6A1AA5613219CD400D31CD3 /* Checkin */,
+				B65455C9126424AC003AFCAB /* Common */,
+				B6E30517126D14D500B26837 /* Place */,
+				B613B33E12692E5C00EC9ABA /* User */,
+				B6544E26125E678B003AFCAB /* Explore */,
+				1D3623240D0F684500981E51 /* DemoAppDelegate.h */,
+				1D3623250D0F684500981E51 /* DemoAppDelegate.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1D6058910D05DD3D006BFB54 /* Demo.app */,
+				B68993E512C31063006D4ED8 /* libCocoafish.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* Demo */ = {
+			isa = PBXGroup;
+			children = (
+				B6C83D591329E98D005933D4 /* Cocoafish-ios-sdk.xcodeproj */,
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = Demo;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				28A0AB4B0D9B1048005BE974 /* Demo_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B65458E21264C7FE003AFCAB /* images */,
+				28AD73870D9D96C1002E5188 /* MainWindow.xib */,
+				8D1107310486CEB800E47090 /* Demo-Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B6C83DB61329EEB9005933D4 /* YAJL.framework */,
+				1D30AB110D05D00D00671497 /* Foundation.framework */,
+				B6544FEB125F9480003AFCAB /* MapKit.framework */,
+				B6898BE512C0328F006D4ED8 /* CoreLocation.framework */,
+				B6898C0F12C03445006D4ED8 /* UIKit.framework */,
+				B6898C1112C03445006D4ED8 /* libz.dylib */,
+				B6F564CA12C7E45F00C60A9C /* CFNetwork.framework */,
+				B6F564CC12C7E45F00C60A9C /* CoreGraphics.framework */,
+				B6F564CE12C7E45F00C60A9C /* MobileCoreServices.framework */,
+				B6F564D012C7E45F00C60A9C /* SystemConfiguration.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B613B33E12692E5C00EC9ABA /* User */ = {
+			isa = PBXGroup;
+			children = (
+				B6A1A9A51321898300D31CD3 /* LoginViewController.h */,
+				B6A1A9A61321898300D31CD3 /* LoginViewController.m */,
+				B6A1A9A71321898300D31CD3 /* LoginViewController.xib */,
+				B6A1A9A01321895D00D31CD3 /* RegisterViewController.h */,
+				B6A1A9A11321895D00D31CD3 /* RegisterViewController.m */,
+				B6A1A9A21321895D00D31CD3 /* RegisterViewController.xib */,
+				B6CCC4BD12F7754B006E33E7 /* FBLoginButton.h */,
+				B6CCC4BE12F7754B006E33E7 /* FBLoginButton.m */,
+				B6CCC4AA12F77532006E33E7 /* FBConnect.bundle */,
+				B613B681126BAC4300EC9ABA /* ProgressViewController.h */,
+				B613B682126BAC4300EC9ABA /* ProgressViewController.m */,
+				B613B683126BAC4300EC9ABA /* ProgressViewController.xib */,
+				B613B34512692EDA00EC9ABA /* UserController.h */,
+				B613B34612692EDA00EC9ABA /* UserController.m */,
+				B613B34712692EDA00EC9ABA /* UserController.xib */,
+			);
+			name = User;
+			sourceTree = "<group>";
+		};
+		B6544E26125E678B003AFCAB /* Explore */ = {
+			isa = PBXGroup;
+			children = (
+				B6544FF5125FC8A9003AFCAB /* Annotation.h */,
+				B6544FF6125FC8A9003AFCAB /* Annotation.m */,
+				B6544FF7125FC8A9003AFCAB /* AnnotationView.h */,
+				B6544FF8125FC8A9003AFCAB /* AnnotationView.m */,
+				B6544E4D125E83A4003AFCAB /* MapViewController.h */,
+				B6544E4E125E83A4003AFCAB /* MapViewController.m */,
+				B6544E4F125E83A4003AFCAB /* MapViewController.xib */,
+				B6544E52125E83F7003AFCAB /* MainViewController.h */,
+				B6544E53125E83F7003AFCAB /* MainViewController.m */,
+				B6544E54125E83F7003AFCAB /* MainViewController.xib */,
+				B6544E58125E8651003AFCAB /* ListViewController.h */,
+				B6544E59125E8651003AFCAB /* ListViewController.m */,
+				B6544E5A125E8651003AFCAB /* ListViewController.xib */,
+			);
+			name = Explore;
+			sourceTree = "<group>";
+		};
+		B65455C9126424AC003AFCAB /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				B6A1AA161321921800D31CD3 /* CocoaFishLibrary.h */,
+				B6A1AA171321921800D31CD3 /* CocoaFishLibrary.m */,
+				B6A1AA6913248C8200D31CD3 /* TapDetectingImageView.h */,
+				B6A1AA6A13248C8200D31CD3 /* TapDetectingImageView.m */,
+			);
+			name = Common;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		B65458E21264C7FE003AFCAB /* images */ = {
+			isa = PBXGroup;
+			children = (
+				B6A1AA35132197F200D31CD3 /* icon-nearby.png */,
+				B6A1AA36132197F200D31CD3 /* icon-person.png */,
+				B6A1AA37132197F200D31CD3 /* Icon.png */,
+				B6A1AA38132197F200D31CD3 /* Icon@2x.png */,
+			);
+			name = images;
+			sourceTree = "<group>";
+		};
+		B6A1AA5613219CD400D31CD3 /* Checkin */ = {
+			isa = PBXGroup;
+			children = (
+				B6A1AA5113219CC700D31CD3 /* CheckinViewController.h */,
+				B6A1AA5213219CC700D31CD3 /* CheckinViewController.m */,
+				B6A1AA5313219CC700D31CD3 /* CheckinViewController.xib */,
+			);
+			name = Checkin;
+			sourceTree = "<group>";
+		};
+		B6C83D5A1329E98D005933D4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B6C83D5F1329E98D005933D4 /* Cocoafish-ios-sdk.app */,
+				B6C83D611329E98D005933D4 /* libCocoafish.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B6E30517126D14D500B26837 /* Place */ = {
+			isa = PBXGroup;
+			children = (
+				B6E3001B126BEFC500B26837 /* PlaceViewController.h */,
+				B6E3001C126BEFC500B26837 /* PlaceViewController.m */,
+				B6E3001D126BEFC500B26837 /* PlaceViewController.xib */,
+			);
+			name = Place;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1D6058900D05DD3D006BFB54 /* Demo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Demo" */;
+			buildPhases = (
+				1D60588D0D05DD3D006BFB54 /* Resources */,
+				1D60588E0D05DD3D006BFB54 /* Sources */,
+				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B6C83D661329E9D5005933D4 /* PBXTargetDependency */,
+			);
+			name = Demo;
+			productName = Demo;
+			productReference = 1D6058910D05DD3D006BFB54 /* Demo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Demo" */;
+			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 29B97314FDCFA39411CA2CEA /* Demo */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = B6C83D5A1329E98D005933D4 /* Products */;
+					ProjectRef = B6C83D591329E98D005933D4 /* Cocoafish-ios-sdk.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				1D6058900D05DD3D006BFB54 /* Demo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		B6C83D5F1329E98D005933D4 /* Cocoafish-ios-sdk.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "Cocoafish-ios-sdk.app";
+			remoteRef = B6C83D5E1329E98D005933D4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B6C83D611329E98D005933D4 /* libCocoafish.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libCocoafish.a;
+			remoteRef = B6C83D601329E98D005933D4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1D60588D0D05DD3D006BFB54 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28AD73880D9D96C1002E5188 /* MainWindow.xib in Resources */,
+				B6544E51125E83A4003AFCAB /* MapViewController.xib in Resources */,
+				B6544E56125E83F7003AFCAB /* MainViewController.xib in Resources */,
+				B6544E5C125E8651003AFCAB /* ListViewController.xib in Resources */,
+				B613B34912692EDA00EC9ABA /* UserController.xib in Resources */,
+				B613B685126BAC4300EC9ABA /* ProgressViewController.xib in Resources */,
+				B6E3001F126BEFC500B26837 /* PlaceViewController.xib in Resources */,
+				B6CCC4AB12F77532006E33E7 /* FBConnect.bundle in Resources */,
+				B6A1A9A41321895D00D31CD3 /* RegisterViewController.xib in Resources */,
+				B6A1A9A91321898300D31CD3 /* LoginViewController.xib in Resources */,
+				B6A1AA39132197F200D31CD3 /* icon-nearby.png in Resources */,
+				B6A1AA3A132197F200D31CD3 /* icon-person.png in Resources */,
+				B6A1AA3B132197F200D31CD3 /* Icon.png in Resources */,
+				B6A1AA3C132197F200D31CD3 /* Icon@2x.png in Resources */,
+				B6A1AA5513219CC700D31CD3 /* CheckinViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1D60588E0D05DD3D006BFB54 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
+				1D3623260D0F684500981E51 /* DemoAppDelegate.m in Sources */,
+				B6544E50125E83A4003AFCAB /* MapViewController.m in Sources */,
+				B6544E55125E83F7003AFCAB /* MainViewController.m in Sources */,
+				B6544E5B125E8651003AFCAB /* ListViewController.m in Sources */,
+				B6544FF9125FC8A9003AFCAB /* Annotation.m in Sources */,
+				B6544FFA125FC8A9003AFCAB /* AnnotationView.m in Sources */,
+				B613B34812692EDA00EC9ABA /* UserController.m in Sources */,
+				B613B684126BAC4300EC9ABA /* ProgressViewController.m in Sources */,
+				B6E3001E126BEFC500B26837 /* PlaceViewController.m in Sources */,
+				B6CCC4BF12F7754B006E33E7 /* FBLoginButton.m in Sources */,
+				B6A1A9A31321895D00D31CD3 /* RegisterViewController.m in Sources */,
+				B6A1A9A81321898300D31CD3 /* LoginViewController.m in Sources */,
+				B6A1AA181321921800D31CD3 /* CocoaFishLibrary.m in Sources */,
+				B6A1AA5413219CC700D31CD3 /* CheckinViewController.m in Sources */,
+				B6A1AA6B13248C8200D31CD3 /* TapDetectingImageView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B6C83D661329E9D5005933D4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = libCocoafish;
+			targetProxy = B6C83D651329E9D5005933D4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1D6058940D05DD3E006BFB54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/../cocoafish-ios-sdk\"",
+					"\"$(SRCROOT)/../../src\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Demo_Prefix.pch;
+				HEADER_SEARCH_PATHS = "${PROJECT_DIR}/../..//src/build/${BUILD_STYLE}-${PLATFORM_NAME}/usr/local/include";
+				INFOPLIST_FILE = "Demo-Info.plist";
+				PRODUCT_NAME = Demo;
+			};
+			name = Debug;
+		};
+		1D6058950D05DD3E006BFB54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/../Cocoafish-ios-sdk\"",
+					"\"$(SRCROOT)/../../src\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Demo_Prefix.pch;
+				HEADER_SEARCH_PATHS = "${PROJECT_DIR}/../Cocoafish-ios-sdk/build/${BUILD_STYLE}-${PLATFORM_NAME}/usr/local/include";
+				INFOPLIST_FILE = "Demo-Info.plist";
+				PRODUCT_NAME = Demo;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "${PROJECT_DIR}/../../src/build/${BUILD_STYLE}-${PLATFORM_NAME}/usr/local/include/**";
+				OBJROOT = build;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				PREBINDING = NO;
+				SDKROOT = iphoneos;
+				SYMROOT = build;
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "${PROJECT_DIR}/../Cocoafish-ios-sdk/build/${BUILD_STYLE}-${PLATFORM_NAME}/usr/local/include/**";
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				PREBINDING = NO;
+				SDKROOT = iphoneos;
+				SYMROOT = build;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D6058940D05DD3E006BFB54 /* Debug */,
+				1D6058950D05DD3E006BFB54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}

@@ -1,0 +1,8 @@
+samples/DemoApp/build/
+samples/DemoApp/DemoApp.xcodeproj/*.pbxuser
+samples/DemoApp/DemoApp.xcodeproj/*.mode*
+src/cocoafish-ios-sdk.xcodeproj/*.pbxuser
+src/cocoafish-ios-sdk.xcodeproj/*.mode*
+src/build/
+*~
+*#
