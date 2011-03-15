@@ -56,21 +56,21 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = B6C83D591329E98D005933D4 /* Cocoafish-ios-sdk.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 1D6058910D05DD3D006BFB54 /* Cocoafish-ios-sdk.app */;
+			remoteGlobalIDString = 1D6058910D05DD3D006BFB54;
 			remoteInfo = "Cocoafish-ios-sdk";
 		};
 		B6C83D601329E98D005933D4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B6C83D591329E98D005933D4 /* Cocoafish-ios-sdk.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = B689924712C2FBE7006D4ED8 /* libCocoafish.a */;
+			remoteGlobalIDString = B689924712C2FBE7006D4ED8;
 			remoteInfo = libCocoafish;
 		};
 		B6C83D651329E9D5005933D4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = B6C83D591329E98D005933D4 /* Cocoafish-ios-sdk.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = B689924612C2FBE7006D4ED8 /* libCocoafish */;
+			remoteGlobalIDString = B689924612C2FBE7006D4ED8;
 			remoteInfo = libCocoafish;
 		};
 /* End PBXContainerItemProxy section */

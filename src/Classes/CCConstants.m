@@ -9,7 +9,7 @@
 #import "CCConstants.h"
 
 // backend url
-NSString * const CC_BACKEND_URL = @"http://api.cocoafish.com:8000/v1";
+NSString * const CC_BACKEND_URL = @"http://api.cocoafish.com/v1";
 
 // server related
 NSString * const CC_DOMAIN = @"Cocoafish";

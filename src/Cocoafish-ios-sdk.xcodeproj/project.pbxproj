@@ -13,6 +13,15 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
+		B63C14BD132AF18400D1952E /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = B63C14B8132AF18400D1952E /* NSData+Base64.m */; };
+		B63C14BE132AF18400D1952E /* OAuth+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B63C14BA132AF18400D1952E /* OAuth+Additions.m */; };
+		B63C14BF132AF18400D1952E /* OAuthCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B63C14BC132AF18400D1952E /* OAuthCore.m */; };
+		B63C14C0132AF18400D1952E /* NSData+Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = B63C14B7132AF18400D1952E /* NSData+Base64.h */; };
+		B63C14C1132AF18400D1952E /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = B63C14B8132AF18400D1952E /* NSData+Base64.m */; };
+		B63C14C2132AF18400D1952E /* OAuth+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = B63C14B9132AF18400D1952E /* OAuth+Additions.h */; };
+		B63C14C3132AF18400D1952E /* OAuth+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = B63C14BA132AF18400D1952E /* OAuth+Additions.m */; };
+		B63C14C4132AF18400D1952E /* OAuthCore.h in Headers */ = {isa = PBXBuildFile; fileRef = B63C14BB132AF18400D1952E /* OAuthCore.h */; };
+		B63C14C5132AF18400D1952E /* OAuthCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B63C14BC132AF18400D1952E /* OAuthCore.m */; };
 		B689925212C2FF0B006D4ED8 /* CCNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B689924D12C2FF0B006D4ED8 /* CCNetworkManager.m */; };
 		B689925312C2FF0B006D4ED8 /* CCResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = B689924F12C2FF0B006D4ED8 /* CCResponse.m */; };
 		B689925412C2FF0B006D4ED8 /* CCConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = B689925112C2FF0B006D4ED8 /* CCConstants.m */; };
@@ -136,6 +145,12 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* Cocoafish_ios_sdk_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cocoafish_ios_sdk_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Cocoafish_ios_sdk-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Cocoafish_ios_sdk-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		B63C14B7132AF18400D1952E /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
+		B63C14B8132AF18400D1952E /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
+		B63C14B9132AF18400D1952E /* OAuth+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OAuth+Additions.h"; sourceTree = "<group>"; };
+		B63C14BA132AF18400D1952E /* OAuth+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OAuth+Additions.m"; sourceTree = "<group>"; };
+		B63C14BB132AF18400D1952E /* OAuthCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OAuthCore.h; sourceTree = "<group>"; };
+		B63C14BC132AF18400D1952E /* OAuthCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OAuthCore.m; sourceTree = "<group>"; };
 		B689924712C2FBE7006D4ED8 /* libCocoafish.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCocoafish.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B689924C12C2FF0B006D4ED8 /* CCNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNetworkManager.h; sourceTree = "<group>"; };
 		B689924D12C2FF0B006D4ED8 /* CCNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCNetworkManager.m; sourceTree = "<group>"; };
@@ -270,6 +285,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				B63C14B2132AF13D00D1952E /* OauthCore */,
 				B6BA072712F62A6500982ABE /* FBConnect */,
 				B689927212C30046006D4ED8 /* ASIHTTPRequest */,
 				080E96DDFE201D6D7F000001 /* Classes */,
@@ -313,6 +329,19 @@
 				B68992C612C3055A006D4ED8 /* CoreLocation.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B63C14B2132AF13D00D1952E /* OauthCore */ = {
+			isa = PBXGroup;
+			children = (
+				B63C14B7132AF18400D1952E /* NSData+Base64.h */,
+				B63C14B8132AF18400D1952E /* NSData+Base64.m */,
+				B63C14B9132AF18400D1952E /* OAuth+Additions.h */,
+				B63C14BA132AF18400D1952E /* OAuth+Additions.m */,
+				B63C14BB132AF18400D1952E /* OAuthCore.h */,
+				B63C14BC132AF18400D1952E /* OAuthCore.m */,
+			);
+			name = OauthCore;
 			sourceTree = "<group>";
 		};
 		B689924B12C2FEF1006D4ED8 /* Network */ = {
@@ -472,6 +501,9 @@
 				B6FE4D601301FACE00E3AC71 /* CCKeyValuePair.h in Headers */,
 				B6EC92461326E2900026C995 /* CCDownloadManager.h in Headers */,
 				B6EC924F1326FCD20026C995 /* CCDownloadRequest.h in Headers */,
+				B63C14C0132AF18400D1952E /* NSData+Base64.h in Headers */,
+				B63C14C2132AF18400D1952E /* OAuth+Additions.h in Headers */,
+				B63C14C4132AF18400D1952E /* OAuthCore.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -588,6 +620,9 @@
 				B6FE4D5F1301FACE00E3AC71 /* CCKeyValuePair.m in Sources */,
 				B6EC92451326E2900026C995 /* CCDownloadManager.m in Sources */,
 				B6EC924E1326FCD20026C995 /* CCDownloadRequest.m in Sources */,
+				B63C14BD132AF18400D1952E /* NSData+Base64.m in Sources */,
+				B63C14BE132AF18400D1952E /* OAuth+Additions.m in Sources */,
+				B63C14BF132AF18400D1952E /* OAuthCore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -627,6 +662,9 @@
 				B6FE4D611301FACE00E3AC71 /* CCKeyValuePair.m in Sources */,
 				B6EC92471326E2900026C995 /* CCDownloadManager.m in Sources */,
 				B6EC92501326FCD20026C995 /* CCDownloadRequest.m in Sources */,
+				B63C14C1132AF18400D1952E /* NSData+Base64.m in Sources */,
+				B63C14C3132AF18400D1952E /* OAuth+Additions.m in Sources */,
+				B63C14C5132AF18400D1952E /* OAuthCore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

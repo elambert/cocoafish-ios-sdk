@@ -17,6 +17,9 @@ static Cocoafish *theDefaultCocoafish = nil;
 -(void)restoreUserSession;
 -(void) printCookieStorage;
 -(void)cleanupCacheDir;
+-(id)initWithAppKey:(NSString *)appKey customAppIds:(NSDictionary *)customAppIds;
+-(id)initWithOauthConsumerKey:(NSString *)consumerKey consumerSecret:(NSString *)consumerSecret customAppIds:(NSDictionary *)customAppIds;
+-(void)initCommon:(NSDictionary *)customAppIds;
 @end
 
 @implementation Cocoafish
@@ -26,47 +29,77 @@ static Cocoafish *theDefaultCocoafish = nil;
 
 -(id)initWithAppKey:(NSString *)appKey customAppIds:(NSDictionary *)customAppIds
 {
+	if (appKey == nil || [appKey length] == 0) {
+		[NSException raise:@"Missing Cocoafish App Key" format:@"App Key is missing"];
+	}
 	if (self = [super init]) {
-		if (appKey == nil || [appKey length] == 0) {
-			[NSException raise:@"Missing Cocoafish App Key" format:@"App Key is missing"];
-		}
 		_appKey = [appKey copy];
-		
-		_downloadManager = [[CCDownloadManager alloc] init];
-		
-		// create Cocoafish dir if there is none
-		NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES); 
-		NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
-		_cocoafishDir = [[NSString alloc] initWithFormat:@"%@/CocoafishCache", documentsDirectory];
-		[self cleanupCacheDir];
-
-		if (![[NSFileManager defaultManager] createDirectoryAtPath:_cocoafishDir withIntermediateDirectories:NO attributes:nil error:nil]) {
-			NSLog(@"Failed to create %@, photo download will not work", _cocoafishDir);
-		}
-		
-		// initialize all the custom app Ids such as facebook
-		if (customAppIds != nil) {
-			NSString *customAppId = [customAppIds objectForKey:@"Facebook"];
-			if (customAppId != nil) {
-				_facebook = [[Facebook alloc] initWithAppId:customAppId];
-				_facebookAppId = [customAppId copy];
-				NSLog(@"Cocoafish: initialized facebook with app Id %@", customAppId);
-			}
-		}
-		
-		// restore currentUser info if there is any
-		NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-		_currentUser = [[[CCUser alloc] initWithId:[prefs stringForKey:@"cc_user_id"] first:[prefs stringForKey:@"cc_user_first_name"] last:[prefs stringForKey:@"cc_user_last_name"] email:[prefs stringForKey:@"cc_user_email"]] retain];
-		if (_currentUser) {
-			[self restoreUserSession];
-		}
+		[self initCommon:customAppIds];
 	}
 	return self;
+}
+
+
+-(id)initWithOauthConsumerKey:(NSString *)consumerKey consumerSecret:(NSString *)consumerSecret customAppIds:(NSDictionary *)customAppIds
+{
+	if ([consumerKey length] == 0 || [consumerSecret length] == 0) {
+		[NSException raise:@"Missing Cocoafish Oauth Consumer Key and/or Consumer Secret" format:@"Oauth info is missing"];
+	}
+	if (self = [super init]) {
+		_consumerKey = [consumerKey copy];
+		_consumerSecret = [consumerSecret copy];
+		[self initCommon:customAppIds];
+	}
+	return self;
+}
+	
+
+-(void)initCommon:(NSDictionary *)customAppIds
+{
+	_downloadManager = [[CCDownloadManager alloc] init];
+	
+	// create Cocoafish dir if there is none
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES); 
+	NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
+	_cocoafishDir = [[NSString alloc] initWithFormat:@"%@/CocoafishCache", documentsDirectory];
+	[self cleanupCacheDir];
+
+	if (![[NSFileManager defaultManager] createDirectoryAtPath:_cocoafishDir withIntermediateDirectories:NO attributes:nil error:nil]) {
+		NSLog(@"Failed to create %@, photo download will not work", _cocoafishDir);
+	}
+	
+	// initialize all the custom app Ids such as facebook
+	if (customAppIds != nil) {
+		NSString *customAppId = [customAppIds objectForKey:@"Facebook"];
+		if (customAppId != nil) {
+			_facebook = [[Facebook alloc] initWithAppId:customAppId];
+			_facebookAppId = [customAppId copy];
+			NSLog(@"Cocoafish: initialized facebook with app Id %@", customAppId);
+		}
+	}
+	
+	// restore currentUser info if there is any
+	NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+	_currentUser = [[[CCUser alloc] initWithId:[prefs stringForKey:@"cc_user_id"] first:[prefs stringForKey:@"cc_user_first_name"] last:[prefs stringForKey:@"cc_user_last_name"] email:[prefs stringForKey:@"cc_user_email"]] retain];
+	if (_currentUser) {
+		[self restoreUserSession];
+	}
+	
 }
 
 -(NSString *)getAppKey
 {
 	return _appKey;
+}
+
+-(NSString *)getOauthConsumerKey
+{
+	return _consumerKey;
+}
+
+-(NSString *)getOauthConsumerSecret
+{
+	return _consumerSecret;
 }
 
 -(CCUser *)getCurrentUser
@@ -243,6 +276,8 @@ static Cocoafish *theDefaultCocoafish = nil;
 	[self cleanupCacheDir];
 	[_currentUser release];
 	[_appKey release];
+	[_consumerKey release];
+	[_consumerSecret release];
 	[_downloadManager release];
 	[_cocoafishDir release];
 	[super dealloc];
@@ -254,6 +289,14 @@ static Cocoafish *theDefaultCocoafish = nil;
 		return;
 	}
 	theDefaultCocoafish = [[Cocoafish alloc] initWithAppKey:appKey customAppIds:customAppIds];
+}
+
++(void)initializeWithOauthConsumerKey:(NSString *)consumerKey consumerSecret:(NSString *)consumerSecret customAppIds:(NSDictionary *)customAppIds
+{
+	if (theDefaultCocoafish != nil) {
+		return;
+	}
+	theDefaultCocoafish = [[Cocoafish alloc] initWithOauthConsumerKey:consumerKey consumerSecret:consumerSecret customAppIds:customAppIds];
 }
 
 +(Cocoafish *)defaultCocoafish

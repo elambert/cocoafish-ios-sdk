@@ -13,6 +13,7 @@
 #import "CCResponse.h"
 #import "CCConstants.h"
 #import "CCDownloadRequest.h"
+#import "OAuthCore.h"
 
 # pragma -
 # pragma mark CCNetworkManager PrivateMethods
@@ -24,6 +25,8 @@
 -(void)performAsyncRequest:(ASIHTTPRequest *)request;
 -(void)requestDone:(ASIHTTPRequest *)request;
 -(void)requestFailed:(ASIHTTPRequest *)request;
+-(void)addOauthHeaderToRequest:(ASIHTTPRequest *)request;
+-(NSString *)generateFullRequestUrl:(NSString *)partialUrl additionalParams:(NSString *)additionalParams;
 @end
 
 # pragma -
@@ -104,6 +107,8 @@
 
 -(void)performAsyncRequest:(ASIHTTPRequest *)request
 {
+	[self addOauthHeaderToRequest:request];
+
 	request.timeOutSeconds = CC_TIMEOUT;
 
 	// set callbacks
@@ -117,14 +122,62 @@
 	
 }
 
+-(void)addOauthHeaderToRequest:(ASIHTTPRequest *)request
+{
+	if (![[Cocoafish defaultCocoafish] getOauthConsumerKey] || ![[Cocoafish defaultCocoafish] getOauthConsumerSecret]) {
+		// nothing to add
+		return;
+	}
+	BOOL postRequest = NO;
+	if ([request isKindOfClass:[ASIFormDataRequest class]]) {
+		postRequest = YES;
+	}
+	NSData *body = nil;
+
+	if (postRequest) {
+		[request buildPostBody];
+		body = [request postBody];
+	}
+	
+	NSString *header = OAuthorizationHeader([request url],
+											[request requestMethod],
+											body,
+											[[Cocoafish defaultCocoafish] getOauthConsumerKey],
+											[[Cocoafish defaultCocoafish] getOauthConsumerSecret],
+											@"",
+											@"");
+	[request addRequestHeader:@"Authorization" value:header];
+}
+
+-(NSString *)generateFullRequestUrl:(NSString *)partialUrl additionalParams:(NSString *)additionalParams
+{
+	NSString *url = nil;
+	NSString *appKey = [[Cocoafish defaultCocoafish] getAppKey];
+	if ([appKey length] > 0) {
+		if (additionalParams) {
+			url = [NSString stringWithFormat:@"%@/%@?key=%@&%@", CC_BACKEND_URL, partialUrl, appKey, additionalParams];
+		} else {
+			url = [NSString stringWithFormat:@"%@/%@?key=%@", CC_BACKEND_URL, partialUrl, appKey];
+		}
+	} else if (additionalParams) {
+		url = [NSString stringWithFormat:@"%@/%@?%@", CC_BACKEND_URL, partialUrl, additionalParams];
+	} else {
+		url = [NSString stringWithFormat:@"%@/%@", CC_BACKEND_URL, partialUrl];
+	}
+	return url;
+}
+
 #pragma mark -
 #pragma mark Cocoafish API calls
 -(void)getPlacesNear:(CLLocation *)location distance:(int)distance page:(int)page perPage:(int)perPage
 {
-	NSString *urlPath = [NSString stringWithFormat:@"%@/places/search.json?key=%@&page=%d&per_page=%d",CC_BACKEND_URL, [[Cocoafish defaultCocoafish] getAppKey], page, perPage];
+	NSString *additionalParams = [NSString stringWithFormat:@"page=%d&per_page=%d", page, perPage];
+
+	NSString *urlPath = [self generateFullRequestUrl:@"places/search.json" additionalParams:additionalParams];
+	
 	NSURL *url = [NSURL URLWithString:urlPath];
 	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
-	
+		
 	[self performAsyncRequest:request];
 }
 
@@ -134,7 +187,8 @@
 
 -(void)registerUser:(CCUser *)user password:(NSString *)password
 {
-	NSString *urlPath = [NSString stringWithFormat:@"%@/users/create.json?key=%@", CC_BACKEND_URL, [[Cocoafish defaultCocoafish] getAppKey]];
+	NSString *urlPath = [self generateFullRequestUrl:@"users/create.json" additionalParams:nil];
+
 	NSURL *url = [NSURL URLWithString:urlPath];
 	ASIFormDataRequest *request = [[[ASIFormDataRequest alloc] initWithURL:url] autorelease];
 
@@ -150,7 +204,8 @@
 
 -(void)showCurrentUser
 {
-	NSString *urlPath = [NSString stringWithFormat:@"%@/users/show/me.json?key=%@",CC_BACKEND_URL, [[Cocoafish defaultCocoafish] getAppKey]];
+	NSString *urlPath = [self generateFullRequestUrl:@"users/show/me.json" additionalParams:nil];
+
 	NSURL *url = [NSURL URLWithString:urlPath];
 	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
 	
@@ -159,7 +214,8 @@
 
 -(void)showUser:(NSString *)userId
 {
-	NSString *urlPath = [NSString stringWithFormat:@"%@/users/show/%@.json?key=%@",CC_BACKEND_URL, userId, [[Cocoafish defaultCocoafish] getAppKey]];
+	NSString *urlPath = [self generateFullRequestUrl:[NSString stringWithFormat:@"users/show/%@.json", userId] additionalParams:nil];
+
 	NSURL *url = [NSURL URLWithString:urlPath];
 	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
 	
@@ -170,7 +226,7 @@
 
 -(CCUser *)facebookLogin:(NSString *)fbAppId accessToken:(NSString *)accessToken error:(NSError **)error
 {
-	NSString *urlPath = [NSString stringWithFormat:@"%@/login/facebook.json?key=%@", CC_BACKEND_URL, [[Cocoafish defaultCocoafish] getAppKey]];
+	NSString *urlPath = [self generateFullRequestUrl:@"login/facebook.json" additionalParams:nil];
 	NSURL *url = [NSURL URLWithString:urlPath];
 	ASIFormDataRequest *request = [[[ASIFormDataRequest alloc] initWithURL:url] autorelease];
 
@@ -178,6 +234,8 @@
 	[request setPostValue:fbAppId forKey:@"facebook_app_id"];
 	[request setPostValue:accessToken forKey:@"access_token"];
 	
+	[self addOauthHeaderToRequest:request];
+
 	[request startSynchronous];	
 	*error = [request error];
 	CCUser *currentUser = nil;
@@ -203,7 +261,8 @@
 
 -(void)login:(NSString *)login password:(NSString *)password
 {
-	NSString *urlPath = [NSString stringWithFormat:@"%@/users/login.json?key=%@", CC_BACKEND_URL, [[Cocoafish defaultCocoafish] getAppKey]];
+	NSString *urlPath = [self generateFullRequestUrl:@"users/login.json" additionalParams:nil];
+
 	NSURL *url = [NSURL URLWithString:urlPath];
 	
 	ASIFormDataRequest *request = [[[ASIFormDataRequest alloc] initWithURL:url] autorelease];
@@ -217,7 +276,8 @@
 
 -(void)logout
 {
-	NSString *urlPath = [NSString stringWithFormat:@"%@/users/logout.json?key=%@", CC_BACKEND_URL, [[Cocoafish defaultCocoafish] getAppKey]];
+	NSString *urlPath = [self generateFullRequestUrl:@"users/logout.json" additionalParams:nil];
+
 	NSURL *url = [NSURL URLWithString:urlPath];
 	
 	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
@@ -228,7 +288,8 @@
 
 -(void)deleteCurrentUser
 {
-	NSString *urlPath = [NSString stringWithFormat:@"%@/users/delete.json?key=%@", CC_BACKEND_URL, [[Cocoafish defaultCocoafish] getAppKey]];
+	NSString *urlPath = [self generateFullRequestUrl:@"users/delete.json" additionalParams:nil];
+
 	NSURL *url = [NSURL URLWithString:urlPath];
 	
 	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
@@ -240,7 +301,10 @@
 
 -(void)getPlaceCheckins:(CCPlace *)place page:(int)page perPage:(int)perPage
 {
-	NSString *urlPath = [NSString stringWithFormat:@"%@/checkins/search.json?key=%@&place_id=%@&page=%d&per_page=%d", CC_BACKEND_URL, [[Cocoafish defaultCocoafish] getAppKey], place.objectId, page, perPage];
+	NSString *additionalParams = [NSString stringWithFormat:@"place_id=%@&page=%d&per_page=%d", place.objectId, page, perPage];
+
+	NSString *urlPath = [self generateFullRequestUrl:@"checkins/search.json" additionalParams:additionalParams];
+
 	NSURL *url = [NSURL URLWithString:urlPath];
 	
 	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
@@ -251,7 +315,10 @@
 
 -(void)showCurrentUserCheckins:(int)page perPage:(int)perPage
 {
-	NSString *urlPath = [NSString stringWithFormat:@"%@/checkins/show/me.json?key=%@&page=%d&per_page=%d", CC_BACKEND_URL, [[Cocoafish defaultCocoafish] getAppKey], page, perPage];
+	NSString *additionalParams = [NSString stringWithFormat:@"page=%d&per_page=%d", page, perPage];
+
+	NSString *urlPath = [self generateFullRequestUrl:@"checkins/show/me.json" additionalParams:additionalParams];
+
 	NSURL *url = [NSURL URLWithString:urlPath];
 	
 	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
@@ -262,7 +329,10 @@
 
 -(void)showUserCheckins:(CCUser *)user page:(int)page perPage:(int)perPage
 {
-	NSString *urlPath = [NSString stringWithFormat:@"%@/checkins/search.json?key=%@&user_id=%@&page=%d&per_page=%d", CC_BACKEND_URL, [[Cocoafish defaultCocoafish] getAppKey], user.objectId, page, perPage];
+	NSString *additionalParams = [NSString stringWithFormat:@"user_id=%@&page=%d&per_page=%d", user.objectId, page, perPage];
+
+	NSString *urlPath = [self generateFullRequestUrl:@"checkins/search.json" additionalParams:additionalParams];
+
 	NSURL *url = [NSURL URLWithString:urlPath];
 	
 	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
@@ -273,28 +343,32 @@
 
 -(void)checkin:(CCPlace *)place message:(NSString *)message photoData:(NSData *)photoData contentType:(NSString *)contentType
 {
-	NSString *urlPath = [NSString stringWithFormat:@"%@/checkins/create.json?key=%@", CC_BACKEND_URL, [[Cocoafish defaultCocoafish] getAppKey]];
+	
+	NSString *urlPath = [self generateFullRequestUrl:@"checkins/create.json" additionalParams:nil];
 
 	NSURL *url = [NSURL URLWithString:urlPath];
 	
 	ASIFormDataRequest *request = [[[ASIFormDataRequest alloc] initWithURL:url] autorelease];
+
 	[request setPostValue:place.objectId forKey:@"place_id"];
 	if (message && [message length] > 0) {
 		[request setPostValue:message forKey:@"message"];
 	}
+
 	if (photoData) {
 		[request setData:photoData withFileName:@"photo.jpg" andContentType:contentType forKey:@"photo"];
 
 //		[request setData:photoData withFileName:@"photo.jpg" andContentType:@"image/jpeg" forKey:@"photo"];
 	}
-
+		
 	[self performAsyncRequest:request];
 
 }
 
 -(void)createUserStatus:(NSString *)message
-{
-	NSString *urlPath = [NSString stringWithFormat:@"%@/statuses/create.json?key=%@", CC_BACKEND_URL, [[Cocoafish defaultCocoafish] getAppKey]];
+{	
+	NSString *urlPath = [self generateFullRequestUrl:@"statuses/create.json" additionalParams:nil];
+
 	NSURL *url = [NSURL URLWithString:urlPath];
 
 	ASIFormDataRequest *request = [[[ASIFormDataRequest alloc] initWithURL:url] autorelease];
@@ -306,9 +380,9 @@
 }
 
 -(void)createPlaceStatus:(NSString *)status place:(CCPlace *)place
-{
+{	
+	NSString *urlPath = [self generateFullRequestUrl:[NSString stringWithFormat:@"places/%@/status.json", place.objectId] additionalParams:nil];
 
-	NSString *urlPath = [NSString stringWithFormat:@"%@/places/%@/status.json?key=%@", CC_BACKEND_URL, place.objectId, [[Cocoafish defaultCocoafish] getAppKey]];
 	NSURL *url = [NSURL URLWithString:urlPath];
 	
 	ASIFormDataRequest *request = [[[ASIFormDataRequest alloc] initWithURL:url] autorelease];
@@ -320,7 +394,10 @@
 
 -(void)showCurrentUserStatuses:(int)page perPage:(int)perPage
 {
-	NSString *urlPath = [NSString stringWithFormat:@"%@/statuses/show/me.json?key=%@&page=%d&per_page=%d", CC_BACKEND_URL, [[Cocoafish defaultCocoafish] getAppKey], page, perPage];
+	NSString *additionalParams = [NSString stringWithFormat:@"page=%d&per_page=%d", page, perPage];
+	
+	NSString *urlPath = [self generateFullRequestUrl:@"statuses/show/me.json" additionalParams:additionalParams];
+
 	NSURL *url = [NSURL URLWithString:urlPath];
 	
 	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
@@ -331,7 +408,11 @@
 
 -(void)showUserStatuses:(CCUser *)user page:(int)page perPage:(int)perPage
 {
-	NSString *urlPath = [NSString stringWithFormat:@"%@/statuses/search.json?key=%@&user_id=%@page=%d&per_page=%d", CC_BACKEND_URL, [[Cocoafish defaultCocoafish] getAppKey], user.objectId, page, perPage];
+	
+	NSString *additionalParams = [NSString stringWithFormat:@"user_id=%@&page=%d&per_page=%d", user.objectId, page, perPage];
+	
+	NSString *urlPath = [self generateFullRequestUrl:@"statuses/search.json" additionalParams:additionalParams];
+
 	NSURL *url = [NSURL URLWithString:urlPath];
 	
 	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
@@ -341,8 +422,8 @@
 }
 
 -(void)showPlace:(NSString *)placeId
-{
-	NSString *urlPath = [NSString stringWithFormat:@"%@/places/show/%@.json?key=%@",CC_BACKEND_URL, placeId, [[Cocoafish defaultCocoafish] getAppKey]];
+{	
+	NSString *urlPath = [self generateFullRequestUrl:[NSString stringWithFormat:@"places/show/%@.json", placeId] additionalParams:nil];
 	NSURL *url = [NSURL URLWithString:urlPath];
 	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
 	
@@ -351,7 +432,10 @@
 
 -(void)getPlaceStatuses:(CCPlace *)place page:(int)page perPage:(int)perPage
 {
-	NSString *urlPath = [NSString stringWithFormat:@"%@/places/%@/status.json?key=%@&page=%d&per_page=%d", CC_BACKEND_URL, place.objectId, [[Cocoafish defaultCocoafish] getAppKey], page, perPage];
+	
+	NSString *additionalParams = [NSString stringWithFormat:@"page=%d&per_page=%d", page, perPage];
+	
+	NSString *urlPath = [self generateFullRequestUrl:[NSString stringWithFormat:@"places/%@/status.json", place.objectId] additionalParams:additionalParams];
 	NSURL *url = [NSURL URLWithString:urlPath];
 	
 	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
@@ -361,8 +445,8 @@
 }
 
 -(void)uploadPlacePhoto:(CCPlace *)place photoData:(NSData *)photoData contentType:(NSString *)contentType
-{
-	NSString *urlPath = [NSString stringWithFormat:@"%@/places/%@/photos.json?key=%@", CC_BACKEND_URL, place.objectId, [[Cocoafish defaultCocoafish] getAppKey]];
+{	
+	NSString *urlPath = [self generateFullRequestUrl:[NSString stringWithFormat:@"places/%@/photos.json", place.objectId] additionalParams:nil];
 	NSURL *url = [NSURL URLWithString:urlPath];
 	
 	ASIFormDataRequest *request = [[[ASIFormDataRequest alloc] initWithURL:url] autorelease];
@@ -384,7 +468,7 @@
 
 -(void)getPhoto:(NSString *)photoId
 {
-	NSString *urlPath = [NSString stringWithFormat:@"%@/photos/show/%@.json?key=%@", CC_BACKEND_URL, photoId, [[Cocoafish defaultCocoafish] getAppKey]];
+	NSString *urlPath = [self generateFullRequestUrl:[NSString stringWithFormat:@"photos/show/%@.json", photoId] additionalParams:nil];
 	NSURL *url = [NSURL URLWithString:urlPath];
 	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
 	
@@ -410,7 +494,10 @@
 		
 	}
 	
-	NSString *urlPath = [NSString stringWithFormat:@"%@/photos/show.json?key=%@&ids=%@", CC_BACKEND_URL, [[Cocoafish defaultCocoafish] getAppKey], photoIdsStr];
+	NSString *additionalParams = [NSString stringWithFormat:@"ids=%@", photoIdsStr];
+	
+	NSString *urlPath = [self generateFullRequestUrl:@"photos/show.json" additionalParams:additionalParams];
+
 	NSURL *url = [NSURL URLWithString:urlPath];
 	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
 	
@@ -430,7 +517,11 @@
 
 -(void)getValueForKey:(NSString *)key
 {
-	NSString *urlPath = [NSString stringWithFormat:@"%@/keyvalues.json?key=%@&name=%@", CC_BACKEND_URL, [[Cocoafish defaultCocoafish] getAppKey], key];
+	
+	NSString *additionalParams = [NSString stringWithFormat:@"name=%@", key];
+	
+	NSString *urlPath = [self generateFullRequestUrl:@"keyvalues.json" additionalParams:additionalParams];
+
 	NSURL *url = [NSURL URLWithString:urlPath];
 	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
 	
@@ -639,16 +730,6 @@
 	[_delegate networkManager:self didFailWithError:error];
 	[self removeFinishedRequest:request];
 	
-	request.timeOutSeconds = CC_TIMEOUT;
-	
-	// set callbacks
-	[request setDelegate:self];
-	[request setDidFinishSelector:@selector(requestDone:)];
-	[request setDidFailSelector:@selector(requestFailed:)];
-	
-	[_operationQueue addOperation:request];
-	
-	[self addNewRequest:request];
 }
 
 # pragma -

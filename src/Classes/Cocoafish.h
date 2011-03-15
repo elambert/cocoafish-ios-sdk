@@ -22,6 +22,8 @@
 	id<CCFBSessionDelegate> _fbSessionDelegate;
 	CCUser *_currentUser;
 	NSString *_appKey;
+	NSString *_consumerKey;
+	NSString *_consumerSecret;
 	NSString *_facebookAppId;
 	Facebook *_facebook; // handles facebook authentication
 	NSString *_cocoafishDir;
@@ -32,10 +34,13 @@
 @property(nonatomic, retain, readonly) CCDownloadManager *downloadManager;
 @property(nonatomic, retain, readonly) NSString *cocoafishDir;
 
--(id)initWithAppKey:(NSString *)appKey customAppIds:(NSDictionary *)customAppIds;
++(void)initializeWithAppKey:(NSString *)appKey customAppIds:(NSDictionary *)customAppIds;;
++(void)initializeWithOauthConsumerKey:(NSString *)consumerKey consumerSecret:(NSString *)consumerSecret customAppIds:(NSDictionary *)customAppIds;;
 +(Cocoafish *)defaultCocoafish;
-+(void)initializeWithAppKey:(NSString *)appId customAppIds:(NSDictionary *)customAppIds;
+
 -(NSString *)getAppKey;
+-(NSString *)getOauthConsumerKey;
+-(NSString *)getOauthConsumerSecret;
 -(CCUser *)getCurrentUser;
 -(Facebook *)getFacebook;
 -(void)setCurrentUser:(CCUser *)user;
