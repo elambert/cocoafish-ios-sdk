@@ -1,0 +1,9 @@
+samples/DemoApp/build/
+samples/DemoApp/Demo.xcodeproj/*.pbxuser
+samples/DemoApp/Demo.xcodeproj/*.mode*
+src/Cocoafish-ios-sdk.xcodeproj/*.pbxuser
+src/Cocoafish-ios-sdk.xcodeproj/*.mode*
+src/build/
+*~
+*#
+.DS_Store

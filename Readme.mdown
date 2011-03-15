@@ -1,0 +1,75 @@
+Cocoafish iOS SDK
+===========================
+
+This open source iOS library allows you to integrate Cocoafish backend into your iOS application include iPhone, iPad and iPod touch.
+
+Except as otherwise noted, the Cocoafish iOS SDK is licensed under the Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.html)
+
+Getting Started
+===============
+
+The SDK is lightweight and has no external dependencies. Getting started is easy.
+
+Setup Your Environment
+----------------------
+
+* If you haven't already done so, set up your iPhone development environment by following the [iPhone Dev Center Getting Started Documents](https://developer.apple.com/iphone/index.action).
+
+* Install [Git](http://git-scm.com/).
+
+* Pull this SDK from GitHub:
+
+       git clone git://github.com/facebook/cocoafish-ios-sdk.git
+
+Sample Applications
+-------------------
+
+This SDK comes with a sample application that demonstrates authorization, making API calls, and invoking a dialog, to guide you in development.
+
+To build and run the sample application with Xcode (3.2):
+
+* Open the included Xcode Project File by selecting _File_->_Open..._ and selecting samples/DemoApp/DemoApp.xcodeproj.
+
+* Verify your compiler settings by checking the menu items under _Project_->_Set Active SDK_ and _Project_->_Set Active Executable_. For most developers, the defaults should be OK.
+
+* Create a Cocoafish App ID (see http://www.cocoafish.com/)
+
+* Specify your Cocoafish AppId in DemoAppViewController.m 
+
+* Finally, select _Build_->_Build and Run_. This should compile the application and launch it.
+
+Integrate With Your Own Application
+-----------------------------------
+
+If you want to integrate Cocoafish with an existing application, then follow these steps:
+
+* Create your own ios project, for example -- client.
+
+* Open Cocoafish-ios-sdk project under src/
+
+* Drag blue Cocoafish-ios-sdk project icon from “Groups & Files” and drop it inside the client project. Check “Client” in “Add To Targets” table, do not check “Copy items into destination group’s folder” in the sheet what will appear.
+
+* Drag YAJL.framework from cocoafish-ios-sdk project under Frameworks to your client project Frameworks folder. You don't have to copy the original.
+
+* Link libCocoafish.a to your project. Inside the client project, unfold Cocoafish-ios-sdk.xcodeproj and Targets → Client → Link Binary With Libraries. Drag libCocoafish.a to Link build phase. 
+
+* To set libCocoafish library Target as dependency for Client Target, right click on Client Target, select Get Info then click on General tab. Click add button under Direct Dependencies list, select libCocoafish.
+
+* Tell xcode where to find libCocoafish header files. Inside client project, ppen “Client” Target info panel (Select Targets → Client and press ⌘I), type “header search” in search field under “Build” tab. 
+
+Double-click on “Header Search Path” and add:
+
+${PROJECT_DIR}/../cocoafish-ios-sdk/src/build/${BUILD_STYLE}-${PLATFORM_NAME}/usr/local/include
+
+The variables are:
+
+PROJECT_DIR	Client project’s root directory
+BUILD_STYLE	Debug or Release
+PLATFORM_NAME	iphonesimulator or iphoneos
+
+* Include the Cocoafish header in your code:
+
+        #import "Cocoafish.h"
+
+  * You should now be able to compile your project successfully.
+

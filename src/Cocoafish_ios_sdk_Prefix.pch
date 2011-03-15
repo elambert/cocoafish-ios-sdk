@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the 'Cocoafish-ios-sdk' target in the 'Cocoafish-ios-sdk' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+    #import <UIKit/UIKit.h>
+#endif
