@@ -41,7 +41,7 @@ To build and run the sample application with Xcode (3.2):
 Integrate With Your Own Application
 -----------------------------------
 
-If you want to integrate Facebook with an existing application, then follow these steps:
+If you want to integrate Cocoafish with an existing application, then follow these steps:
 
 * Create your own ios project, for example -- client.
 
