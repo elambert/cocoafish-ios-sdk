@@ -319,7 +319,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>LoginViewController.m</string>
+								<string>DemoAppDelegate.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -327,11 +327,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>LoginViewController.m</string>
+										<string>DemoAppDelegate.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>B646BC0513301C7B006F1D7A</string>
+										<string>B646BC1413302020006F1D7A</string>
 										<key>history</key>
 										<array>
 											<string>B6CCC23A12F76095006E33E7</string>
@@ -369,8 +369,9 @@
 											<string>B63C151B132AF6FF00D1952E</string>
 											<string>B63C1726132F1FB400D1952E</string>
 											<string>B63C18A61330169500D1952E</string>
+											<string>B646BC1113302020006F1D7A</string>
+											<string>B646BC1213302020006F1D7A</string>
 											<string>B63C18D11330183700D1952E</string>
-											<string>B63C18E513301C1000D1952E</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -568,8 +569,11 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>B646BC1613302020006F1D7A</string>
+		<string>B646BC1713302020006F1D7A</string>
 		<string>1CD10A99069EF8BA00B06720</string>
 		<string>B6BA077C12F6723100982ABE</string>
+		<string>1C78EAAD065D492600B07095</string>
 		<string>/Users/Wei/git/cocoafish-ios-sdk/samples/DemoApp/Demo.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
@@ -934,7 +938,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C78EAAD065D492600B07095</string>
-				<string>B63C152B132AF72F00D1952E</string>
+				<string>B646BC1513302020006F1D7A</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>ToolbarConfiguration</key>

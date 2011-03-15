@@ -10,16 +10,15 @@
 #import "MainViewController.h"
 #import "Cocoafish.h"
 
-// Your cocoafish app id must be set before running this demo
-//static NSString *cocoafishAppKey = @"BrcmjZIgFHlxOUKRbQUw9IhcTeb4F4zE";
-// If you want to add facebook support, please set the facebook app id here.
-//static NSString *facebookAppId = @"109836395704353";
-static NSString * const cocoafishAppKey = @"BrcmjZIgFHlxOUKRbQUw9IhcTeb4F4zE";
-// If you want to add facebook support, please set the facebook app id here.
-static NSString * const facebookAppId = @"109836395704353";
+// Your cocoafish app key must be set before running this demo
+static NSString * const cocoafishAppKey = nil;
+// Alternatively you can use your oauth token and secret instead of the app key for security purpose
+static NSString * const oauthConsumerKey = nil;
+static NSString * const oauthConsumerSecret = nil;
 
-static NSString * const oauthConsumerKey = @"mKnmYaRVFZjKCeKv0dwyXhzZb5AKbGys";
-static NSString * const oauthConsumerSecret = @"tr7fy3sFtfbKsKI5AttcK1UeG01Bwfhb";
+// If you want to add facebook support, please set the facebook app id here.
+static NSString * const facebookAppId = nil;
+
 
 @implementation DemoAppDelegate
 
