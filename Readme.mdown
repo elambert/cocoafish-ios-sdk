@@ -8,7 +8,7 @@ Except as otherwise noted, the Cocoafish iOS SDK is licensed under the Apache Li
 Getting Started
 ===============
 
-The SDK is lightweight and has no external dependencies. Getting started is easy.
+The SDK is lightweight. Getting started is easy.
 
 Setup Your Environment
 ----------------------
@@ -24,7 +24,7 @@ Setup Your Environment
 Sample Applications
 -------------------
 
-This SDK comes with a sample application that demonstrates authorization, making API calls, and invoking a dialog, to guide you in development.
+This SDK comes with a sample application that demonstrates authorization, making API calls including user registrations, facebook integrations, checkin, place searches and photo upload, to guide you in development.
 
 To build and run the sample application with Xcode (3.2):
 
@@ -32,9 +32,9 @@ To build and run the sample application with Xcode (3.2):
 
 * Verify your compiler settings by checking the menu items under _Project_->_Set Active SDK_ and _Project_->_Set Active Executable_. For most developers, the defaults should be OK.
 
-* Create a Cocoafish App ID (see http://www.cocoafish.com/)
+* Create a Cocoafish App ID (see http://www.cocoafish.com/), please provide your facebook development app id if you want facebook integration. Select view/edit places to add a couple places to your app.
 
-* Specify your Cocoafish AppId in DemoAppViewController.m 
+* Modify file DemoAppDelegate.m to fill out your actual cocoafish app key or oauth consumer key and secret, and facebook App id. Modify mothod didFinishLaunchingWithOptions to initialize Cocoafish using either app key or oauth consumer key/secret. If you don't want facebook integration, pass in nil to customAppIds.
 
 * Finally, select _Build_->_Build and Run_. This should compile the application and launch it.
 
@@ -47,29 +47,30 @@ If you want to integrate Cocoafish with an existing application, then follow the
 
 * Open Cocoafish-ios-sdk project under src/
 
-* Drag blue Cocoafish-ios-sdk project icon from “Groups & Files” and drop it inside the client project. Check “Client” in “Add To Targets” table, do not check “Copy items into destination group’s folder” in the sheet what will appear.
+* Drag folder Cocoafish, FBConnect and ASIHTTPRequest from Cocoafish-ios_sdk project to under your own ios project.
 
 * Drag YAJL.framework from cocoafish-ios-sdk project under Frameworks to your client project Frameworks folder. You don't have to copy the original.
 
-* Link libCocoafish.a to your project. Inside the client project, unfold Cocoafish-ios-sdk.xcodeproj and Targets → Client → Link Binary With Libraries. Drag libCocoafish.a to Link build phase. 
+* You should now be able to build and use all the Cocoafish apis.
 
-* To set libCocoafish library Target as dependency for Client Target, right click on Client Target, select Get Info then click on General tab. Click add button under Direct Dependencies list, select libCocoafish.
+Usage
+-----
 
-* Tell xcode where to find libCocoafish header files. Inside client project, ppen “Client” Target info panel (Select Targets → Client and press ⌘I), type “header search” in search field under “Build” tab. 
+Begin by instantiating the Cocoafish object:
 
-Double-click on “Header Search Path” and add:
+If you choose to use Cocoafish app key, 
 
-${PROJECT_DIR}/../cocoafish-ios-sdk/src/build/${BUILD_STYLE}-${PLATFORM_NAME}/usr/local/include
+	[Cocoafish initializeWithAppKey:cocoafishAppKey customAppIds:nil];
 
-The variables are:
+If you choose to use Cocoafish oauth consumer key and secret,
 
-PROJECT_DIR	Client project’s root directory
-BUILD_STYLE	Debug or Release
-PLATFORM_NAME	iphonesimulator or iphoneos
+	[Cocoafish initializeWithOauthConsumerKey:oauthConsumerKey consumerSecret:oauthConsumerSecret customAppIds:nil];
 
-* Include the Cocoafish header in your code:
+If you want to use facebook integration:
 
-        #import "Cocoafish.h"
+	[Cocoafish initializeWithAppKey:cocoafishAppKey customAppIds:[NSDictionary dictionaryWithObject:facebookAppId forKey:@"Facebook"]];
 
-  * You should now be able to compile your project successfully.
+or
+	[Cocoafish initializeWithOauthConsumerKey:oauthConsumerKey consumerSecret:oauthConsumerSecret customAppIds:[NSDictionary dictionaryWithObject:facebookAppId forKey:@"Facebook"]];
 
+With the Cocoafish IOS SDK, you can perform all the actions described in http://cocoafish.com/docs/gettingstarted
