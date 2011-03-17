@@ -11,13 +11,13 @@
 #import "Cocoafish.h"
 
 // Your cocoafish app key must be set before running this demo
-static NSString * const cocoafishAppKey = nil;
+static NSString * const cocoafishAppKey = @"BrcmjZIgFHlxOUKRbQUw9IhcTeb4F4zE";
 // Alternatively you can use your oauth token and secret instead of the app key for security purpose
 static NSString * const oauthConsumerKey = nil;
 static NSString * const oauthConsumerSecret = nil;
 
 // If you want to add facebook support, please set the facebook app id here.
-static NSString * const facebookAppId = nil;
+static NSString * const facebookAppId = @"109836395704353";
 
 
 @implementation DemoAppDelegate
@@ -32,8 +32,8 @@ static NSString * const facebookAppId = nil;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
     
 	// Initialize Cocoafish
-   // [Cocoafish initializeWithAppKey:cocoafishAppKey customAppIds:[NSDictionary dictionaryWithObject:facebookAppId forKey:@"Facebook"]];
-	[Cocoafish initializeWithOauthConsumerKey:oauthConsumerKey consumerSecret:oauthConsumerSecret customAppIds:[NSDictionary dictionaryWithObject:facebookAppId forKey:@"Facebook"]];
+	[Cocoafish initializeWithAppKey:cocoafishAppKey customAppIds:[NSDictionary dictionaryWithObject:facebookAppId forKey:@"Facebook"]];
+	//[Cocoafish initializeWithOauthConsumerKey:oauthConsumerKey consumerSecret:oauthConsumerSecret customAppIds:[NSDictionary dictionaryWithObject:facebookAppId forKey:@"Facebook"]];
 	
 	 // Add the tab bar controller's view to the window and display.
     [window addSubview:tabBarController.view];

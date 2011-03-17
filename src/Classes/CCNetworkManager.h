@@ -70,7 +70,9 @@
 -(Boolean)downloadPhoto:(id)sender photo:(CCPhoto *)photo size:(int)size;
 
 // Used to login with cocoafish after a successful facebook login
--(CCUser *)facebookLogin:(NSString *)fbAppId accessToken:(NSString *)accessToken error:(NSError **)error;
+-(CCUser *)loginWithFacebook:(NSString *)fbAppId accessToken:(NSString *)accessToken error:(NSError **)error;
+-(CCUser *)linkWithFacebook:(NSString *)fbAppId accessToken:(NSString *)accessToken error:(NSError **)error;
+-(void)unlinkFromFacebook:(NSError **)error;
 @end
 
 @protocol CCNetworkManagerDelegate <NSObject>

@@ -143,7 +143,7 @@ static Cocoafish *theDefaultCocoafish = nil;
 	return [_facebook handleOpenURL:url];
 }
 
--(void)facebookLogin:(NSArray *)permissions delegate:(id<CCFBSessionDelegate>)delegate
+-(void)facebookAuth:(NSArray *)permissions delegate:(id<CCFBSessionDelegate>)delegate
 {
 	_fbSessionDelegate = delegate;
 	// we will always ask for offline access permissions
@@ -161,6 +161,12 @@ static Cocoafish *theDefaultCocoafish = nil;
 	[_facebook authorize:permissions delegate:self];
 }
 
+-(void)unlinkFromFacebook:(NSError **)error
+{
+	CCNetworkManager *_ccNetworkManager = [[[CCNetworkManager alloc] init] autorelease];
+	[_ccNetworkManager unlinkFromFacebook:error];
+}
+
 /**
  * Called when the user has logged in successfully.
  */
@@ -169,7 +175,13 @@ static Cocoafish *theDefaultCocoafish = nil;
 	// login with cocoafish
 	CCNetworkManager *_ccNetworkManager = [[[CCNetworkManager alloc] init] autorelease];
 	NSError *error = nil;
-	CCUser *user = [_ccNetworkManager facebookLogin:_facebookAppId  accessToken:_facebook.accessToken error:&error];
+	CCUser *user = nil;
+	if ([[Cocoafish defaultCocoafish] getCurrentUser] != nil) {
+		// This is for linking facebook with the existing user
+		user = [_ccNetworkManager linkWithFacebook:_facebookAppId  accessToken:_facebook.accessToken error:&error];
+	} else {
+		user = [_ccNetworkManager loginWithFacebook:_facebookAppId  accessToken:_facebook.accessToken error:&error];
+	}
 	if (user == nil) {
 		// Failed to register with the cocoafish server, logout from facebook
 		[_facebook logout:self];

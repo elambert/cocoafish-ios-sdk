@@ -63,7 +63,6 @@
 		_ccNetworkManager = [[CCNetworkManager alloc] initWithDelegate:self];
 	}
 	
-	fbLoginButton.hidden = YES;
 	
 }
 
@@ -255,7 +254,7 @@
 
 -(IBAction)fbLoginButtonPressed:(id)sender
 {
-	[[Cocoafish defaultCocoafish] facebookLogin:[NSArray arrayWithObjects:@"publish_stream", @"email", @"offline_access", nil] delegate:self];
+	[[Cocoafish defaultCocoafish] facebookAuth:[NSArray arrayWithObjects:@"publish_stream", @"email", @"offline_access", nil] delegate:self];
 }
 
 // start the login process

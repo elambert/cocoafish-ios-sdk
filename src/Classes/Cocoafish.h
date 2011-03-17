@@ -45,7 +45,8 @@
 -(Facebook *)getFacebook;
 -(void)setCurrentUser:(CCUser *)user;
 
--(void)facebookLogin:(NSArray *)permissions delegate:(id<CCFBSessionDelegate>)delegate;
+-(void)facebookAuth:(NSArray *)permissions delegate:(id<CCFBSessionDelegate>)delegate;
+-(void)unlinkFromFacebook:(NSError **)error;
 -(BOOL)handleOpenURL:(NSURL *)url;
 
 @end

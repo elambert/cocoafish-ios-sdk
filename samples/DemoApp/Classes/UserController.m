@@ -75,14 +75,14 @@
 		self.navigationItem.rightBarButtonItem = button;
 		[button release];
 		
-	/*	if (currentUser.facebookAuthorized) {
+		if (currentUser.facebookAuthorized) {
 			// create the link with facebook button
-			button = [[UIBarButtonItem alloc] initWithTitle:@"Unlink With Facebook" style:UIBarButtonItemStylePlain target:self action:@selector(startFacebookLink)];
+			button = [[UIBarButtonItem alloc] initWithTitle:@"Unlink With Facebook" style:UIBarButtonItemStylePlain target:self action:@selector(unlinkFromFacebook)];
 		} else {
-			button = [[UIBarButtonItem alloc] initWithTitle:@"Link With Facebook" style:UIBarButtonItemStylePlain target:self action:@selector(startFacebookLink)];
+			button = [[UIBarButtonItem alloc] initWithTitle:@"Link With Facebook" style:UIBarButtonItemStylePlain target:self action:@selector(linkWithFacebook)];
 		}
 		self.navigationItem.leftBarButtonItem = button;
-		[button release];*/
+		[button release];
 		
 		self.navigationItem.title = [[[Cocoafish defaultCocoafish] getCurrentUser] first];
 		
@@ -147,10 +147,22 @@
 	[_ccNetworkManager logout];
 }
 
-// start the login process
-- (void)startFacebookLink
+// unlink from facebook
+-(void)unlinkFromFacebook
+{
+	NSError *error;
+	[[Cocoafish defaultCocoafish] unlinkFromFacebook:&error];
+	if (error == nil) {
+		UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"Link With Facebook" style:UIBarButtonItemStylePlain target:self action:@selector(linkWithFacebook)];
+		self.navigationItem.leftBarButtonItem = button;
+		[button release];
+	}
+}
+
+// link with facebook account
+- (void)linkWithFacebook
 {	
-	[[Cocoafish defaultCocoafish] facebookLogin:[NSArray arrayWithObjects:@"publish_stream", @"email", @"offline_access", nil] delegate:self];
+	[[Cocoafish defaultCocoafish] facebookAuth:[NSArray arrayWithObjects:@"publish_stream", @"email", @"offline_access", nil] delegate:self];
 }
 
 #pragma mark -
@@ -304,6 +316,10 @@
 -(void)fbDidLogin
 {
 	NSLog(@"fbDidLogin");
+	UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:@"Unlink With Facebook" style:UIBarButtonItemStylePlain target:self action:@selector(unlinkFromFacebook)];
+	self.navigationItem.leftBarButtonItem = button;
+	[button release];
+
 }
 
 -(void)fbDidNotLogin:(BOOL)cancelled error:(NSError *)error
@@ -314,7 +330,7 @@
 	}
 	NSString *msg = [NSString stringWithFormat:@"%@",[error localizedDescription]];
 	UIAlertView *alert = [[UIAlertView alloc] 
-						  initWithTitle:@"Failed to login with Facebook" 
+						  initWithTitle:@"Failed to link with Facebook" 
 						  message:msg
 						  delegate:self 
 						  cancelButtonTitle:@"Ok"

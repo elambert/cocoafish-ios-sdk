@@ -27,6 +27,7 @@
 -(void)requestFailed:(ASIHTTPRequest *)request;
 -(void)addOauthHeaderToRequest:(ASIHTTPRequest *)request;
 -(NSString *)generateFullRequestUrl:(NSString *)partialUrl additionalParams:(NSString *)additionalParams;
+-(CCUser *)facebookAuth:(NSString *)fbAppId accessToken:(NSString *)accessToken error:(NSError **)error isLogin:(Boolean)isLogin;
 @end
 
 # pragma -
@@ -223,10 +224,58 @@
 
 }
 
-
--(CCUser *)facebookLogin:(NSString *)fbAppId accessToken:(NSString *)accessToken error:(NSError **)error
+-(CCUser *)linkWithFacebook:(NSString *)fbAppId accessToken:(NSString *)accessToken error:(NSError **)error
 {
-	NSString *urlPath = [self generateFullRequestUrl:@"login/facebook.json" additionalParams:nil];
+	return [self facebookAuth:fbAppId accessToken:accessToken error:error isLogin:NO];
+}
+
+-(CCUser *)loginWithFacebook:(NSString *)fbAppId accessToken:(NSString *)accessToken error:(NSError **)error
+{
+	return [self facebookAuth:fbAppId accessToken:accessToken error:error isLogin:YES];
+
+}
+
+-(void)unlinkFromFacebook:(NSError **)error
+{
+	NSString *urlPath = [self generateFullRequestUrl:@"social/facebook/unlink.json" additionalParams:nil];
+	NSURL *url = [NSURL URLWithString:urlPath];
+	ASIFormDataRequest *request = [[[ASIFormDataRequest alloc] initWithURL:url] autorelease];
+	[self addOauthHeaderToRequest:request];
+	
+	[request startSynchronous];	
+	*error = [request error];
+	CCUser *currentUser = nil;
+	if (!*error) {
+		NSLog(@"%@", [request responseString]);
+		CCResponse *response = [[CCResponse alloc] initWithJsonData:[request responseData]];
+		if (response && [response.meta.status isEqualToString:CC_STATUS_OK]) {
+			NSArray *users = [CCResponse getArrayFromJsonResonse:response.response jsonTag:CC_JSON_USERS class:[CCUser class]];
+			if ([users count] == 1) {
+				currentUser = [users objectAtIndex:0];
+			}
+			if (!currentUser) {
+				NSLog(@"Did not receive user info after facebookLogin");
+			} else {
+				[[Cocoafish defaultCocoafish] setCurrentUser:currentUser];
+			}
+			
+		} else {
+			*error = [self serverErrorFromResponse:response];
+		}
+	} 
+	
+}
+
+-(CCUser *)facebookAuth:(NSString *)fbAppId accessToken:(NSString *)accessToken error:(NSError **)error isLogin:(Boolean)isLogin
+{
+	NSString *urlPath = nil;
+	NSString *additionalParams = [NSString stringWithFormat:@"facebook_app_id=%@&access_token=%@", fbAppId, accessToken];
+
+	if (isLogin) {
+		urlPath = [self generateFullRequestUrl:@"social/facebook/login.json" additionalParams:additionalParams];
+	} else {
+		urlPath = [self generateFullRequestUrl:@"social/facebook/link.json" additionalParams:additionalParams];
+	}
 	NSURL *url = [NSURL URLWithString:urlPath];
 	ASIFormDataRequest *request = [[[ASIFormDataRequest alloc] initWithURL:url] autorelease];
 
@@ -249,9 +298,10 @@
 			}
 			if (!currentUser) {
 				NSLog(@"Did not receive user info after facebookLogin");
+			} else {
+				[[Cocoafish defaultCocoafish] setCurrentUser:currentUser];
 			}
 		
-			[[Cocoafish defaultCocoafish] setCurrentUser:currentUser];
 		} else {
 			*error = [self serverErrorFromResponse:response];
 		}
