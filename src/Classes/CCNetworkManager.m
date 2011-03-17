@@ -269,12 +269,11 @@
 -(CCUser *)facebookAuth:(NSString *)fbAppId accessToken:(NSString *)accessToken error:(NSError **)error isLogin:(Boolean)isLogin
 {
 	NSString *urlPath = nil;
-	NSString *additionalParams = [NSString stringWithFormat:@"facebook_app_id=%@&access_token=%@", fbAppId, accessToken];
 
 	if (isLogin) {
-		urlPath = [self generateFullRequestUrl:@"social/facebook/login.json" additionalParams:additionalParams];
+		urlPath = [self generateFullRequestUrl:@"social/facebook/login.json" additionalParams:nil];
 	} else {
-		urlPath = [self generateFullRequestUrl:@"social/facebook/link.json" additionalParams:additionalParams];
+		urlPath = [self generateFullRequestUrl:@"social/facebook/link.json" additionalParams:nil];
 	}
 	NSURL *url = [NSURL URLWithString:urlPath];
 	ASIFormDataRequest *request = [[[ASIFormDataRequest alloc] initWithURL:url] autorelease];
