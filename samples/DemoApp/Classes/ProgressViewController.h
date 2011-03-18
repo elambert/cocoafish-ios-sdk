@@ -17,6 +17,4 @@
 @property (nonatomic, retain) IBOutlet UIProgressView *progressIndicator;
 @property (nonatomic, retain) IBOutlet UILabel *progressLabel;
 
--(IBAction)cancel;
-
 @end

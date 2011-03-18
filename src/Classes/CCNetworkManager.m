@@ -612,7 +612,7 @@
 	if ([response.meta.status isEqualToString:CC_JSON_META_METHOD_COMPOUND]) {
 		if (response && [response.meta.status isEqualToString:CC_STATUS_OK]) {
 			if ([_delegate respondsToSelector:@selector(networkManager:didSucceedWithCompound:)]) {
-				[_delegate networkManager:self didSucceedWithCompound:response.responses];
+				[_delegate networkManager:self didSucceedWithCompound:response];
 			}
 
 			/*for (CCResponse *rp in response.responses) {
@@ -639,8 +639,8 @@
 		if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_GET_PLACES] ||
 			 [response.meta.method isEqualToString:CC_JSON_META_METHOD_SHOW_PLACE]) {
 			NSArray *places = [CCResponse getArrayFromJsonResonse:response.response jsonTag:CC_JSON_PLACES class:[CCPlace class]];
-			if ([_delegate respondsToSelector:@selector(networkManager:didGetPlaces:)]) {
-				[_delegate networkManager:self didGetPlaces:places];
+			if ([_delegate respondsToSelector:@selector(networkManager:response:didGetPlaces:)]) {
+				[_delegate networkManager:self response:response didGetPlaces:places];
 			}
 		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_REGISTER_USER]) {
 			NSArray *users = [CCResponse getArrayFromJsonResonse:response.response jsonTag:CC_JSON_USERS class:[CCUser class]];
@@ -651,8 +651,8 @@
 			if (!currentUser) {
 				NSLog(@"Did not receive user info after registerUser");
 			}
-			if ([_delegate respondsToSelector:@selector(networkManager:didRegisterUser:)]) {
-				[_delegate networkManager:self didRegisterUser:currentUser];
+			if ([_delegate respondsToSelector:@selector(networkManager:response:didRegisterUser:)]) {
+				[_delegate networkManager:self response:response didRegisterUser:currentUser];
 			}
 			[[Cocoafish defaultCocoafish] setCurrentUser:currentUser];
 							  
@@ -665,8 +665,8 @@
 			if (!currentUser) {
 				NSLog(@"Did not receive user info after login");
 			}
-			if ([_delegate respondsToSelector:@selector(networkManager:didLogin:)]) {
-				[_delegate networkManager:self didLogin:currentUser];
+			if ([_delegate respondsToSelector:@selector(networkManager:response:didLogin:)]) {
+				[_delegate networkManager:self response:response didLogin:currentUser];
 			}
 			[[Cocoafish defaultCocoafish] setCurrentUser:currentUser];
 		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_SHOW_USER] ||
@@ -676,25 +676,25 @@
 			if ([users count] == 1) {
 				user = [users objectAtIndex:0];
 			}
-			if ([_delegate respondsToSelector:@selector(networkManager:didGetUser:)]) {
-				[_delegate networkManager:self didGetUser:user];	
+			if ([_delegate respondsToSelector:@selector(networkManager:response:didGetUser:)]) {
+				[_delegate networkManager:self response:response didGetUser:user];	
 			}
 		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_LOGOUT]) {
-			if ([_delegate respondsToSelector:@selector(didLogout:)]) {
-				[_delegate didLogout:self];
+			if ([_delegate respondsToSelector:@selector(didLogout:response:)]) {
+				[_delegate didLogout:self response:response];
 			}
 			[[Cocoafish defaultCocoafish] setCurrentUser:nil];
 		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_DELETE_USER]) {
-			if ([_delegate respondsToSelector:@selector(didDeleteCurrentUser:)]) {
-				[_delegate didDeleteCurrentUser:self];
+			if ([_delegate respondsToSelector:@selector(didDeleteCurrentUser:response:)]) {
+				[_delegate didDeleteCurrentUser:self response:response];
 			}
 			
 			[[Cocoafish defaultCocoafish] setCurrentUser:nil];
 		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_SHOW_CHECKINS_ME] ||
 				   [response.meta.method isEqualToString:CC_JSON_META_METHOD_SHOW_CHECKINS]) {
 			NSArray *checkins = [CCResponse getArrayFromJsonResonse:response.response jsonTag:CC_JSON_CHECKINS class:[CCCheckin class]];
-			if ([_delegate respondsToSelector:@selector(networkManager:didGetCheckins:)]) {
-				[_delegate networkManager:self didGetCheckins:checkins];
+			if ([_delegate respondsToSelector:@selector(networkManager:response:didGetCheckins:)]) {
+				[_delegate networkManager:self response:response didGetCheckins:checkins];
 			}
 		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_CHECKIN_PLACE]) {
 			NSArray *checkins = [CCResponse getArrayFromJsonResonse:response.response jsonTag:CC_JSON_CHECKINS class:[CCCheckin class]];
@@ -702,8 +702,8 @@
 			if ([checkins count] == 1) {
 				checkin = [checkins objectAtIndex:0];
 			}
-			if ([_delegate respondsToSelector:@selector(networkManager:didCheckin:)]) {
-				[_delegate networkManager:self didCheckin:checkin];
+			if ([_delegate respondsToSelector:@selector(networkManager:response:didCheckin:)]) {
+				[_delegate networkManager:self response:response didCheckin:checkin];
 			}
 		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_CREATE_STATUS]) {
 			NSArray *statuses = [CCResponse getArrayFromJsonResonse:response.response jsonTag:CC_JSON_STATUSES class:[CCStatus class]];
@@ -711,14 +711,14 @@
 			if ([statuses count] == 1) {
 				status = [statuses objectAtIndex:0];
 			}
-			if ([_delegate respondsToSelector:@selector(networkManager:didCreateStatus:)]) {
-				[_delegate networkManager:self didCreateStatus:status];
+			if ([_delegate respondsToSelector:@selector(networkManager:response:didCreateStatus:)]) {
+				[_delegate networkManager:self response:response didCreateStatus:status];
 			}
 		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_SHOW_STATUSES_ME] ||
 					[response.meta.method isEqualToString:CC_JSON_META_METHOD_SHOW_STATUSES]) {
 			NSArray *statuses = [CCResponse getArrayFromJsonResonse:response.response jsonTag:CC_JSON_STATUSES class:[CCStatus class]];
-			if ([_delegate respondsToSelector:@selector(networkManager:didGetStatuses:)]) {
-				[_delegate networkManager:self didGetStatuses:statuses];
+			if ([_delegate respondsToSelector:@selector(networkManager:response:didGetStatuses:)]) {
+				[_delegate networkManager:self response:response didGetStatuses:statuses];
 			}
 		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_UPLOAD_PHOTO]) {
 			NSArray *photos = [CCResponse getArrayFromJsonResonse:response.response jsonTag:CC_JSON_PHOTOS class:[CCPhoto class]];
@@ -726,14 +726,14 @@
 			if ([photos count] == 1) {
 				photo = [photos objectAtIndex:0];
 			}
-			if ([_delegate respondsToSelector:@selector(networkManager:didUploadPhoto:)]) {
-				[_delegate networkManager:self didUploadPhoto:photo];
+			if ([_delegate respondsToSelector:@selector(networkManager:response:didUploadPhoto:)]) {
+				[_delegate networkManager:self response:response didUploadPhoto:photo];
 			}
 			
 		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_SHOW_PHOTOS]) {
 			NSArray *photos = [CCResponse getArrayFromJsonResonse:response.response jsonTag:CC_JSON_PHOTOS class:[CCPhoto class]];
-			if ([_delegate respondsToSelector:@selector(networkManager:didGetPhotos:)]) {
-				[_delegate networkManager:self didGetPhotos:photos];
+			if ([_delegate respondsToSelector:@selector(networkManager:response:didGetPhotos:)]) {
+				[_delegate networkManager:self response:response didGetPhotos:photos];
 			}
 		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_SHOW_PHOTO]) {
 			NSArray *photos = [CCResponse getArrayFromJsonResonse:response.response jsonTag:CC_JSON_PHOTOS class:[CCPhoto class]];
@@ -741,13 +741,13 @@
 			if ([photos count] == 1) {
 				photo = [photos objectAtIndex:0];
 			}
-			if ([_delegate respondsToSelector:@selector(networkManager:didGetPhoto:)]) {
-				[_delegate networkManager:self didGetPhoto:photo];
+			if ([_delegate respondsToSelector:@selector(networkManager:response:didGetPhoto:)]) {
+				[_delegate networkManager:self response:response didGetPhoto:photo];
 			}
 			
 		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_STORE_VALUE]) {
-			if ([_delegate respondsToSelector:@selector(didStoreValue:)]) {
-				[_delegate didStoreValue:self];
+			if ([_delegate respondsToSelector:@selector(didStoreValue:response:)]) {
+				[_delegate didStoreValue:self response:response];
 			}
 		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_STORE_VALUE]) {
 			NSArray *keyvalues = [CCResponse getArrayFromJsonResonse:response.response jsonTag:CC_JSON_KEY_VALUES class:[CCKeyValuePair class]];
@@ -755,8 +755,8 @@
 			if ([keyvalues count] == 1) {
 				keyvalue = [keyvalues objectAtIndex:0];
 			}
-			if ([_delegate respondsToSelector:@selector(networkManager:didGetKeyValue:)]) {
-				[_delegate networkManager:self didGetKeyValue:keyvalue];
+			if ([_delegate respondsToSelector:@selector(networkManager:response:didGetKeyValue:)]) {
+				[_delegate networkManager:self response:response didGetKeyValue:keyvalue];
 			}
 			
 		} else {

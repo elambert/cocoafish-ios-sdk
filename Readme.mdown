@@ -58,6 +58,8 @@ Usage
 
 Begin by instantiating the Cocoafish object:
 
+#import "Cocoafish.h"
+
 If you choose to use Cocoafish app key, 
 
 	[Cocoafish initializeWithAppKey:cocoafishAppKey customAppIds:nil];

@@ -78,22 +78,24 @@
 @protocol CCNetworkManagerDelegate <NSObject>
 
 @optional
--(void)networkManager:(CCNetworkManager *)networkManager didGetPlaces:(NSArray *)places;
--(void)networkManager:(CCNetworkManager *)networkManager didLogin:(CCUser *)user;
--(void)networkManager:(CCNetworkManager *)networkManager didGetUser:(CCUser *)user;
--(void)didLogout:(CCNetworkManager *)networkManager;
--(void)didDeleteCurrentUser:(CCNetworkManager *)networkManager;
--(void)networkManager:(CCNetworkManager *)networkManager didRegisterUser:(CCUser *)user;
--(void)networkManager:(CCNetworkManager *)networkManager didCheckin:(CCCheckin *)checkin;
--(void)networkManager:(CCNetworkManager *)networkManager didGetCheckins:(NSArray *)checkins;
--(void)networkManager:(CCNetworkManager *)networkManager didSucceedWithCompound:(NSArray *)responses;
--(void)networkManager:(CCNetworkManager *)networkManager didCreateStatus:(CCStatus *)status;
--(void)networkManager:(CCNetworkManager *)networkManager didGetStatuses:(NSArray *)statuses;
--(void)networkManager:(CCNetworkManager *)networkManager didUploadPhoto:(CCPhoto *)photo;
--(void)networkManager:(CCNetworkManager *)networkManager didGetPhotos:(NSArray *)photos;
--(void)networkManager:(CCNetworkManager *)networkManager didGetPhoto:(CCPhoto *)photo;
--(void)didStoreValue:(CCNetworkManager *)networkManager;
--(void)networkManager:(CCNetworkManager *)networkManager didGetKeyValue:(CCKeyValuePair *)keyvalue;
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetPlaces:(NSArray *)places;
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didLogin:(CCUser *)user;
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetUser:(CCUser *)user;
+-(void)didLogout:(CCNetworkManager *)networkManager response:(CCResponse *)response ;
+-(void)didDeleteCurrentUser:(CCNetworkManager *)networkManager response:(CCResponse *)response ;
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response  didRegisterUser:(CCUser *)user;
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didCheckin:(CCCheckin *)checkin;
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetCheckins:(NSArray *)checkins;
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didSucceedWithCompound:(NSArray *)responses;
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didCreateStatus:(CCStatus *)status;
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetStatuses:(NSArray *)statuses;
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didUploadPhoto:(CCPhoto *)photo;
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetPhotos:(NSArray *)photos;
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetPhoto:(CCPhoto *)photo;
+-(void)didStoreValue:(CCNetworkManager *)networkManager response:(CCResponse *)response;
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetKeyValue:(CCKeyValuePair *)keyvalue;
+-(void)networkManager:(CCNetworkManager *)networkManager didSucceedWithCompound:(CCResponse *)response;
+
 
 @required
 -(void)networkManager:(CCNetworkManager *)networkManager didFailWithError:(NSError *)error;

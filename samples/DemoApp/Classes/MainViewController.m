@@ -123,7 +123,7 @@
 
 #pragma mark -
 #pragma mark CCNetworkManager delegate methods
-- (void)networkManager:(CCNetworkManager *)networkManager didGetPlaces:(NSArray *)places
+- (void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetPlaces:(NSArray *)places
 {
 	[mapViewController showPlaces:places];
 	[listViewController showPlaces:places];

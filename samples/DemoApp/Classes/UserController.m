@@ -128,7 +128,7 @@
 }
 
 // successful 
-- (void)networkManager:(CCNetworkManager *)networkManager didGetCheckins:(NSArray *)checkins
+- (void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetCheckins:(NSArray *)checkins
 {
 	@synchronized (self) {
 		userCheckins = [checkins retain];
@@ -168,7 +168,7 @@
 #pragma mark -
 #pragma mark CCNetworkManager delegate methods
 // successful logout
-- (void)didLogout:(CCNetworkManager *)networkManager
+- (void)didLogout:(CCNetworkManager *)networkManager response:(CCResponse *)response
 {	
 	// show login window
 	LoginViewController *loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];

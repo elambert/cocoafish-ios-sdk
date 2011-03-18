@@ -66,7 +66,7 @@
 
 #pragma mark -
 #pragma mark CCNetworkManager Delegate Methods
--(void)networkManager:(CCNetworkManager *)networkManager didGetCheckins:(NSArray *)checkins
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetCheckins:(NSArray *)checkins
 {
 	@synchronized(self) {
 		self.placeCheckins = nil;
@@ -90,7 +90,7 @@
 	[_ccNetworkManager checkin:place message:message photoData:photoData contentType:@"image/jpeg"];
 }
 
--(void)networkManager:(CCNetworkManager *)networkManager didCheckin:(CCCheckin *)checkin
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didCheckin:(CCCheckin *)checkin
 {
 	if (checkin) {
 		@synchronized(self) {
