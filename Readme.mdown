@@ -45,11 +45,11 @@ If you want to integrate Cocoafish with an existing application, then follow the
 
 * Create your own ios project, for example -- client.
 
-* Open Cocoafish-ios-sdk project under src/
+* Select add files to 'Your projfect', goto the cocoafish-ios-sdk/src, select Cocoafish, ASIHTTPRequest and FBConnect folders, make sure to check create groups for added folders.
 
-* Drag folder Cocoafish, FBConnect and ASIHTTPRequest from Cocoafish-ios_sdk project to under your own ios project.
+* Add YAJL.framework to your project. There is a copy of YAJL.framework under cocoafish-ios-sdk/src. 
 
-* Drag YAJL.framework from cocoafish-ios-sdk project under Frameworks to your client project Frameworks folder. You don't have to copy the original.
+* Under Other Linker Flags in your target, add -ObjC and -all_load  
 
 * You should now be able to build and use all the Cocoafish apis.
 

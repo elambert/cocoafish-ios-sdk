@@ -15,6 +15,10 @@
 #define PASSWORD_VERIFY 4
 #define TABLE_SIZE 5
 
+@interface RegisterViewController ()
+- (void)startRegistration;
+@end
+
 @implementation RegisterViewController
 
 @synthesize delegate;
@@ -37,11 +41,7 @@
 		textFields = [[NSMutableArray alloc] initWithCapacity:TABLE_SIZE];
 		for (int i=0; i<TABLE_SIZE; i++) {
 			UITextField *textField;
-			if (isIPad()) {
-				textField = [[UITextField alloc] initWithFrame:CGRectMake(110, 11, self.tableView.frame.size.width-200, 25)];
-			} else {
-				textField = [[UITextField alloc] initWithFrame:CGRectMake(110, 11, 190, 25)];
-			}
+            textField = [[UITextField alloc] initWithFrame:CGRectMake(110, 11, 190, 25)];
 			[textFields addObject:textField];
 			[textField release];
 		}
@@ -62,28 +62,6 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	return YES;
-
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-	[self updateFrame];
-}
-
--(void)updateFrame
-{
-	if (!isIPad()) {
-		return;
-	}
-	@synchronized(self) {
-		for (UITextField *textField in textFields) {
-			textField.frame = CGRectMake(110, 11, self.tableView.frame.size.width-200, 25);
-		}
-	}
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -152,10 +130,6 @@
 
 		// Get the textField from our model
 		UITextField *textField = (UITextField *)[textFields objectAtIndex:row];
-		
-		if (isIPad()) {
-			textField.frame = CGRectMake(110, 11, self.tableView.frame.size.width-200, 25);
-		}
 		
 		// Set textField defaults
 		textField.keyboardType = UIKeyboardTypeDefault;

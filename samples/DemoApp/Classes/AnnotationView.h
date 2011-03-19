@@ -13,10 +13,8 @@
 @interface AnnotationView : MKPinAnnotationView {
 @private
 	MKMapView* mapView;
-	Annotation *annotation;
 }
 
 @property (nonatomic, assign) MKMapView* mapView;
-@property (nonatomic, retain) Annotation *annoation;
 
 @end

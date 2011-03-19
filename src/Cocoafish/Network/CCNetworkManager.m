@@ -35,7 +35,7 @@
 @implementation CCNetworkManager
 
 -(id)initWithDelegate:(id)delegate {
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		[self setDelegate:delegate];
 		// init the operation queue
 		_operationQueue = [[NSOperationQueue alloc] init];

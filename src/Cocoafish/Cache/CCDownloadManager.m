@@ -10,6 +10,7 @@
 #import "CCDownloadRequest.h"
 #import "CCPhoto.h"
 #import "Cocoafish.h"
+#import "CCResponse.h"
 
 #define DEFAULT_TIME_INTERVAL	10
 
@@ -132,7 +133,7 @@
 }
 
 
--(void)networkManager:(CCNetworkManager *)networkManager didGetPhotos:(NSArray *)photos
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetPhotos:(NSArray *)photos
 {
 	NSMutableDictionary *processedPhotos = [[[NSMutableDictionary alloc] init] autorelease];
 

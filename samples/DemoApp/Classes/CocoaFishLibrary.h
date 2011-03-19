@@ -17,15 +17,6 @@
 
 NSString* getUniqueIdentifier();
 
-// String cleanup
-NSString* cleanupString(NSString *string);
-
-// iphone
-BOOL isIphone();
-
-// iPad
-BOOL isIPad();
-
 // iOS Version
 float osVersion();
 

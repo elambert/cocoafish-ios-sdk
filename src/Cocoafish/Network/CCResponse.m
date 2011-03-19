@@ -36,7 +36,7 @@
 -(id)initWithJsonResponse:(NSDictionary *)jsonResponse
 {
 	
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		self.response = [jsonResponse objectForKey:CC_JSON_RESPONSE];
 		self.pagination = [[[CCPagination alloc] initWithJsonResponse:jsonResponse] autorelease];
 		self.meta = [[[CCMeta alloc] initWithJsonResponse:jsonResponse] autorelease];

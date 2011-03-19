@@ -89,20 +89,6 @@
 }
 
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-/*	if (isIPad()) {
-		return YES;
-	} else {
-		return (interfaceOrientation == UIInterfaceOrientationPortrait);
-	}*/
-	return YES;
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-
-}
-
 /*// don't login
 -(void)cancelClicked:(id)sender {
 	

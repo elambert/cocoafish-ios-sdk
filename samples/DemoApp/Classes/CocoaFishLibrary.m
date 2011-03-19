@@ -13,15 +13,6 @@ NSString* getUniqueIdentifier() {
 	return [myCurrentDevice uniqueIdentifier];
 }
 
-// remove extra spaces
-NSString* cleanupString(NSString *string)
-{
-	NSString *newString = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-	newString = [newString stringByReplacingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
-	
-	return newString;
-}
-
 // check iphone
 BOOL isIphone() {
 	NSString *deviceType = [UIDevice currentDevice].model;

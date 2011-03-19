@@ -38,8 +38,6 @@
 @property (nonatomic, retain) IBOutlet UITextField *emailTextField;
 @property (nonatomic, retain) IBOutlet UITextField *passwordTextField;
 
-
--(IBAction)textFieldDoneEditing:(id)sender;
 -(void)startLogin;
 
 @end

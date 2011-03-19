@@ -88,8 +88,6 @@
 
 /* Begin PBXFileReference section */
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		1D3623240D0F684500981E51 /* Cocoafish_ios_sdkAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cocoafish_ios_sdkAppDelegate.h; sourceTree = "<group>"; };
-		1D3623250D0F684500981E51 /* Cocoafish_ios_sdkAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Cocoafish_ios_sdkAppDelegate.m; sourceTree = "<group>"; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* Cocoafish_ios_sdk-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Cocoafish_ios_sdk-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
@@ -198,8 +196,6 @@
 				B6EC923D1326E24E0026C995 /* Cache */,
 				B689925B12C2FF15006D4ED8 /* Models */,
 				B689924B12C2FEF1006D4ED8 /* Network */,
-				1D3623240D0F684500981E51 /* Cocoafish_ios_sdkAppDelegate.h */,
-				1D3623250D0F684500981E51 /* Cocoafish_ios_sdkAppDelegate.m */,
 				B6EC707B12D2C74D00032A2C /* Cocoafish.h */,
 				B6EC707C12D2C74D00032A2C /* Cocoafish.m */,
 			);

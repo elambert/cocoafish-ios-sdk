@@ -18,6 +18,7 @@
 @interface CheckinViewController()
 -(void)preparePhoto:(UIImage *)image;
 -(void)dismissKeyboard;
+- (void)showImagePicker:(NSInteger)sourceType rectForPopover:(CGRect)rect;
 @end
 
 @implementation CheckinViewController
