@@ -14,11 +14,12 @@
 #import "FBConnect.h"
 #import "CCPhoto.h"
 #import "CCKeyValuePair.h"
+#import "CCResponse.h"
 
 @protocol CCFBSessionDelegate;
 
 @class CCDownloadManager;
-@interface Cocoafish : NSObject<FBSessionDelegate, FBRequestDelegate> {
+@interface Cocoafish : NSObject<FBSessionDelegate, FBRequestDelegate, CCNetworkManagerDelegate> {
 	id<CCFBSessionDelegate> _fbSessionDelegate;
 	CCUser *_currentUser;
 	NSString *_appKey;
@@ -28,6 +29,7 @@
 	Facebook *_facebook; // handles facebook authentication
 	NSString *_cocoafishDir;
 	CCDownloadManager *_downloadManager;
+    CCNetworkManager *_ccNetworkManager;
 }
 
 @property(nonatomic, assign) id<CCFBSessionDelegate> _fbSessionDelegate;

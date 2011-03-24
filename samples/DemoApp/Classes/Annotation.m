@@ -16,7 +16,7 @@
 -(id)initWithPlace:(CCPlace *)_place
 {
 		
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		self.place = _place;	
 		/*CLLocationCoordinate2D instanceCoordinate;
 		instanceCoordinate.latitude = [place.location.latitude doubleValue];
@@ -46,7 +46,7 @@
 
 - (NSString *)subtitle {
 
-	return place.address1;
+	return place.address;
 }
 
 #pragma mark -

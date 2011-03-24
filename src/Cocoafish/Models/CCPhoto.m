@@ -36,7 +36,7 @@
 -(id)initWithJsonResponse:(NSDictionary *)jsonResponse
 {
 
-	if (self = [super initWithJsonResponse:jsonResponse]) {
+	if ((self = [super initWithJsonResponse:jsonResponse])) {
 		self.filename = [jsonResponse objectForKey:CC_JSON_FILENAME];
 		self.size = [[jsonResponse objectForKey:CC_JSON_SIZE] intValue];
 		self.collectionName = [jsonResponse objectForKey:CC_JSON_COLLECTION_NAME];
@@ -61,6 +61,12 @@
 	}
 	
 	return self;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"CCPhoto:\n\tfilename: %@\n\tsize: %d\n\tcollectionName: %@\n\tmd5: %@\n\tprocessed: %d\n\tcontentType :%@\n\ttakenAt: %@\n\turls: %@\n\t%@",
+            self.filename, self.size, self.collectionName, self.md5, 
+            self.processed, self.contentType, self.takenAt, [self.urls description], [super description]];
 }
 
 -(void)dealloc

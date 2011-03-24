@@ -75,7 +75,7 @@
 		self.navigationItem.rightBarButtonItem = button;
 		[button release];
 		
-		if (currentUser.facebookAuthorized) {
+		if ([currentUser.facebookAccessToken length] > 0) {
 			// create the link with facebook button
 			button = [[UIBarButtonItem alloc] initWithTitle:@"Unlink With Facebook" style:UIBarButtonItemStylePlain target:self action:@selector(unlinkFromFacebook)];
 		} else {
@@ -181,7 +181,7 @@
 {
 	NSString *msg = [NSString stringWithFormat:@"%@.",[error localizedDescription]];
 	UIAlertView *alert = [[UIAlertView alloc] 
-						  initWithTitle:@"Logout Failed!" 
+						  initWithTitle:@"Error" 
 						  message:msg
 						  delegate:self 
 						  cancelButtonTitle:@"Ok"

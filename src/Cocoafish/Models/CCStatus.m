@@ -10,25 +10,30 @@
 
 @interface CCStatus ()
 
-@property (nonatomic, retain, readwrite) NSString *status;
+@property (nonatomic, retain, readwrite) NSString *message;
 
 @end
 
 @implementation CCStatus
-@synthesize status = _status;
+@synthesize message = _message;
 
 -(id)initWithJsonResponse:(NSDictionary *)jsonResponse
 {
-	if (self = [super initWithJsonResponse:jsonResponse]) {
-		self.status = [jsonResponse objectForKey:CC_JSON_STATUS];
+	if ((self = [super initWithJsonResponse:jsonResponse])) {
+		self.message = [jsonResponse objectForKey:CC_JSON_MESSAGE];
 	}
 	
 	return self;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"CCStatus:\n\tmessage: '%@'\n\t%@",
+            self.message, [super description]];
+}
+
 -(void)dealloc
 {
-	self.status = nil;
+	self.message = nil;
 	[super dealloc];
 }
 

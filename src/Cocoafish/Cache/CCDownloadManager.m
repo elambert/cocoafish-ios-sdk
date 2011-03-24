@@ -126,7 +126,7 @@
 
 		if ([photoIds count] > 0) {
 			// send request
-			[_ccNetworkManager getPhotos:photoIds];
+			[_ccNetworkManager getPhotosByIds:photoIds];
 		}
 		
 	}

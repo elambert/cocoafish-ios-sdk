@@ -240,6 +240,18 @@
 
 -(IBAction)fbLoginButtonPressed:(id)sender
 {
+    if ([[Cocoafish defaultCocoafish] getFacebook] == nil) {
+        
+        UIAlertView *alert = [[UIAlertView alloc] 
+                              initWithTitle:@"Error" 
+                              message:@"Please initialize Cocoafish with a valid facebook id first!"
+                              delegate:self 
+                              cancelButtonTitle:@"Ok"
+                              otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+        return;
+    }
 	[[Cocoafish defaultCocoafish] facebookAuth:[NSArray arrayWithObjects:@"publish_stream", @"email", @"offline_access", nil] delegate:self];
 }
 

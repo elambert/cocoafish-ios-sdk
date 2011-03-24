@@ -14,7 +14,8 @@
 @property (nonatomic, retain, readwrite) NSString *userName;
 @property (nonatomic, retain, readwrite) NSString *first;
 @property (nonatomic, retain, readwrite) NSString *last;
-@property (nonatomic, readwrite) Boolean facebookAuthorized;
+//@property (nonatomic, readwrite) Boolean facebookAuthorized;
+@property (nonatomic, retain, readwrite) NSString *facebookAccessToken;
 
 @end
 
@@ -24,7 +25,8 @@
 @synthesize userName = _userName;
 @synthesize first = _first;
 @synthesize last = _last;
-@synthesize facebookAuthorized = _facebookAuthorized;
+//@synthesize facebookAuthorized = _facebookAuthorized;
+@synthesize facebookAccessToken = _facebookAccessToken;
 
 -(id)initWithJsonResponse:(NSDictionary *)jsonResponse
 {
@@ -33,16 +35,10 @@
 
 		self.email = [jsonResponse objectForKey:CC_JSON_USER_EMAIL];
 		self.userName = [jsonResponse objectForKey:CC_JSON_USERNAME];
-	/*	if (!_email && !_userName) {
-			NSLog(@"User doesn't have email or userName");
-			[self release];
-			self = nil;
-			return self;
-		}*/
-		
 		self.first = [jsonResponse objectForKey:CC_JSON_USER_FIRST];
 		self.last = [jsonResponse objectForKey:CC_JSON_USER_LAST];
-		self.facebookAuthorized = [[jsonResponse objectForKey:CC_JSON_USER_FACEBOOK_AUTHORIZED] boolValue];
+		//self.facebookAuthorized = [[jsonResponse objectForKey:CC_JSON_USER_FACEBOOK_AUTHORIZED] boolValue];
+        self.facebookAccessToken = [jsonResponse objectForKey:CC_JSON_USER_FACEBOOK_ACCESS_TOKEN];
 	}
 	return self;
 }
@@ -52,7 +48,7 @@
 	if (objectId == nil || first == nil) {
 		return nil;
 	}
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		_objectId = [objectId retain];
 		self.first = first;
 		self.last = last;
@@ -61,12 +57,18 @@
 	return self;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"CCUser:\n\temail: %@\n\tuserName: %@\n\tfirst: %@\n\tlast: %@\n\tfacebookAccessToken :%@\n\t%@",
+            self.email, self.userName, self.first, self.last, self.facebookAccessToken, [super description]];
+}
+
 -(void)dealloc
 {
 	self.email = nil;
 	self.userName = nil;
 	self.first = nil;
 	self.last = nil;
+    self.facebookAccessToken = nil;
 	[super dealloc];
 }
 
@@ -78,6 +80,8 @@
 @synthesize last;
 @synthesize email;
 @synthesize userName;
+//@synthesize facebookAuthorized;
+@synthesize facebookAccessToken;
 
 @end
 

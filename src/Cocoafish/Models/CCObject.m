@@ -46,6 +46,13 @@
 	return self;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"id: %@\n\tcreatedAt: %@\n\tupdatedAt: %@", 
+                self.objectId,
+                [self.createdAt description],
+                [self.updatedAt description]];
+}
+
 -(void)dealloc
 {
 	self.createdAt = nil;

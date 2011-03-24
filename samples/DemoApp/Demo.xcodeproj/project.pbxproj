@@ -687,14 +687,13 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/../cocoafish-ios-sdk\"",
 					"\"$(SRCROOT)/../../src\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Demo_Prefix.pch;
-				HEADER_SEARCH_PATHS = "${PROJECT_DIR}/../..//src/build/${BUILD_STYLE}-${PLATFORM_NAME}/usr/local/include";
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "Demo-Info.plist";
 				PRODUCT_NAME = Demo;
 			};
@@ -713,7 +712,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Demo_Prefix.pch;
-				HEADER_SEARCH_PATHS = "${PROJECT_DIR}/../Cocoafish-ios-sdk/build/${BUILD_STYLE}-${PLATFORM_NAME}/usr/local/include";
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "Demo-Info.plist";
 				PRODUCT_NAME = Demo;
 				VALIDATE_PRODUCT = YES;

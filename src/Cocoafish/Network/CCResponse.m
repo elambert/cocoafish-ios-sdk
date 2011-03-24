@@ -13,7 +13,6 @@
 
 @interface CCResponse()
 @property (nonatomic, readwrite, retain) CCMeta *meta;
-@property (nonatomic, readwrite, retain) CCPagination *pagination;
 @property (nonatomic, readwrite, retain) NSDictionary *response;
 @property (nonatomic, readwrite, retain) NSArray *responses;
 
@@ -25,10 +24,15 @@
 @property (nonatomic, readwrite, retain) NSString *status;
 @property (nonatomic, readwrite, retain) NSString *message;
 @property (nonatomic, readwrite, retain) NSString *method;
+@property (nonatomic, readwrite, retain) NSNumber *totalResults;
+@property (nonatomic, readwrite, retain) NSNumber *totalPages;
+@property (nonatomic, readwrite, retain) NSNumber *page;
+@property (nonatomic, readwrite, retain) NSNumber *perPage;
+
+
 @end
 
 @implementation CCResponse
-@synthesize pagination = _pagination;
 @synthesize response = _response;
 @synthesize responses = _responses;
 @synthesize meta = _meta;
@@ -38,7 +42,6 @@
 	
 	if ((self = [super init])) {
 		self.response = [jsonResponse objectForKey:CC_JSON_RESPONSE];
-		self.pagination = [[[CCPagination alloc] initWithJsonResponse:jsonResponse] autorelease];
 		self.meta = [[[CCMeta alloc] initWithJsonResponse:jsonResponse] autorelease];
 		
 		// check if this is a compound response
@@ -79,9 +82,8 @@
 -(void)dealloc
 {
 	self.response = nil;
-	self.pagination = nil;
 	self.meta = nil;
-	self.responses = nil;
+	self.responses = nil;    
 
 	[super dealloc];
 	
@@ -119,6 +121,10 @@
 @synthesize message = _message;
 @synthesize code = _code;
 @synthesize method = _method;
+@synthesize totalResults = _totalResults;
+@synthesize totalPages = _totalPages;
+@synthesize perPage = _perPage;
+@synthesize page = _page;
 
 -(id)initWithJsonResponse:(NSDictionary *)jsonResponse
 {
@@ -134,8 +140,39 @@
 		NSString *tmpValue = [meta objectForKey:CC_JSON_META_CODE];
 		_code = tmpValue ? [tmpValue intValue] : 0;
 		self.status = [meta objectForKey:CC_JSON_META_STATUS];
+        
+		tmpValue = [meta objectForKey:CC_JSON_TOTAL_COUNT];
+		if (tmpValue) {
+            self.totalResults = [NSNumber numberWithInt:[tmpValue intValue]];
+        }
+		
+		tmpValue = [meta objectForKey:CC_JSON_TOTAL_PAGE];
+        if (tmpValue) {
+            self.totalPages = [NSNumber numberWithInt:[tmpValue intValue]];
+        }
+        
+		tmpValue = [meta objectForKey:CC_JSON_PER_PAGE_COUNT];
+		if (tmpValue) {
+            self.perPage = [NSNumber numberWithInt:[tmpValue intValue]];
+        }
+        
+		tmpValue = [meta objectForKey:CC_JSON_CUR_PAGE];
+        if (tmpValue) {
+            self.page = [NSNumber numberWithInt:[tmpValue intValue]];
+        }
 	}
 	return self;
+}
+
+-(NSString *)description
+{
+    if (self.totalResults != nil) {
+        return [NSString stringWithFormat:@"CCMeta:\n\tstatus: %@\n\tmessage: %@\n\tmethod: %@\n\tcode: %d\n\ttotalResults: %@\n\ttotalpages: %@\n\tpage: %@\n\tperPage: %@",
+                self.status, self.message, self.method, self.code, self.totalResults, self.totalPages, self.page, self.perPage];
+    } 
+    return [NSString stringWithFormat:@"CCMeta:\n\tstatus: %@\n\tmessage: %@\n\tmethod: %@\n\tcode: %d",
+            self.status, self.message, self.method, self.code];
+    
 }
 
 -(void)dealloc
@@ -143,40 +180,10 @@
 	self.message = nil;
 	self.status = nil;
 	self.method = nil;
+    self.totalResults = nil;
+    self.totalPages = nil;
+    self.perPage = nil;
+    self.page = nil;
 	[super dealloc];
 }
-@end
-
-@implementation CCPagination
-
-@synthesize totalCount = _totalCount;
-@synthesize totalPage = _totalPage;
-@synthesize perPageCount = _perPageCount;
-@synthesize curPage = _curPage;
-
--(id)initWithJsonResponse:(NSDictionary *)jsonResponse
-{
-	NSDictionary *pagination = [jsonResponse objectForKey:CC_JSON_PAGINATION];
-	if (pagination) {
-		self = [super init];
-	}
-	if (self) {
-		NSString *tmpValue;
-		tmpValue = [pagination objectForKey:CC_JSON_TOTAL_COUNT];
-		_totalCount = tmpValue ? [tmpValue intValue] : 0;
-		
-		tmpValue = [pagination objectForKey:CC_JSON_TOTAL_PAGE];
-		_totalPage = tmpValue ? [tmpValue intValue] : 0;
-		
-		tmpValue = [pagination objectForKey:CC_JSON_PER_PAGE_COUNT];
-		_perPageCount = tmpValue ? [tmpValue intValue] : 0;
-		
-		tmpValue = [pagination objectForKey:CC_JSON_CUR_PAGE];
-		_curPage = tmpValue ? [tmpValue intValue] : -1;
-		
-	}
-	return self;
-}
-
-
 @end

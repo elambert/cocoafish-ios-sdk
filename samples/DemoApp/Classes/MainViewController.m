@@ -38,8 +38,7 @@
 	if (ccNetworkManager == nil) {
 		ccNetworkManager = [[CCNetworkManager alloc] initWithDelegate:self];
 	}
-	[ccNetworkManager getPlacesNear:nil distance:30 page:CC_FIRST_PAGE perPage:CC_DEFAULT_PER_PAGE];
-//	[self getPlaces];
+	[ccNetworkManager searchPlaces:nil distance:nil page:CC_FIRST_PAGE perPage:CC_DEFAULT_PER_PAGE];
 	
 }
 
@@ -74,15 +73,7 @@
 
 -(IBAction)getPlaces 
 {
-	[ccNetworkManager getPlacesNear:nil distance:30 page:CC_FIRST_PAGE perPage:CC_DEFAULT_PER_PAGE];
-
-/*	@synchronized(self) {
-		if (processingRequest != nil) {
-			[processingRequest cancel];
-			self.processingRequest = nil;
-		}
-		self.processingRequest = [[Query defaultQuery] getPlaces:self];
-	}*/
+	[ccNetworkManager searchPlaces:nil distance:nil page:CC_FIRST_PAGE perPage:CC_DEFAULT_PER_PAGE];
 }
 
 -(IBAction)switchView {

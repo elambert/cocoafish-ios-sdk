@@ -20,12 +20,17 @@
 
 -(id)initWithJsonResponse:(NSDictionary *)jsonResponse
 {
-	if (self = [super initWithJsonResponse:jsonResponse]) {
+	if ((self = [super initWithJsonResponse:jsonResponse])) {
 		self.key = [jsonResponse objectForKey:CC_JSON_KEY];
 		self.value = [jsonResponse objectForKey:CC_JSON_VALUE];		
 	}
 	
 	return self;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"CCKeyValuePair\n\tkey: %@\n\tvalue: %@\n\t%@", 
+            self.key, self.value, [super description]];
 }
 
 -(void)dealloc

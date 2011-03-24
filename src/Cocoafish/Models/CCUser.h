@@ -14,14 +14,16 @@
 	NSString *_last;
 	NSString *_email;
 	NSString *_userName;
-	Boolean	_facebookAuthorized;
+//	Boolean	_facebookAuthorized;
+    NSString *_facebookAccessToken;
 }
 
 @property (nonatomic, retain, readonly) NSString *first;
 @property (nonatomic, retain, readonly) NSString *last;
 @property (nonatomic, retain, readonly) NSString *email;
 @property (nonatomic, retain, readonly) NSString *userName;
-@property (nonatomic, readonly) Boolean facebookAuthorized;
+//@property (nonatomic, readonly) Boolean facebookAuthorized;
+@property (nonatomic, retain, readonly) NSString *facebookAccessToken;
 
 -(id)initWithId:(NSString *)objectId first:(NSString *)first last:(NSString *)last email:(NSString *)email;
 
@@ -35,6 +37,8 @@
 @property (nonatomic, retain, readwrite) NSString *last;
 @property (nonatomic, retain, readwrite) NSString *email;
 @property (nonatomic, retain, readwrite) NSString *userName;
+//@property (nonatomic, readwrite) Boolean facebookAuthorized;
+@property (nonatomic, retain, readwrite) NSString *facebookAccessToken;
 
 @end
 

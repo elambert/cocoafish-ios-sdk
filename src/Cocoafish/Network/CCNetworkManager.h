@@ -20,6 +20,7 @@
 @class CCStatus;
 @class CCPhoto;
 @class CCKeyValuePair;
+@class CCObject;
 
 @protocol CCNetworkManagerDelegate;
 
@@ -36,35 +37,42 @@
 -(void)cancelAllRequests;
 -(NSError *)handleResponse:(CCResponse *)response;
 
+// Users
 -(void)registerUser:(CCUser *)user password:(NSString *)password;
 -(void)login:(NSString *)login password:(NSString *)password;
 -(void)logout;
 -(void)deleteCurrentUser;
-
 -(void)showCurrentUser;
 -(void)showUser:(NSString *)userId;
 
+// Checkins
 -(void)showCurrentUserCheckins:(int)page perPage:(int)perPage;
--(void)showUserCheckins:(CCUser *)user page:(int)page perPage:(int)perPage;
+-(void)showUserCheckins:(NSString *)userId page:(int)page perPage:(int)perPage;
 -(void)checkin:(CCPlace *)place message:(NSString *)message photoData:(NSData *)photoData contentType:(NSString *)contentType;
 -(void)getPlaceCheckins:(CCPlace *)place page:(int)page perPage:(int)perPage;
 
+// Statuses
 -(void)createUserStatus:(NSString *)status;
 -(void)showCurrentUserStatuses:(int)page perPage:(int)perPage;
 -(void)showUserStatuses:(CCUser *)user page:(int)page perPage:(int)perPage;
 -(void)createPlaceStatus:(NSString *)status place:(CCPlace *)place;
--(void)getPlaceStatuses:(CCPlace *)place page:(int)page perPage:(int)perPage;
 
+// Places
+-(void)deletePlace:(NSString *)placeId;
+-(void)createPlace:(CCPlace *)newPlace;
 -(void)showPlace:(NSString *)placeId;
--(void)getPlacesNear:(CLLocation *)location distance:(int)distance page:(int)page perPage:(int)perPage;
+-(void)searchPlaces:(CLLocation *)location distance:(NSNumber *)distance page:(int)page perPage:(int)perPage;
 //-(void)getPlacesInRegion:(MKCoordinateRegion)region;
--(void)uploadPlacePhoto:(CCPlace *)place photoData:(NSData *)photoData contentType:(NSString *)contentType;
--(void)getPlacePhotos:(CCPlace *)place page:(int)page perPage:(int)perPage;
--(void)getPhoto:(NSString *)photoId;
 
--(void)getPhotos:(NSArray *)photoIds;
+// Photos
+-(void)createPhoto:(CCObject *)object collectionName:(NSString *)collectionName photoData:(NSData *)photoData contentType:(NSString *)contentType;
+-(void)searchPhotos:(CCObject *)object collectionName:(NSString *)collectionName page:(int)page perPage:(int)perPage;
+-(void)showPhoto:(NSString *)photoId;
+-(void)getPhotosByIds:(NSArray *)photoIds;
+-(void)deletePhoto:(NSString *)photoId;
 
--(void)storeValueForKey:(NSString *)key value:(NSString *)value;
+// Key Value Pairs
+-(void)setValueForKey:(NSString *)key value:(NSString *)value;
 -(void)getValueForKey:(NSString *)value;
 
 -(Boolean)downloadPhoto:(id)sender photo:(CCPhoto *)photo size:(int)size;
@@ -78,23 +86,38 @@
 @protocol CCNetworkManagerDelegate <NSObject>
 
 @optional
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetPlaces:(NSArray *)places;
+// Users
 -(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didLogin:(CCUser *)user;
 -(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetUser:(CCUser *)user;
 -(void)didLogout:(CCNetworkManager *)networkManager response:(CCResponse *)response ;
 -(void)didDeleteCurrentUser:(CCNetworkManager *)networkManager response:(CCResponse *)response ;
 -(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response  didRegisterUser:(CCUser *)user;
+
+// Checkins
 -(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didCheckin:(CCCheckin *)checkin;
 -(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetCheckins:(NSArray *)checkins;
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didSucceedWithCompound:(NSArray *)responses;
+
+// Places
+-(void)didDeletePlace:(CCNetworkManager *)networkManager response:(CCResponse *)response;
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetPlaces:(NSArray *)places;
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didCreatePlace:(CCPlace *)place;
+
+// status
 -(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didCreateStatus:(CCStatus *)status;
 -(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetStatuses:(NSArray *)statuses;
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didUploadPhoto:(CCPhoto *)photo;
+
+// photos
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didCreatePhoto:(CCPhoto *)photo;
 -(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetPhotos:(NSArray *)photos;
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetPhoto:(CCPhoto *)photo;
--(void)didStoreValue:(CCNetworkManager *)networkManager response:(CCResponse *)response;
+-(void)didDeletePhoto:(CCNetworkManager *)networkManager response:(CCResponse *)response;
+
+// keyvalues
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didSetKeyValue:(CCKeyValuePair *)keyvalue;
 -(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetKeyValue:(CCKeyValuePair *)keyvalue;
--(void)networkManager:(CCNetworkManager *)networkManager didSucceedWithCompound:(CCResponse *)response;
+
+// compound
+-(void)networkManager:(CCNetworkManager *)networkManager didSucceedWithCompound:(NSArray *)responses;
+
 
 
 @required

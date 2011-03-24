@@ -27,23 +27,26 @@ NSString * const CC_JSON_META_MESSAGE = @"message";
 NSString * const CC_JSON_META_METHOD = @"method";
 NSString * const CC_JSON_META_METHOD_COMPOUND = @"compound";
 NSString * const CC_JSON_META_METHOD_GET_PLACES = @"searchPlaces";
-NSString * const CC_JSON_META_METHOD_SHOW_PLACE = @"showPlace";
+NSString * const CC_JSON_META_METHOD_SHOW_PLACES = @"showPlaces";
+NSString * const CC_JSON_META_METHOD_CREATE_PLACE = @"createPlace";
+NSString * const CC_JSON_META_METHOD_DELETE_PLACE = @"deletePlace";
 NSString * const CC_JSON_META_METHOD_REGISTER_USER = @"createUser";
 NSString * const CC_JSON_META_METHOD_LOGIN = @"loginUser";
 NSString * const CC_JSON_META_METHOD_LOGOUT = @"logoutUser";
 NSString * const CC_JSON_META_METHOD_DELETE_USER = @"deleteUser";
-NSString * const CC_JSON_META_METHOD_SHOW_USER = @"showUser";
-NSString * const CC_JSON_META_METHOD_SHOW_CURRENT_USER = @"showCurrentUser";
+NSString * const CC_JSON_META_METHOD_SHOW_USERS = @"showUsers";
+NSString * const CC_JSON_META_METHOD_SHOW_CURRENT_USER = @"showMe";
 NSString * const CC_JSON_META_METHOD_SHOW_CHECKINS_ME = @"showCheckinsMe";
 NSString * const CC_JSON_META_METHOD_SHOW_CHECKINS = @"searchCheckins";
 NSString * const CC_JSON_META_METHOD_CHECKIN_PLACE = @"createCheckin";
 NSString * const CC_JSON_META_METHOD_CREATE_STATUS = @"createStatus";
-NSString * const CC_JSON_META_METHOD_SHOW_STATUSES_ME = @"showStatuesesMe";
+NSString * const CC_JSON_META_METHOD_SHOW_STATUSES_ME = @"showStatusesMe";
 NSString * const CC_JSON_META_METHOD_SHOW_STATUSES = @"searchStatuses";
-NSString * const CC_JSON_META_METHOD_UPLOAD_PHOTO = @"uploadPhoto";
+NSString * const CC_JSON_META_METHOD_CREATE_PHOTO = @"createPhoto";
+NSString * const CC_JSON_META_METHOD_SEARCH_PHOTOS = @"searchPhotos";
 NSString * const CC_JSON_META_METHOD_SHOW_PHOTOS = @"showPhotos";
-NSString * const CC_JSON_META_METHOD_SHOW_PHOTO = @"showPhoto";
-NSString * const CC_JSON_META_METHOD_STORE_VALUE = @"storeValue";
+NSString * const CC_JSON_META_METHOD_STORE_VALUE = @"setKeyvalue";
+NSString * const CC_JSON_META_METHOD_RETRIEVE_VALUE = @"getKeyvalue";
 
 // response
 NSString * const CC_JSON_RESPONSE = @"response";
@@ -53,8 +56,8 @@ NSString * const CC_JSON_RESPONSES = @"responses";
 NSString * const CC_JSON_PAGINATION = @"pagination";
 NSString * const CC_JSON_TOTAL_PAGE = @"total_pages";
 NSString * const CC_JSON_TOTAL_COUNT = @"total_results";
-NSString * const CC_JSON_PER_PAGE_COUNT = @"page";
-NSString * const CC_JSON_CUR_PAGE = @"cur_page";
+NSString * const CC_JSON_PER_PAGE_COUNT = @"per_page";
+NSString * const CC_JSON_CUR_PAGE = @"page";
 
 // CCObject
 NSString * const CC_JSON_OBJECT_ID = @"id";
@@ -69,20 +72,23 @@ NSString * const CC_JSON_USERNAME = @"username";
 NSString * const CC_JSON_USER_FIRST = @"first_name";
 NSString * const CC_JSON_USER_LAST = @"last_name";
 NSString * const CC_JSON_USER_FACEBOOK_AUTHORIZED = @"facebook_authorized";
+NSString * const CC_JSON_USER_FACEBOOK_ACCESS_TOKEN = @"facebook_access_token";
 
 // CCPlace
 NSString * const CC_JSON_PLACE = @"place";
 NSString * const CC_JSON_PLACES = @"places";
 NSString * const CC_JSON_PLACE_NAME = @"name";
-NSString * const CC_JSON_PLACE_ADDRESS_1 = @"address_1";
-NSString * const CC_JSON_PLACE_ADDRESS_2 = @"address_2";
+NSString * const CC_JSON_PLACE_ADDRESS = @"address";
 NSString * const CC_JSON_PLACE_CROSS_STREET = @"cross_street";
 NSString * const CC_JSON_PLACE_CITY = @"city";
 NSString * const CC_JSON_PLACE_STATE = @"state";
+NSString * const CC_JSON_PLACE_POSTAL_CODE = @"postal_code";
 NSString * const CC_JSON_PLACE_COUNTRY = @"country";
 NSString * const CC_JSON_PHONE = @"phone";
-NSString * const CC_JSON_LATITUDE = @"lat";
-NSString * const CC_JSON_LONGITUDE = @"lng";
+NSString * const CC_JSON_WEBSITE = @"website";
+NSString * const CC_JSON_TWITTER = @"twitter";
+NSString * const CC_JSON_LATITUDE = @"latitude";
+NSString * const CC_JSON_LONGITUDE = @"longitude";
 
 // CCCheckin
 NSString * const CC_JSON_CHECKINS = @"checkins";
@@ -90,7 +96,6 @@ NSString * const CC_JSON_MESSAGE = @"message";
 
 // CCStatus
 NSString * const CC_JSON_STATUSES = @"statuses";
-NSString * const CC_JSON_STATUS = @"status";
 
 // CCPhoto
 NSString * const CC_JSON_PHOTO = @"photo";

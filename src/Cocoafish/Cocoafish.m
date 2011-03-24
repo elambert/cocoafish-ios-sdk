@@ -32,7 +32,7 @@ static Cocoafish *theDefaultCocoafish = nil;
 	if (appKey == nil || [appKey length] == 0) {
 		[NSException raise:@"Missing Cocoafish App Key" format:@"App Key is missing"];
 	}
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		_appKey = [appKey copy];
 		[self initCommon:customAppIds];
 	}
@@ -45,7 +45,7 @@ static Cocoafish *theDefaultCocoafish = nil;
 	if ([consumerKey length] == 0 || [consumerSecret length] == 0) {
 		[NSException raise:@"Missing Cocoafish Oauth Consumer Key and/or Consumer Secret" format:@"Oauth info is missing"];
 	}
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		_consumerKey = [consumerKey copy];
 		_consumerSecret = [consumerSecret copy];
 		[self initCommon:customAppIds];
@@ -56,8 +56,9 @@ static Cocoafish *theDefaultCocoafish = nil;
 
 -(void)initCommon:(NSDictionary *)customAppIds
 {
+    theDefaultCocoafish = self;
 	_downloadManager = [[CCDownloadManager alloc] init];
-	
+
 	// create Cocoafish dir if there is none
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES); 
 	NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
@@ -83,6 +84,11 @@ static Cocoafish *theDefaultCocoafish = nil;
 	_currentUser = [[[CCUser alloc] initWithId:[prefs stringForKey:@"cc_user_id"] first:[prefs stringForKey:@"cc_user_first_name"] last:[prefs stringForKey:@"cc_user_last_name"] email:[prefs stringForKey:@"cc_user_email"]] retain];
 	if (_currentUser) {
 		[self restoreUserSession];
+        if (_ccNetworkManager == nil) {
+            _ccNetworkManager = [[CCNetworkManager alloc] initWithDelegate:self];
+        }
+        [_ccNetworkManager showCurrentUser];
+        
 	}
 	
 }
@@ -163,8 +169,9 @@ static Cocoafish *theDefaultCocoafish = nil;
 
 -(void)unlinkFromFacebook:(NSError **)error
 {
-	CCNetworkManager *_ccNetworkManager = [[[CCNetworkManager alloc] init] autorelease];
-	[_ccNetworkManager unlinkFromFacebook:error];
+    CCNetworkManager *ccm = [[[CCNetworkManager alloc] init] autorelease];
+    
+	[ccm unlinkFromFacebook:error];
 }
 
 /**
@@ -173,14 +180,14 @@ static Cocoafish *theDefaultCocoafish = nil;
 - (void)fbDidLogin {
 	
 	// login with cocoafish
-	CCNetworkManager *_ccNetworkManager = [[[CCNetworkManager alloc] init] autorelease];
+	CCNetworkManager *ccm = [[[CCNetworkManager alloc] init] autorelease];
 	NSError *error = nil;
 	CCUser *user = nil;
 	if ([[Cocoafish defaultCocoafish] getCurrentUser] != nil) {
 		// This is for linking facebook with the existing user
-		user = [_ccNetworkManager linkWithFacebook:_facebookAppId  accessToken:_facebook.accessToken error:&error];
+		user = [ccm linkWithFacebook:_facebookAppId  accessToken:_facebook.accessToken error:&error];
 	} else {
-		user = [_ccNetworkManager loginWithFacebook:_facebookAppId  accessToken:_facebook.accessToken error:&error];
+		user = [ccm loginWithFacebook:_facebookAppId  accessToken:_facebook.accessToken error:&error];
 	}
 	if (user == nil) {
 		// Failed to register with the cocoafish server, logout from facebook
@@ -210,6 +217,21 @@ static Cocoafish *theDefaultCocoafish = nil;
 	// Logout has to go through cocoafish server
 }
 
+#pragma CCNetworkManager delegate
+-(void)networkManager:(CCNetworkManager *)networkManager didFailWithError:(NSError *)error
+{
+    [_ccNetworkManager release];
+    _ccNetworkManager = nil;
+    
+}
+
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetUser:(CCUser *)user
+{
+    // Update current user object
+    [[Cocoafish defaultCocoafish] setCurrentUser:user];
+    [_ccNetworkManager release];
+    _ccNetworkManager = nil;
+}
 
 #pragma mark -
 #pragma mark user Cookie
@@ -292,31 +314,38 @@ static Cocoafish *theDefaultCocoafish = nil;
 	[_consumerSecret release];
 	[_downloadManager release];
 	[_cocoafishDir release];
+    [_ccNetworkManager release];
 	[super dealloc];
 }
 
 +(void)initializeWithAppKey:(NSString *)appKey customAppIds:(NSDictionary *)customAppIds
 {
-	if (theDefaultCocoafish != nil) {
-		return;
-	}
-	theDefaultCocoafish = [[Cocoafish alloc] initWithAppKey:appKey customAppIds:customAppIds];
+    @synchronized(theDefaultCocoafish) {
+        if (theDefaultCocoafish != nil) {
+            return;
+        }
+        theDefaultCocoafish = [[Cocoafish alloc] initWithAppKey:appKey customAppIds:customAppIds];
+    }
 }
 
 +(void)initializeWithOauthConsumerKey:(NSString *)consumerKey consumerSecret:(NSString *)consumerSecret customAppIds:(NSDictionary *)customAppIds
 {
-	if (theDefaultCocoafish != nil) {
-		return;
-	}
-	theDefaultCocoafish = [[Cocoafish alloc] initWithOauthConsumerKey:consumerKey consumerSecret:consumerSecret customAppIds:customAppIds];
+    @synchronized(theDefaultCocoafish) {
+        if (theDefaultCocoafish != nil) {
+            return;
+        }
+        theDefaultCocoafish = [[Cocoafish alloc] initWithOauthConsumerKey:consumerKey consumerSecret:consumerSecret customAppIds:customAppIds];
+    }
 }
 
 +(Cocoafish *)defaultCocoafish
 {
-	if (theDefaultCocoafish == nil) {
-		[NSException raise:@"Uninitialized" format:@"Use [Cocoafish initializeWithAppId:customAppIds:] to initialize Cocoafish"];
-	}
-	return theDefaultCocoafish;
+    @synchronized(theDefaultCocoafish) {
+        if (theDefaultCocoafish == nil) {
+            [NSException raise:@"Uninitialized" format:@"Use [Cocoafish initializeWithAppId:customAppIds:] to initialize Cocoafish"];
+        }
+        return theDefaultCocoafish;
+    }
 }
 
 @end

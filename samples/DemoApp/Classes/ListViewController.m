@@ -82,7 +82,7 @@
     // Configure the cell...
 	CCPlace *place = [places objectAtIndex:indexPath.row];
     cell.textLabel.text = place.name;
-	cell.detailTextLabel.text = place.address1;
+	cell.detailTextLabel.text = place.address;
     return cell;
 }
 

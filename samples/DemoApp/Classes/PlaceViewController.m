@@ -271,6 +271,7 @@
 
 
 - (void)dealloc {
+    [_ccNetworkManager release];
     [super dealloc];
 }
 

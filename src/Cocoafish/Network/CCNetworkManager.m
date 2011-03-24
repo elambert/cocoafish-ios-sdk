@@ -46,7 +46,7 @@
 }
 
 -(id)init {
-	if (self = [super init]) {
+	if ((self = [super init])) {
 		// init the operation queue
 		_operationQueue = [[NSOperationQueue alloc] init];
 		_requestSet = [[NSMutableSet alloc] init];
@@ -72,6 +72,7 @@
 	@synchronized(self) {
 		[_requestSet addObject:newRequest];
 	}
+    [self retain];
 }
 
 -(void)removeFinishedRequest:(ASIHTTPRequest *)finishedRequest
@@ -79,6 +80,7 @@
 	@synchronized(self) {
 		[_requestSet removeObject:finishedRequest];
 	}
+    [self release];
 }
 
 -(void)cancelAllRequests
@@ -170,17 +172,6 @@
 
 #pragma mark -
 #pragma mark Cocoafish API calls
--(void)getPlacesNear:(CLLocation *)location distance:(int)distance page:(int)page perPage:(int)perPage
-{
-	NSString *additionalParams = [NSString stringWithFormat:@"page=%d&per_page=%d", page, perPage];
-
-	NSString *urlPath = [self generateFullRequestUrl:@"places/search.json" additionalParams:additionalParams];
-	
-	NSURL *url = [NSURL URLWithString:urlPath];
-	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
-		
-	[self performAsyncRequest:request];
-}
 
 /*-(void)getPlacesInRegion:(MKCoordinateRegion)region
 {
@@ -239,7 +230,8 @@
 {
 	NSString *urlPath = [self generateFullRequestUrl:@"social/facebook/unlink.json" additionalParams:nil];
 	NSURL *url = [NSURL URLWithString:urlPath];
-	ASIFormDataRequest *request = [[[ASIFormDataRequest alloc] initWithURL:url] autorelease];
+	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
+    [request setRequestMethod:@"DELETE"];
 	[self addOauthHeaderToRequest:request];
 	
 	[request startSynchronous];	
@@ -376,9 +368,9 @@
 	
 }
 
--(void)showUserCheckins:(CCUser *)user page:(int)page perPage:(int)perPage
+-(void)showUserCheckins:(NSString *)userId page:(int)page perPage:(int)perPage
 {
-	NSString *additionalParams = [NSString stringWithFormat:@"user_id=%@&page=%d&per_page=%d", user.objectId, page, perPage];
+	NSString *additionalParams = [NSString stringWithFormat:@"user_id=%@&page=%d&per_page=%d", userId, page, perPage];
 
 	NSString *urlPath = [self generateFullRequestUrl:@"checkins/search.json" additionalParams:additionalParams];
 
@@ -470,6 +462,71 @@
 
 }
 
+-(void)deletePlace:(NSString *)placeId
+{
+    NSString *urlPath = [self generateFullRequestUrl:[NSString stringWithFormat:@"places/delete/%@.json", placeId] additionalParams:nil];
+	NSURL *url = [NSURL URLWithString:urlPath];
+	
+	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
+	
+	[request setRequestMethod:@"DELETE"];
+	[self performAsyncRequest:request];
+}
+
+-(void)createPlace:(CCPlace *)newPlace
+{
+    NSString *urlPath = [self generateFullRequestUrl:@"places/create.json" additionalParams:nil];
+    
+	NSURL *url = [NSURL URLWithString:urlPath];
+    ASIFormDataRequest *request = [[[ASIFormDataRequest alloc] initWithURL:url] autorelease];
+    if (newPlace.name) {
+        [request setPostValue:newPlace.name forKey:@"name"];
+    }
+    if (newPlace.address) {
+        [request setPostValue:newPlace.address forKey:@"address"];
+    }
+    if (newPlace.crossStreet) {
+        [request setPostValue:newPlace.crossStreet forKey:@"crossStreet"];
+    }
+    if (newPlace.city) {
+        [request setPostValue:newPlace.city forKey:@"city"];
+    }
+    if (newPlace.state) {
+        [request setPostValue:newPlace.state forKey:@"state"];
+    }
+    if (newPlace.country) {
+        [request setPostValue:newPlace.country forKey:@"country"];
+    }
+    if (newPlace.postalCode) {
+        [request setPostValue:newPlace.postalCode forKey:@"postal_code"];
+    }
+    if (newPlace.website) {
+        [request setPostValue:newPlace.website forKey:@"website"];
+    }
+    if (newPlace.twitter) {
+        [request setPostValue:newPlace.twitter forKey:@"twitter"];
+    }
+    if (newPlace.location) {
+        [request setPostValue:[NSString stringWithFormat:@"%f", newPlace.location.coordinate.latitude] forKey:@"latitude"];
+        [request setPostValue:[NSString stringWithFormat:@"%f", newPlace.location.coordinate.longitude] forKey:@"longitude"];
+    }
+
+    [self performAsyncRequest:request];
+
+}
+
+-(void)searchPlaces:(CLLocation *)location distance:(NSNumber *)distance page:(int)page perPage:(int)perPage
+{
+	NSString *additionalParams = [NSString stringWithFormat:@"page=%d&per_page=%d", page, perPage];
+    
+	NSString *urlPath = [self generateFullRequestUrl:@"places/search.json" additionalParams:additionalParams];
+	
+	NSURL *url = [NSURL URLWithString:urlPath];
+	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
+    
+	[self performAsyncRequest:request];
+}
+
 -(void)showPlace:(NSString *)placeId
 {	
 	NSString *urlPath = [self generateFullRequestUrl:[NSString stringWithFormat:@"places/show/%@.json", placeId] additionalParams:nil];
@@ -479,43 +536,60 @@
 	[self performAsyncRequest:request];
 }
 
--(void)getPlaceStatuses:(CCPlace *)place page:(int)page perPage:(int)perPage
+// currently object only supports CCUser and CCPlace
+-(void)createPhoto:(CCObject *)object collectionName:(NSString *)collectionName photoData:(NSData *)photoData contentType:(NSString *)contentType
 {
-	
-	NSString *additionalParams = [NSString stringWithFormat:@"page=%d&per_page=%d", page, perPage];
-	
-	NSString *urlPath = [self generateFullRequestUrl:[NSString stringWithFormat:@"places/%@/status.json", place.objectId] additionalParams:additionalParams];
-	NSURL *url = [NSURL URLWithString:urlPath];
-	
-	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
-	
-	[self performAsyncRequest:request];
+    NSString *additionalParams;
+    
+    if ([object isKindOfClass:[CCPlace class]]) {
+        additionalParams = [NSString stringWithFormat:@"place_id=%@", object.objectId];
+    } else if ([object isKindOfClass:[CCUser class]]) {
+        additionalParams = [NSString stringWithFormat:@"user_id=%@", object.objectId];
+    } else {
+        [NSException raise:@"Object type is not supported in uploadPhoto" format:@"unknow object type"];
+    }
 
-}
+    NSString *urlPath = [self generateFullRequestUrl:@"photos/create.json" additionalParams:nil];
 
--(void)uploadPlacePhoto:(CCPlace *)place photoData:(NSData *)photoData contentType:(NSString *)contentType
-{	
-	NSString *urlPath = [self generateFullRequestUrl:[NSString stringWithFormat:@"places/%@/photos.json", place.objectId] additionalParams:nil];
-	NSURL *url = [NSURL URLWithString:urlPath];
+    NSURL *url = [NSURL URLWithString:urlPath];
 	
 	ASIFormDataRequest *request = [[[ASIFormDataRequest alloc] initWithURL:url] autorelease];
 	//[request setFile:photoPath forKey:@"file"];	
-	[request setData:photoData withFileName:@"photo.jpg" andContentType:contentType forKey:@"photo"];
-
+	[request setData:photoData withFileName:@"photo.jpg" andContentType:contentType forKey:@"file"];
+    if ([collectionName length]>0) {
+        [request setPostValue:collectionName forKey:@"collectionName"];
+    }
+    if ([object isKindOfClass:[CCPlace class]]) {
+        [request setPostValue:object.objectId forKey:@"place_id"];
+    } else if ([object isKindOfClass:[CCUser class]]) {
+        [request setPostValue:object.objectId forKey:@"user_id"];
+    } else {
+        [NSException raise:@"Object type is not supported in uploadPhoto" format:@"unknow object type"];
+    }
 	[self performAsyncRequest:request];
-
 }
 
--(void)getPlacePhotos:(CCPlace *)place page:(int)page perPage:(int)perPage
+-(void)searchPhotos:(CCObject *)object collectionName:(NSString *)collectionName page:(int)page perPage:(int)perPage
 {
-	NSString *urlPath = [NSString stringWithFormat:@"%@/places/%@/photos.json?key=%@&page=%d&per_page=%d", CC_BACKEND_URL, place.objectId, [[Cocoafish defaultCocoafish] getAppKey], page, perPage];
+    NSString *additionalParams;
+    NSString *commonParams = [NSString stringWithFormat:@"page=%d&per_page=%d%@", page, perPage, [collectionName length]>0 ? [NSString stringWithFormat:@"&collection_name=%@", collectionName] : @""];
+    if ([object isKindOfClass:[CCPlace class]]) {
+        additionalParams = [NSString stringWithFormat:@"place_id=%@&%@", object.objectId, commonParams]; 
+    } else if ([object isKindOfClass:[CCUser class]]) {
+        additionalParams = [NSString stringWithFormat:@"user_id=%@&%@", object.objectId, commonParams]; 
+    } else {
+        [NSException raise:@"Object type is not supported in searchPhotos" format:@"unknow object type"];
+    }
+    
+    NSString *urlPath = [self generateFullRequestUrl:@"photos/search.json" additionalParams:additionalParams];
 	NSURL *url = [NSURL URLWithString:urlPath];
 	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
 	
 	[self performAsyncRequest:request];	
+
 }
 
--(void)getPhoto:(NSString *)photoId
+-(void)showPhoto:(NSString *)photoId
 {
 	NSString *urlPath = [self generateFullRequestUrl:[NSString stringWithFormat:@"photos/show/%@.json", photoId] additionalParams:nil];
 	NSURL *url = [NSURL URLWithString:urlPath];
@@ -524,7 +598,19 @@
 	[self performAsyncRequest:request];	
 }
 
--(void)getPhotos:(NSArray *)photoIds
+-(void)deletePhoto:(NSString *)photoId
+{
+    NSString *urlPath = [self generateFullRequestUrl:[NSString stringWithFormat:@"photos/delete/%@.json", photoId] additionalParams:nil];
+	NSURL *url = [NSURL URLWithString:urlPath];
+	
+	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
+	
+	[request setRequestMethod:@"DELETE"];
+	[self performAsyncRequest:request];
+}
+
+// Get a list of photos by their ids
+-(void)getPhotosByIds:(NSArray *)photoIds
 {
 	if ([photoIds count] == 0) {
 		return;
@@ -553,13 +639,16 @@
 	[self performAsyncRequest:request];	
 }
 
--(void)storeValueForKey:(NSString *)key value:(NSString *)value
+-(void)setValueForKey:(NSString *)key value:(NSString *)value
 {
-	NSString *urlPath = [NSString stringWithFormat:@"%@/keyvalues.json?key=%@", CC_BACKEND_URL, [[Cocoafish defaultCocoafish] getAppKey]];
+    NSString *additionalParams = [NSString stringWithFormat:@"name=%@&value=%@", key, value];
+
+    NSString *urlPath = [self generateFullRequestUrl:@"keyvalues/set.json" additionalParams:additionalParams];
+
 	NSURL *url = [NSURL URLWithString:urlPath];
 	
-	ASIFormDataRequest *request = [[[ASIFormDataRequest alloc] initWithURL:url] autorelease];
-	[request setPostValue:value forKey:@"value"];	
+	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
+    [request setRequestMethod:@"PUT"];
 	
 	[self performAsyncRequest:request];
 }
@@ -569,7 +658,7 @@
 	
 	NSString *additionalParams = [NSString stringWithFormat:@"name=%@", key];
 	
-	NSString *urlPath = [self generateFullRequestUrl:@"keyvalues.json" additionalParams:additionalParams];
+	NSString *urlPath = [self generateFullRequestUrl:@"keyvalues/get.json" additionalParams:additionalParams];
 
 	NSURL *url = [NSURL URLWithString:urlPath];
 	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
@@ -612,7 +701,7 @@
 	if ([response.meta.status isEqualToString:CC_JSON_META_METHOD_COMPOUND]) {
 		if (response && [response.meta.status isEqualToString:CC_STATUS_OK]) {
 			if ([_delegate respondsToSelector:@selector(networkManager:didSucceedWithCompound:)]) {
-				[_delegate networkManager:self didSucceedWithCompound:response];
+				[_delegate networkManager:self didSucceedWithCompound:response.responses];
 			}
 
 			/*for (CCResponse *rp in response.responses) {
@@ -637,11 +726,12 @@
 	if (response && [response.meta.status isEqualToString:CC_STATUS_OK]) {
 
 		if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_GET_PLACES] ||
-			 [response.meta.method isEqualToString:CC_JSON_META_METHOD_SHOW_PLACE]) {
+			 [response.meta.method isEqualToString:CC_JSON_META_METHOD_SHOW_PLACES]) {
 			NSArray *places = [CCResponse getArrayFromJsonResonse:response.response jsonTag:CC_JSON_PLACES class:[CCPlace class]];
-			if ([_delegate respondsToSelector:@selector(networkManager:response:didGetPlaces:)]) {
-				[_delegate networkManager:self response:response didGetPlaces:places];
-			}
+            if ([_delegate respondsToSelector:@selector(networkManager:response:didGetPlaces:)]) {
+                [_delegate networkManager:self response:response didGetPlaces:places];
+            }
+            
 		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_REGISTER_USER]) {
 			NSArray *users = [CCResponse getArrayFromJsonResonse:response.response jsonTag:CC_JSON_USERS class:[CCUser class]];
 			CCUser *currentUser = nil;
@@ -656,7 +746,17 @@
 			}
 			[[Cocoafish defaultCocoafish] setCurrentUser:currentUser];
 							  
-		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_LOGIN]) {
+		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_CREATE_PLACE]) {
+            NSArray *places = [CCResponse getArrayFromJsonResonse:response.response jsonTag:CC_JSON_PLACES class:[CCPlace class]];
+            CCPlace *place = [places objectAtIndex:0];
+            if ([_delegate respondsToSelector:@selector(networkManager:response:didCreatePlace:)]) {
+                [_delegate networkManager:self response:response didCreatePlace:place];
+            }
+        } else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_DELETE_PLACE]) {
+            if ([_delegate respondsToSelector:@selector(didDeletePlace:response:)]) {
+                [_delegate didDeletePlace:self response:response];
+            }
+        } else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_LOGIN]) {
 			NSArray *users = [CCResponse getArrayFromJsonResonse:response.response jsonTag:CC_JSON_USERS class:[CCUser class]];
 			CCUser *currentUser = nil;
 			if ([users count] == 1) {
@@ -669,7 +769,7 @@
 				[_delegate networkManager:self response:response didLogin:currentUser];
 			}
 			[[Cocoafish defaultCocoafish] setCurrentUser:currentUser];
-		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_SHOW_USER] ||
+		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_SHOW_USERS] ||
 				   [response.meta.method isEqualToString:CC_JSON_META_METHOD_SHOW_CURRENT_USER]) {
 			NSArray *users = [CCResponse getArrayFromJsonResonse:response.response jsonTag:CC_JSON_USERS class:[CCUser class]];
 			CCUser *user = nil;
@@ -720,36 +820,29 @@
 			if ([_delegate respondsToSelector:@selector(networkManager:response:didGetStatuses:)]) {
 				[_delegate networkManager:self response:response didGetStatuses:statuses];
 			}
-		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_UPLOAD_PHOTO]) {
+		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_CREATE_PHOTO]) {
 			NSArray *photos = [CCResponse getArrayFromJsonResonse:response.response jsonTag:CC_JSON_PHOTOS class:[CCPhoto class]];
 			CCPhoto *photo = nil;
 			if ([photos count] == 1) {
 				photo = [photos objectAtIndex:0];
 			}
-			if ([_delegate respondsToSelector:@selector(networkManager:response:didUploadPhoto:)]) {
-				[_delegate networkManager:self response:response didUploadPhoto:photo];
+			if ([_delegate respondsToSelector:@selector(networkManager:response:didCreatePhoto:)]) {
+				[_delegate networkManager:self response:response didCreatePhoto:photo];
 			}
 			
-		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_SHOW_PHOTOS]) {
+		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_SHOW_PHOTOS] ||
+                   [response.meta.method isEqualToString:CC_JSON_META_METHOD_SEARCH_PHOTOS]) {
 			NSArray *photos = [CCResponse getArrayFromJsonResonse:response.response jsonTag:CC_JSON_PHOTOS class:[CCPhoto class]];
 			if ([_delegate respondsToSelector:@selector(networkManager:response:didGetPhotos:)]) {
 				[_delegate networkManager:self response:response didGetPhotos:photos];
 			}
-		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_SHOW_PHOTO]) {
-			NSArray *photos = [CCResponse getArrayFromJsonResonse:response.response jsonTag:CC_JSON_PHOTOS class:[CCPhoto class]];
-			CCPhoto *photo = nil;
-			if ([photos count] == 1) {
-				photo = [photos objectAtIndex:0];
-			}
-			if ([_delegate respondsToSelector:@selector(networkManager:response:didGetPhoto:)]) {
-				[_delegate networkManager:self response:response didGetPhoto:photo];
-			}
-			
 		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_STORE_VALUE]) {
-			if ([_delegate respondsToSelector:@selector(didStoreValue:response:)]) {
-				[_delegate didStoreValue:self response:response];
+			NSArray *keyvalues = [CCResponse getArrayFromJsonResonse:response.response jsonTag:CC_JSON_KEY_VALUES class:[CCKeyValuePair class]];
+            CCKeyValuePair *keyvalue = [keyvalues objectAtIndex:0];
+            if ([_delegate respondsToSelector:@selector(networkManager:response:didSetKeyValue:)]) {
+				[_delegate networkManager:self response:response didSetKeyValue:keyvalue];
 			}
-		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_STORE_VALUE]) {
+		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_RETRIEVE_VALUE]) {
 			NSArray *keyvalues = [CCResponse getArrayFromJsonResonse:response.response jsonTag:CC_JSON_KEY_VALUES class:[CCKeyValuePair class]];
 			CCKeyValuePair *keyvalue = nil;
 			if ([keyvalues count] == 1) {

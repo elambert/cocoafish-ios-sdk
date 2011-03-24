@@ -25,13 +25,15 @@ extern NSString * const CC_JSON_META_MESSAGE;
 // meta method tags
 extern NSString * const CC_JSON_META_METHOD;
 extern NSString * const CC_JSON_META_METHOD_COMPOUND;
+extern NSString * const CC_JSON_META_METHOD_CREATE_PLACE;
+extern NSString * const CC_JSON_META_METHOD_DELETE_PLACE;
 extern NSString * const CC_JSON_META_METHOD_GET_PLACES;
-extern NSString * const CC_JSON_META_METHOD_SHOW_PLACE;
+extern NSString * const CC_JSON_META_METHOD_SHOW_PLACES;
 extern NSString * const CC_JSON_META_METHOD_REGISTER_USER;
 extern NSString * const CC_JSON_META_METHOD_LOGIN;
 extern NSString * const CC_JSON_META_METHOD_LOGOUT;
 extern NSString * const CC_JSON_META_METHOD_DELETE_USER;
-extern NSString * const CC_JSON_META_METHOD_SHOW_USER;
+extern NSString * const CC_JSON_META_METHOD_SHOW_USERS;
 extern NSString * const CC_JSON_META_METHOD_SHOW_CURRENT_USER;
 extern NSString * const CC_JSON_META_METHOD_SHOW_CHECKINS_ME;
 extern NSString * const CC_JSON_META_METHOD_SHOW_CHECKINS;
@@ -39,9 +41,9 @@ extern NSString * const CC_JSON_META_METHOD_CHECKIN_PLACE;
 extern NSString * const CC_JSON_META_METHOD_CREATE_STATUS;
 extern NSString * const CC_JSON_META_METHOD_SHOW_STATUSES_ME;
 extern NSString * const CC_JSON_META_METHOD_SHOW_STATUSES;
-extern NSString * const CC_JSON_META_METHOD_UPLOAD_PHOTO;
+extern NSString * const CC_JSON_META_METHOD_CREATE_PHOTO;
+extern NSString * const CC_JSON_META_METHOD_SEARCH_PHOTOS;
 extern NSString * const CC_JSON_META_METHOD_SHOW_PHOTOS;
-extern NSString * const CC_JSON_META_METHOD_SHOW_PHOTO;
 extern NSString * const CC_JSON_META_METHOD_STORE_VALUE;
 extern NSString * const CC_JSON_META_METHOD_RETRIEVE_VALUE;
 
@@ -69,18 +71,21 @@ extern NSString * const CC_JSON_USERNAME;
 extern NSString * const CC_JSON_USER_FIRST;
 extern NSString * const CC_JSON_USER_LAST;
 extern NSString * const CC_JSON_USER_FACEBOOK_AUTHORIZED;
+extern NSString * const CC_JSON_USER_FACEBOOK_ACCESS_TOKEN;
 
 // CCPlace
 extern NSString * const CC_JSON_PLACE;
 extern NSString * const CC_JSON_PLACES;
 extern NSString * const CC_JSON_PLACE_NAME;
-extern NSString * const CC_JSON_PLACE_ADDRESS_1;
-extern NSString * const CC_JSON_PLACE_ADDRESS_2;
+extern NSString * const CC_JSON_PLACE_ADDRESS;
 extern NSString * const CC_JSON_PLACE_CROSS_STREET;
 extern NSString * const CC_JSON_PLACE_CITY;
 extern NSString * const CC_JSON_PLACE_STATE;
+extern NSString * const CC_JSON_PLACE_POSTAL_CODE;
 extern NSString * const CC_JSON_PLACE_COUNTRY;
 extern NSString * const CC_JSON_PHONE;
+extern NSString * const CC_JSON_WEBSITE;
+extern NSString * const CC_JSON_TWITTER;
 extern NSString * const CC_JSON_LATITUDE;
 extern NSString * const CC_JSON_LONGITUDE;
 
@@ -102,7 +107,6 @@ extern NSString * const CC_JSON_TAKEN_AT;
 
 // CCStatus
 extern NSString * const CC_JSON_STATUSES;
-extern NSString * const CC_JSON_STATUS;
 
 // CCNameValuePair
 extern NSString * const CC_JSON_KEY_VALUES;

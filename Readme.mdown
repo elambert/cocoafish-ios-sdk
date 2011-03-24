@@ -49,6 +49,8 @@ If you want to integrate Cocoafish with an existing application, then follow the
 
 * Add YAJL.framework to your project. There is a copy of YAJL.framework under cocoafish-ios-sdk/src. 
 
+* Add libz.1.2.3.dylib, SystemConfiguration.framework, MobileCoreServices.framework, CoreLocation.framework and CFNetwork.framework to your project.
+
 * Under Other Linker Flags in your target, add -ObjC and -all_load  
 
 * You should now be able to build and use all the Cocoafish apis.
@@ -74,5 +76,16 @@ If you want to use facebook integration:
 
 or
 	[Cocoafish initializeWithOauthConsumerKey:oauthConsumerKey consumerSecret:oauthConsumerSecret customAppIds:[NSDictionary dictionaryWithObject:facebookAppId forKey:@"Facebook"]];
+
+Then add:
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+	return [[Cocoafish defaultCocoafish] handleOpenURL:url];
+}
+
+to yourappDelegate.m
+
+Don't forget to edit your app-info.plist to add URL types for your facebook id. See facebook ios sdk for more information.
 
 With the Cocoafish IOS SDK, you can perform all the actions described in http://cocoafish.com/docs/gettingstarted

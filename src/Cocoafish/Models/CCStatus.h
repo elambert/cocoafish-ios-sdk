@@ -10,9 +10,9 @@
 
 @interface CCStatus : CCObject {
 
-	NSString *_status;
+	NSString *_message;
 }
 
-@property (nonatomic, retain, readonly) NSString *status;
+@property (nonatomic, retain, readonly) NSString *message;
 
 @end

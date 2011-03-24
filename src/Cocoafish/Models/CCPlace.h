@@ -11,26 +11,49 @@
 #import <CoreLocation/CoreLocation.h>
 
 @interface CCPlace : CCObject {
-	
+
+@protected
 	NSString *_name;
-	NSString *_address1;
-	NSString *_address2;
+	NSString *_address;
 	NSString *_crossStreet;
 	NSString *_city;
-	NSString *_state; // can be used as region or province for international address
+	NSString *_state; 
+    NSString *_PostalCode;
 	NSString *_country;
 	NSString *_phone;
+    NSString *_website;
+    NSString *_twitter;
 	CLLocation *_location;
 }
 
 @property (nonatomic, retain, readonly) NSString *name;
-@property (nonatomic, retain, readonly) NSString *address1;
-@property (nonatomic, retain, readonly) NSString *address2;
+@property (nonatomic, retain, readonly) NSString *address;
 @property (nonatomic, retain, readonly) NSString *crossStreet;
 @property (nonatomic, retain, readonly) NSString *city;
 @property (nonatomic, retain, readonly) NSString *state;
+@property (nonatomic, retain, readonly) NSString *postalCode;
 @property (nonatomic, retain, readonly) NSString *country;
 @property (nonatomic, retain, readonly) NSString *phone;
+@property (nonatomic, retain, readonly) NSString *website;
+@property (nonatomic, retain, readonly) NSString *twitter;
 @property (nonatomic, retain, readonly) CLLocation *location;
+
+@end
+
+@interface CCMutablePlace : CCPlace {
+
+}
+
+@property (nonatomic, retain, readwrite) NSString *name;
+@property (nonatomic, retain, readwrite) NSString *address;
+@property (nonatomic, retain, readwrite) NSString *crossStreet;
+@property (nonatomic, retain, readwrite) NSString *city;
+@property (nonatomic, retain, readwrite) NSString *state;
+@property (nonatomic, retain, readwrite) NSString *postalCode;
+@property (nonatomic, retain, readwrite) NSString *country;
+@property (nonatomic, retain, readwrite) NSString *phone;
+@property (nonatomic, retain, readwrite) NSString *website;
+@property (nonatomic, retain, readwrite) NSString *twitter;
+@property (nonatomic, retain, readwrite) CLLocation *location;
 
 @end
