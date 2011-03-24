@@ -8,7 +8,6 @@
 
 #import "PhotoAddViewController.h"
 #import "APIViewController.h"
-#import "APIsAppDelegate.h"
 #import "CocoaFishLibrary.h"
 
 // review photo image size
@@ -24,6 +23,7 @@
 @end
 
 @implementation PhotoAddViewController
+@synthesize object;
 
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 /*
@@ -68,6 +68,7 @@
 
 
 - (void)dealloc {
+    [object release];
     [super dealloc];
 }
 
@@ -186,7 +187,7 @@
     
     APIViewController *apiController = [[APIViewController alloc] initWithNibName:@"APIViewController" bundle:nil];  
     
-    [apiController.ccNetworkManager  createPhoto:((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPlace collectionName:collectionName.text photoData:photoData contentType:@"image/jpeg"];
+    [apiController.ccNetworkManager  createPhoto:object collectionName:collectionName.text photoData:photoData contentType:@"image/jpeg"];
     [self.navigationController pushViewController:apiController animated:YES];
     [apiController release];
     

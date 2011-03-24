@@ -2088,7 +2088,7 @@ static NSOperationQueue *sharedQueue = nil;
 
 	// Is the server response a challenge for credentials?
 	if ([self responseStatusCode] == 401) {
-		[self setAuthenticationNeeded:ASIHTTPAuthenticationNeeded];
+	// Commented by Cocoafish	[self setAuthenticationNeeded:ASIHTTPAuthenticationNeeded];
 	} else if ([self responseStatusCode] == 407) {
 		[self setAuthenticationNeeded:ASIProxyAuthenticationNeeded];
 	}

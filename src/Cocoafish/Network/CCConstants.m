@@ -44,9 +44,12 @@ NSString * const CC_JSON_META_METHOD_SHOW_STATUSES_ME = @"showStatusesMe";
 NSString * const CC_JSON_META_METHOD_SHOW_STATUSES = @"searchStatuses";
 NSString * const CC_JSON_META_METHOD_CREATE_PHOTO = @"createPhoto";
 NSString * const CC_JSON_META_METHOD_SEARCH_PHOTOS = @"searchPhotos";
+NSString * const CC_JSON_META_METHOD_DELETE_PHOTO = @"deletePhoto";
 NSString * const CC_JSON_META_METHOD_SHOW_PHOTOS = @"showPhotos";
-NSString * const CC_JSON_META_METHOD_STORE_VALUE = @"setKeyvalue";
-NSString * const CC_JSON_META_METHOD_RETRIEVE_VALUE = @"getKeyvalue";
+NSString * const CC_JSON_META_METHOD_SET_KEY_VALUE = @"setKeyvalue";
+NSString * const CC_JSON_META_METHOD_GET_KEY_VALUE = @"getKeyvalue";
+NSString * const CC_JSON_META_METHOD_APPEND_KEY_VALUE = @"appendKeyvalue";
+NSString * const CC_JSON_META_METHOD_DELETE_KEY_VALUE = @"deleteKeyvalue";
 
 // response
 NSString * const CC_JSON_RESPONSE = @"response";

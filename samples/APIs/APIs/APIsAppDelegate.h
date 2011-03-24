@@ -11,9 +11,11 @@
 
 @interface APIsAppDelegate : NSObject <UIApplicationDelegate> {
     CCPlace *_testPlace;
+    CCPhoto *_testPhoto;
 }
 
 @property (nonatomic, retain) CCPlace *testPlace;
+@property (nonatomic, retain) CCPhoto *testPhoto;
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 

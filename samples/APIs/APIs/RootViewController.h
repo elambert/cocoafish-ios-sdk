@@ -12,9 +12,9 @@
 
 typedef enum SECTIONS {
     USERS,
+    PLACES,
     STATUSES,
     KEY_VALUES,
-    PLACES,
     CHECKINS,
 //    MESSAGES,
     PHOTOS,
@@ -25,6 +25,7 @@ typedef enum SECTIONS {
     CCPlace *testPlace;
     NSIndexPath *lastIndexPath;
     CCNetworkManager *_ccNetworkManager;
+    CCPhoto *testPhoto;
 }
 
 

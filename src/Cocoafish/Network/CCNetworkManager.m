@@ -158,12 +158,12 @@
 	NSString *appKey = [[Cocoafish defaultCocoafish] getAppKey];
 	if ([appKey length] > 0) {
 		if (additionalParams) {
-			url = [NSString stringWithFormat:@"%@/%@?key=%@&%@", CC_BACKEND_URL, partialUrl, appKey, additionalParams];
+			url = [NSString stringWithFormat:@"%@/%@?key=%@&%@", CC_BACKEND_URL, partialUrl, appKey, [additionalParams stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 		} else {
 			url = [NSString stringWithFormat:@"%@/%@?key=%@", CC_BACKEND_URL, partialUrl, appKey];
 		}
 	} else if (additionalParams) {
-		url = [NSString stringWithFormat:@"%@/%@?%@", CC_BACKEND_URL, partialUrl, additionalParams];
+		url = [NSString stringWithFormat:@"%@/%@?%@", CC_BACKEND_URL, partialUrl, [additionalParams stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 	} else {
 		url = [NSString stringWithFormat:@"%@/%@", CC_BACKEND_URL, partialUrl];
 	}
@@ -557,7 +557,7 @@
 	//[request setFile:photoPath forKey:@"file"];	
 	[request setData:photoData withFileName:@"photo.jpg" andContentType:contentType forKey:@"file"];
     if ([collectionName length]>0) {
-        [request setPostValue:collectionName forKey:@"collectionName"];
+        [request setPostValue:collectionName forKey:@"collection_name"];
     }
     if ([object isKindOfClass:[CCPlace class]]) {
         [request setPostValue:object.objectId forKey:@"place_id"];
@@ -639,6 +639,30 @@
 	[self performAsyncRequest:request];	
 }
 
+
+-(Boolean)downloadPhoto:(id)sender photo:(CCPhoto *)photo size:(int)size
+{
+	NSString *urlPath = [photo getPhotoUrl:size];
+	if (photo == nil || urlPath == nil) {
+		return NO;
+	}
+	NSURL *url = [NSURL URLWithString:urlPath];
+	CCDownloadRequest *request = [[[CCDownloadRequest alloc] initWithURL:url object:photo size:[NSNumber numberWithInt:size]] autorelease];
+	[request setDownloadDestinationPath:[photo localPath:size]];
+    
+	request.timeOutSeconds = CC_TIMEOUT;
+	
+	// set callbacks
+	[request setDelegate:sender];
+	[request setDidFinishSelector:@selector(downloadDone:)];
+	[request setDidFailSelector:@selector(downloadFailed:)];
+	
+	[_operationQueue addOperation:request];
+	
+	[self addNewRequest:request];
+	return YES;
+}
+
 -(void)setValueForKey:(NSString *)key value:(NSString *)value
 {
     NSString *additionalParams = [NSString stringWithFormat:@"name=%@&value=%@", key, value];
@@ -667,28 +691,34 @@
 	
 }
 
--(Boolean)downloadPhoto:(id)sender photo:(CCPhoto *)photo size:(int)size
+-(void)appendValueForKey:(NSString *)key appendValue:(NSString *)appendValue
 {
-	NSString *urlPath = [photo getPhotoUrl:size];
-	if (photo == nil || urlPath == nil) {
-		return NO;
-	}
+    NSString *additionalParams = [NSString stringWithFormat:@"name=%@&value=%@", key, appendValue];
+    
+    NSString *urlPath = [self generateFullRequestUrl:@"keyvalues/append.json" additionalParams:additionalParams];
+    
 	NSURL *url = [NSURL URLWithString:urlPath];
-	CCDownloadRequest *request = [[[CCDownloadRequest alloc] initWithURL:url object:photo size:[NSNumber numberWithInt:size]] autorelease];
-	[request setDownloadDestinationPath:[photo localPath:size]];
-
-	request.timeOutSeconds = CC_TIMEOUT;
 	
-	// set callbacks
-	[request setDelegate:sender];
-	[request setDidFinishSelector:@selector(downloadDone:)];
-	[request setDidFailSelector:@selector(downloadFailed:)];
+	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
+    [request setRequestMethod:@"PUT"];
 	
-	[_operationQueue addOperation:request];
-	
-	[self addNewRequest:request];
-	return YES;
+	[self performAsyncRequest:request];
+    
 }
+
+-(void)deleteKeyValue:(NSString *)key
+{
+    NSString *additionalParams = [NSString stringWithFormat:@"name=%@", key];
+
+    NSString *urlPath = [self generateFullRequestUrl:@"keyvalues/delete.json" additionalParams:additionalParams];
+	NSURL *url = [NSURL URLWithString:urlPath];
+	
+	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
+	
+	[request setRequestMethod:@"DELETE"];
+	[self performAsyncRequest:request];
+}
+
 
 # pragma -
 # pragma mark Handle Server responses
@@ -836,22 +866,32 @@
 			if ([_delegate respondsToSelector:@selector(networkManager:response:didGetPhotos:)]) {
 				[_delegate networkManager:self response:response didGetPhotos:photos];
 			}
-		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_STORE_VALUE]) {
-			NSArray *keyvalues = [CCResponse getArrayFromJsonResonse:response.response jsonTag:CC_JSON_KEY_VALUES class:[CCKeyValuePair class]];
-            CCKeyValuePair *keyvalue = [keyvalues objectAtIndex:0];
-            if ([_delegate respondsToSelector:@selector(networkManager:response:didSetKeyValue:)]) {
-				[_delegate networkManager:self response:response didSetKeyValue:keyvalue];
+		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_DELETE_PHOTO]) { 
+			if ([_delegate respondsToSelector:@selector(deletePhoto:response:)]) {
+				[_delegate didDeletePhoto:self response:response];
 			}
-		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_RETRIEVE_VALUE]) {
+		} else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_SET_KEY_VALUE] ||
+                   [response.meta.method isEqualToString:CC_JSON_META_METHOD_GET_KEY_VALUE] ||
+                   [response.meta.method isEqualToString:CC_JSON_META_METHOD_APPEND_KEY_VALUE] ||
+                   [response.meta.method isEqualToString:CC_JSON_META_METHOD_DELETE_KEY_VALUE]) {
 			NSArray *keyvalues = [CCResponse getArrayFromJsonResonse:response.response jsonTag:CC_JSON_KEY_VALUES class:[CCKeyValuePair class]];
 			CCKeyValuePair *keyvalue = nil;
 			if ([keyvalues count] == 1) {
 				keyvalue = [keyvalues objectAtIndex:0];
 			}
-			if ([_delegate respondsToSelector:@selector(networkManager:response:didGetKeyValue:)]) {
-				[_delegate networkManager:self response:response didGetKeyValue:keyvalue];
-			}
-			
+            if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_GET_KEY_VALUE] && 
+                    [_delegate respondsToSelector:@selector(networkManager:response:didGetKeyValue:)]) {
+                [_delegate networkManager:self response:response didGetKeyValue:keyvalue];
+            } else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_SET_KEY_VALUE] &&
+                       [_delegate respondsToSelector:@selector(networkManager:response:didSetKeyValue:)]) {
+                [_delegate networkManager:self response:response didSetKeyValue:keyvalue];
+            } else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_APPEND_KEY_VALUE] &&
+                       [_delegate respondsToSelector:@selector(networkManager:response:didAppendKeyValue:)]) {
+                [_delegate networkManager:self response:response didAppendKeyValue:keyvalue];
+            } else if ([response.meta.method isEqualToString:CC_JSON_META_METHOD_DELETE_KEY_VALUE] &&
+                       [_delegate respondsToSelector:@selector(didDeleteKeyValue:response:)]) {
+                [_delegate didDeleteKeyValue:self response:response];
+            }
 		} else {
 			// Did find any match
 			NSLog(@"Do not know how to handle method %@", response.meta.method);

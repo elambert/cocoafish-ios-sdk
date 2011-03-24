@@ -101,6 +101,9 @@
 	}
 	NSMutableArray	*array;
 	NSArray *jsonArray = [jsonResponse objectForKey:jsonTag];
+    if (jsonArray == nil) {
+        return nil;
+    }
 	if (jsonArray && [jsonArray isKindOfClass:[NSArray class]]) {
 		array = [NSMutableArray arrayWithCapacity:[jsonArray count]];
 		for (NSDictionary *jsonObject in jsonArray) {

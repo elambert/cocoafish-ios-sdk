@@ -151,6 +151,17 @@
     body.text = [keyvalue description];
 }
 
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didAppendKeyValue:(CCKeyValuePair *)keyvalue
+{
+    [self showSuccessHeader:response];
+    body.text = [keyvalue description];
+}
+
+-(void)didDeleteKeyValue:(CCNetworkManager *)networkManager response:(CCResponse *)response
+{
+    [self showSuccessHeader:response];
+}
+
 #pragma mark - Checkins API Callbacks
 -(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetCheckins:(NSArray *)checkins
 {
@@ -168,6 +179,9 @@
 -(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didCreatePhoto:(CCPhoto *)photo
 {
     [self showSuccessHeader:response];
+    if (((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPhoto == nil) {
+        ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPhoto = photo;
+    }
     body.text = [photo description];
 }
 
@@ -175,5 +189,11 @@
 {
     [self showSuccessHeader:response];
     body.text = [self arrayDescription:photos];
+}
+
+-(void)didDeletePhoto:(CCNetworkManager *)networkManager response:(CCResponse *)response
+{
+    [self showSuccessHeader:response];
+    ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPhoto = nil;
 }
 @end

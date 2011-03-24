@@ -68,14 +68,16 @@
 -(void)createPhoto:(CCObject *)object collectionName:(NSString *)collectionName photoData:(NSData *)photoData contentType:(NSString *)contentType;
 -(void)searchPhotos:(CCObject *)object collectionName:(NSString *)collectionName page:(int)page perPage:(int)perPage;
 -(void)showPhoto:(NSString *)photoId;
--(void)getPhotosByIds:(NSArray *)photoIds;
 -(void)deletePhoto:(NSString *)photoId;
+-(void)getPhotosByIds:(NSArray *)photoIds;
+-(Boolean)downloadPhoto:(id)sender photo:(CCPhoto *)photo size:(int)size;
+
 
 // Key Value Pairs
 -(void)setValueForKey:(NSString *)key value:(NSString *)value;
 -(void)getValueForKey:(NSString *)value;
-
--(Boolean)downloadPhoto:(id)sender photo:(CCPhoto *)photo size:(int)size;
+-(void)appendValueForKey:(NSString *)key appendValue:(NSString *)appendValue;
+-(void)deleteKeyValue:(NSString *)key;
 
 // Used to login with cocoafish after a successful facebook login
 -(CCUser *)loginWithFacebook:(NSString *)fbAppId accessToken:(NSString *)accessToken error:(NSError **)error;
@@ -114,7 +116,8 @@
 // keyvalues
 -(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didSetKeyValue:(CCKeyValuePair *)keyvalue;
 -(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetKeyValue:(CCKeyValuePair *)keyvalue;
-
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didAppendKeyValue:(CCKeyValuePair *)keyvalue;
+-(void)didDeleteKeyValue:(CCNetworkManager *)networkManager response:(CCResponse *)response;
 // compound
 -(void)networkManager:(CCNetworkManager *)networkManager didSucceedWithCompound:(NSArray *)responses;
 

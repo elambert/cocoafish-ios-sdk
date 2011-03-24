@@ -44,8 +44,11 @@ extern NSString * const CC_JSON_META_METHOD_SHOW_STATUSES;
 extern NSString * const CC_JSON_META_METHOD_CREATE_PHOTO;
 extern NSString * const CC_JSON_META_METHOD_SEARCH_PHOTOS;
 extern NSString * const CC_JSON_META_METHOD_SHOW_PHOTOS;
-extern NSString * const CC_JSON_META_METHOD_STORE_VALUE;
-extern NSString * const CC_JSON_META_METHOD_RETRIEVE_VALUE;
+extern NSString * const CC_JSON_META_METHOD_DELETE_PHOTO;
+extern NSString * const CC_JSON_META_METHOD_SET_KEY_VALUE;
+extern NSString * const CC_JSON_META_METHOD_GET_KEY_VALUE;
+extern NSString * const CC_JSON_META_METHOD_APPEND_KEY_VALUE;
+extern NSString * const CC_JSON_META_METHOD_DELETE_KEY_VALUE;
 
 // response
 extern NSString * const CC_JSON_RESPONSE;

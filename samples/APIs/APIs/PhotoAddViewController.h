@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "TapDetectingImageView.h"
-
+@class CCObject;
 
 @interface PhotoAddViewController : UIViewController<UITextFieldDelegate, UINavigationControllerDelegate, TapDetectingImageViewDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate> {
     IBOutlet UITextField *collectionName;
@@ -16,7 +16,10 @@
 	NSData *photoData;
     IBOutlet UILabel *photoLabel;
 	IBOutlet UIButton *addButton;
+    CCObject *object; // either a ccuser or a ccplace to add the photo to
 }
+
+@property(nonatomic, retain) CCObject *object;
 
 -(IBAction)startAdd;
 @end
