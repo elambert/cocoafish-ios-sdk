@@ -72,6 +72,25 @@
             self.country, self.phone, self.website, self.twitter, [self.location description], [super description]];
 }
 
+-(CCMutablePlace *)mutableCopy
+{
+    CCMutablePlace *placeCopy = [[CCMutablePlace alloc] initWithId:self.objectId];
+    placeCopy.name = [self.name copy];
+    placeCopy.address = [self.address copy];
+    placeCopy.crossStreet = [self.address copy];
+    placeCopy.city = [self.city copy];
+    placeCopy.state = [self.state copy];
+    placeCopy.postalCode = [self.postalCode copy];
+    placeCopy.country = [self.country copy];
+    placeCopy.phone = [self.phone copy];
+    placeCopy.website = [self.website copy];
+    placeCopy.twitter = [self.twitter copy];
+    placeCopy.location = [self.location copy];
+                                 
+    return placeCopy;
+}
+
+
 -(void)dealloc
 {
 	self.name = nil;

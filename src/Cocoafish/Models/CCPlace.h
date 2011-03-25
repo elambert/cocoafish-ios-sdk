@@ -10,6 +10,8 @@
 #import "CCObject.h"
 #import <CoreLocation/CoreLocation.h>
 
+@class CCMutablePlace;
+
 @interface CCPlace : CCObject {
 
 @protected
@@ -37,6 +39,8 @@
 @property (nonatomic, retain, readonly) NSString *website;
 @property (nonatomic, retain, readonly) NSString *twitter;
 @property (nonatomic, retain, readonly) CLLocation *location;
+
+-(CCMutablePlace *)mutableCopy;
 
 @end
 

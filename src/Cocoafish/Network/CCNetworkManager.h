@@ -44,6 +44,7 @@
 -(void)deleteCurrentUser;
 -(void)showCurrentUser;
 -(void)showUser:(NSString *)userId;
+-(void)updateUser:(CCUser *)updatedUser;
 
 // Checkins
 -(void)showCurrentUserCheckins:(int)page perPage:(int)perPage;
@@ -62,6 +63,7 @@
 -(void)createPlace:(CCPlace *)newPlace;
 -(void)showPlace:(NSString *)placeId;
 -(void)searchPlaces:(CLLocation *)location distance:(NSNumber *)distance page:(int)page perPage:(int)perPage;
+-(void)updatePlace:(CCPlace *)place;
 //-(void)getPlacesInRegion:(MKCoordinateRegion)region;
 
 // Photos
@@ -94,7 +96,7 @@
 -(void)didLogout:(CCNetworkManager *)networkManager response:(CCResponse *)response ;
 -(void)didDeleteCurrentUser:(CCNetworkManager *)networkManager response:(CCResponse *)response ;
 -(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response  didRegisterUser:(CCUser *)user;
-
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didUpdateUser:(CCUser *)user;
 // Checkins
 -(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didCheckin:(CCCheckin *)checkin;
 -(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetCheckins:(NSArray *)checkins;
@@ -103,6 +105,7 @@
 -(void)didDeletePlace:(CCNetworkManager *)networkManager response:(CCResponse *)response;
 -(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetPlaces:(NSArray *)places;
 -(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didCreatePlace:(CCPlace *)place;
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didUpdatePlace:(CCPlace *)place;
 
 // status
 -(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didCreateStatus:(CCStatus *)status;

@@ -119,8 +119,21 @@
     ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPlace = nil;
     NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     [prefs removeObjectForKey:@"test_place_id"];
+}
 
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didUpdatePlace:(CCPlace *)place
+{
+    [self showSuccessHeader:response];
+    ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPlace = place;
+    body.text = [place description];
+    
+}
 
+#pragma mark - Users APIs callbacks
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didUpdateUser:(CCUser *)user
+{
+    [self showSuccessHeader:response];
+    body.text = [user description];
 }
 
 #pragma mark - Statues APIs callbacks

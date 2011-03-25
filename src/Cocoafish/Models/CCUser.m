@@ -48,8 +48,7 @@
 	if (objectId == nil || first == nil) {
 		return nil;
 	}
-	if ((self = [super init])) {
-		_objectId = [objectId retain];
+	if ((self = [super initWithId:objectId])) {
 		self.first = first;
 		self.last = last;
 		self.email = email;
@@ -60,6 +59,13 @@
 - (NSString *)description {
     return [NSString stringWithFormat:@"CCUser:\n\temail: %@\n\tuserName: %@\n\tfirst: %@\n\tlast: %@\n\tfacebookAccessToken :%@\n\t%@",
             self.email, self.userName, self.first, self.last, self.facebookAccessToken, [super description]];
+}
+
+-(CCMutableUser *)mutableCopy
+{
+    CCMutableUser *userCopy = [[[CCMutableUser alloc] initWithId:self.objectId first:self.first last:self.last email:self.email] autorelease];;
+    userCopy.userName = [self.userName copy];
+    return userCopy;
 }
 
 -(void)dealloc
@@ -80,8 +86,6 @@
 @synthesize last;
 @synthesize email;
 @synthesize userName;
-//@synthesize facebookAuthorized;
-@synthesize facebookAccessToken;
 
 @end
 

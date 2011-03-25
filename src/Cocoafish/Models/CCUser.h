@@ -8,6 +8,8 @@
 
 #import "CCObject.h"
 
+@class CCMutableUser;
+
 @interface CCUser : CCObject {
 
 	NSString *_first;
@@ -15,6 +17,7 @@
 	NSString *_email;
 	NSString *_userName;
 //	Boolean	_facebookAuthorized;
+@private
     NSString *_facebookAccessToken;
 }
 
@@ -26,6 +29,7 @@
 @property (nonatomic, retain, readonly) NSString *facebookAccessToken;
 
 -(id)initWithId:(NSString *)objectId first:(NSString *)first last:(NSString *)last email:(NSString *)email;
+-(CCMutableUser *)mutableCopy;
 
 @end
 
@@ -37,8 +41,6 @@
 @property (nonatomic, retain, readwrite) NSString *last;
 @property (nonatomic, retain, readwrite) NSString *email;
 @property (nonatomic, retain, readwrite) NSString *userName;
-//@property (nonatomic, readwrite) Boolean facebookAuthorized;
-@property (nonatomic, retain, readwrite) NSString *facebookAccessToken;
 
 @end
 

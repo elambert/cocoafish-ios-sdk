@@ -46,6 +46,20 @@
 	return self;
 }
 
+-(id)initWithId:(NSString *)objectId
+{
+    if (!objectId) {
+        return nil;
+    }
+    if ((self = [super init])) {
+        self.objectId = objectId;
+        self.updatedAt = [NSDate date];
+        self.createdAt = [NSDate date];
+    }
+    return self;
+    
+}
+
 - (NSString *)description {
     return [NSString stringWithFormat:@"id: %@\n\tcreatedAt: %@\n\tupdatedAt: %@", 
                 self.objectId,

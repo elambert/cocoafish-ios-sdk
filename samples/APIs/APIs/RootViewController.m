@@ -147,9 +147,9 @@
 {
     switch (section) {
         case USERS: 
-            return 3;
+            return 4;
         case PLACES:
-            return 3;
+            return 4;
         case CHECKINS:
             return 4;
         case STATUSES:
@@ -205,6 +205,8 @@
                 cell.textLabel.text = @"Show user profile";
             } else if (indexPath.row == 1) {
                 cell.textLabel.text = @"Show current user profile";
+            } else if (indexPath.row == 2) {
+                cell.textLabel.text = @"Update current user profile";
             } else {
                 if ([[Cocoafish defaultCocoafish] getCurrentUser].facebookAccessToken != nil) {
                     cell.textLabel.text = @"Unlink from Facebook";
@@ -222,12 +224,15 @@
                     cell.textLabel.text = @"Show the test place";
                     break;
                 case 2:
-                default:
                     if (testPlace) {
                         cell.textLabel.text = @"Delete the test place";
                     } else {
                         cell.textLabel.text = @"Create a test place";
                     }
+                    break;
+                case 3:
+                default:
+                    cell.textLabel.text = @"Update the test place";
                     break;
                 
             }
@@ -376,6 +381,17 @@
             } else if (indexPath.row == 1) {
                 // show current user profile
                 [controller.ccNetworkManager showCurrentUser];
+            } else if (indexPath.row == 2) {
+                // update user
+                prompt = [AlertPrompt alloc];
+                prompt = [prompt initWithTitle:@"Update User Email" message:@"Please enter your email" delegate:self cancelButtonTitle:@"Cancel" okButtonTitle:@"Okay" defaultInput:[[Cocoafish defaultCocoafish] getCurrentUser].email];
+                lastIndexPath = [indexPath copy];
+                [prompt show];
+                [prompt release];
+                [controller release];
+                [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+                return;
+
             } else {
                 if ([[Cocoafish defaultCocoafish] getFacebook] == nil) {
                     // check if a facebook id is provided
@@ -417,7 +433,6 @@
                     [controller.ccNetworkManager showPlace:testPlace.objectId];
                     break;
                 case 2:
-                default:
                     if (testPlace) {
                         // delete the test place
                         [controller.ccNetworkManager deletePlace:testPlace.objectId];
@@ -436,6 +451,22 @@
                         [controller.ccNetworkManager createPlace:newPlace];
                         
                     }
+                    break;
+                case 3:
+                default:
+                    // update the test place
+                    if (![self checkTestPlace]) {
+                        [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+                        return;
+                    }
+                    prompt = [AlertPrompt alloc];
+                    prompt = [prompt initWithTitle:@"Change Place Name" message:@"Please enter new place name" delegate:self cancelButtonTitle:@"Cancel" okButtonTitle:@"Okay" defaultInput:testPlace.name];
+                    lastIndexPath = [indexPath copy];
+                    [prompt show];
+                    [prompt release];
+                    [controller release];
+                    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+                    return;
                     break;
                     
             }
@@ -623,9 +654,13 @@
     {
         NSString *entered = [(AlertPrompt *)alertView enteredText];
         APIViewController *controller = [[APIViewController alloc] initWithNibName:@"APIViewController" bundle:nil];  
-        if (lastIndexPath.section == STATUSES) {
+        if (lastIndexPath.section == USERS) {
+            CCMutableUser *updatedUser = [[[Cocoafish defaultCocoafish] getCurrentUser] mutableCopy];
+            updatedUser.email = entered;
+            [controller.ccNetworkManager updateUser:updatedUser];
+        } else if (lastIndexPath.section == STATUSES) {
             [controller.ccNetworkManager createUserStatus:entered];
-        } else {
+        } else if (lastIndexPath.section == KEY_VALUES){
             if (lastIndexPath.row == 0) {
                 // set key value
                 [controller.ccNetworkManager setValueForKey:@"Test" value:entered];
@@ -633,6 +668,10 @@
                 // append key value
                 [controller.ccNetworkManager appendValueForKey:@"Test" appendValue:entered];
             }
+        } else {
+            CCMutablePlace *updatedPlace = [testPlace mutableCopy];
+            updatedPlace.name = entered;
+            [controller.ccNetworkManager updatePlace:updatedPlace];
         }
         [self.navigationController pushViewController:controller animated:YES];
         [controller release];

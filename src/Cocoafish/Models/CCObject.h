@@ -24,4 +24,6 @@
 
 -(id)initWithJsonResponse:(NSDictionary *)jsonResponse;
 
+-(id)initWithId:(NSString *)objectId;
+
 @end
