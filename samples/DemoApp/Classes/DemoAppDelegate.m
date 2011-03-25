@@ -32,8 +32,10 @@ static NSString * const facebookAppId = nil;
     
 	// Initialize Cocoafish
 	//[Cocoafish initializeWithAppKey:cocoafishAppKey customAppIds:[NSDictionary dictionaryWithObject:facebookAppId forKey:@"Facebook"]];
-	[Cocoafish initializeWithOauthConsumerKey:oauthConsumerKey consumerSecret:oauthConsumerSecret customAppIds:[NSDictionary dictionaryWithObject:facebookAppId forKey:@"Facebook"]];
+	//[Cocoafish initializeWithOauthConsumerKey:oauthConsumerKey consumerSecret:oauthConsumerSecret customAppIds:[NSDictionary dictionaryWithObject:facebookAppId forKey:@"Facebook"]];
 	
+    [Cocoafish initializeWithOauthConsumerKey:oauthConsumerKey consumerSecret:oauthConsumerSecret customAppIds:nil];
+    
 	 // Add the tab bar controller's view to the window and display.
     [window addSubview:tabBarController.view];
     [window makeKeyAndVisible];
