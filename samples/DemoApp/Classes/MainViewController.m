@@ -114,10 +114,10 @@
 
 #pragma mark -
 #pragma mark CCNetworkManager delegate methods
-- (void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetPlaces:(NSArray *)places
+- (void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGet:(NSArray *)objectArray pagination:(CCPagination *)pagination
 {
-	[mapViewController showPlaces:places];
-	[listViewController showPlaces:places];
+	[mapViewController showPlaces:objectArray];
+	[listViewController showPlaces:objectArray];
 }
 
 - (void)networkManager:(CCNetworkManager *)networkManager didFailWithError:(NSError *)error

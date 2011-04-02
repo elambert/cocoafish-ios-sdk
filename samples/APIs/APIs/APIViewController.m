@@ -18,6 +18,8 @@
 @implementation APIViewController
 
 @synthesize ccNetworkManager = _ccNetworkManager;
+@synthesize isDeletePlace;
+@synthesize isDeletePhoto;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -76,58 +78,53 @@
     header.text = [response.meta description];
 }
 
-#pragma mark - CCNetworkManager delegate
+#pragma mark - CCNetworkManager delegate on failure
 -(void)networkManager:(CCNetworkManager *)networkManager didFailWithError:(NSError *)error
 {
     statusLabel.text = @"Failed";
     header.text = [error localizedDescription];
 }
 
-#pragma mark - Users APIs callbacks
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetUser:(CCUser *)user
+#pragma mark - get callback
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGet:(NSArray *)objectArray pagination:(CCPagination *)pagination
 {
     [self showSuccessHeader:response];
-    body.text = [user description];
+    body.text = [self arrayDescription:objectArray ];
 }
 
--(void)didDeleteCurrentUser:(CCNetworkManager *)networkManager response:(CCResponse *)response
+
+#pragma mark - update callback
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didUpdate:(CCObject *)object
 {
     [self showSuccessHeader:response];
+    body.text = [object description];
 }
 
-#pragma mark - Places APIs callbacks
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetPlaces:(NSArray *)places
+#pragma mark - create callback
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didCreate:(CCObject *)object
 {
     [self showSuccessHeader:response];
-    body.text = [self arrayDescription:places];
+    body.text = [object description];
+    if ([object isKindOfClass:[CCPlace class]]) {
+        ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPlace = (CCPlace *)object;
+        NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+        [prefs setObject:object.objectId forKey:@"test_place_id"];
+    } else if ([object isKindOfClass:[CCPhoto class]] && ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPhoto == nil) {
+        ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPhoto = (CCPhoto *)object;
+    }
 }
 
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didCreatePlace:(CCPlace *)place
+#pragma mark - delete callback
+-(void)didDelete:(CCNetworkManager *)networkManager response:(CCResponse *)response
 {
     [self showSuccessHeader:response];
-
-    body.text = [place description];
-    ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPlace = place;
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    [prefs setObject:place.objectId forKey:@"test_place_id"];
+    if (isDeletePlace) {
+        ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPlace = nil;
+    } else if (isDeletePhoto) {
+        ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPhoto = nil;
+    }
 }
 
--(void)didDeletePlace:(CCNetworkManager *)networkManager response:(CCResponse *)response
-{
-    [self showSuccessHeader:response];
-
-    ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPlace = nil;
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    [prefs removeObjectForKey:@"test_place_id"];
-}
-
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didUpdatePlace:(CCPlace *)place
-{
-    [self showSuccessHeader:response];
-    ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPlace = place;
-    body.text = [place description];
-    
-}
 
 #pragma mark - Users APIs callbacks
 -(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didUpdateUser:(CCUser *)user
@@ -136,77 +133,4 @@
     body.text = [user description];
 }
 
-#pragma mark - Statues APIs callbacks
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didCreateStatus:(CCStatus *)status
-{
-    [self showSuccessHeader:response];
-
-    body.text = [status description];
-}
-
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetStatuses:(NSArray *)statuses
-{
-
-    [self showSuccessHeader:response];
-    body.text = [self arrayDescription:statuses];
-}
-
-#pragma mark - Key Value APIs callbacks
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didSetKeyValue:(CCKeyValuePair *)keyvalue
-{
-    [self showSuccessHeader:response];
-    body.text = [keyvalue description];
-}
-
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetKeyValue:(CCKeyValuePair *)keyvalue
-{
-    [self showSuccessHeader:response];
-    body.text = [keyvalue description];
-}
-
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didAppendKeyValue:(CCKeyValuePair *)keyvalue
-{
-    [self showSuccessHeader:response];
-    body.text = [keyvalue description];
-}
-
--(void)didDeleteKeyValue:(CCNetworkManager *)networkManager response:(CCResponse *)response
-{
-    [self showSuccessHeader:response];
-}
-
-#pragma mark - Checkins API Callbacks
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetCheckins:(NSArray *)checkins
-{
-    [self showSuccessHeader:response];
-    body.text = [self arrayDescription:checkins];
-}
-
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didCheckin:(CCCheckin *)checkin
-{
-    [self showSuccessHeader:response];
-    body.text = [checkin description];
-}
-
-#pragma mark - Photos API Callbacks
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didCreatePhoto:(CCPhoto *)photo
-{
-    [self showSuccessHeader:response];
-    if (((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPhoto == nil) {
-        ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPhoto = photo;
-    }
-    body.text = [photo description];
-}
-
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetPhotos:(NSArray *)photos
-{
-    [self showSuccessHeader:response];
-    body.text = [self arrayDescription:photos];
-}
-
--(void)didDeletePhoto:(CCNetworkManager *)networkManager response:(CCResponse *)response
-{
-    [self showSuccessHeader:response];
-    ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPhoto = nil;
-}
 @end

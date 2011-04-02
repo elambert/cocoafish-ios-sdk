@@ -12,6 +12,7 @@
 @class CCPlace;
 @class CCPhoto;
 @interface CCCheckin : CCObject {
+@private
 	CCUser *_user;
 	CCPlace *_place;
 	CCPhoto *_photo;

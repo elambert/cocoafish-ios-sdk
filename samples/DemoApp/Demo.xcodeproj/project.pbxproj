@@ -78,6 +78,7 @@
 		B6A1AA6B13248C8200D31CD3 /* TapDetectingImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A1AA6A13248C8200D31CD3 /* TapDetectingImageView.m */; };
 		B6CCC4AB12F77532006E33E7 /* FBConnect.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B6CCC4AA12F77532006E33E7 /* FBConnect.bundle */; };
 		B6CCC4BF12F7754B006E33E7 /* FBLoginButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B6CCC4BE12F7754B006E33E7 /* FBLoginButton.m */; };
+		B6D3036A1346B79F001259F3 /* CCEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = B6D303691346B79F001259F3 /* CCEvent.m */; };
 		B6E3001E126BEFC500B26837 /* PlaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6E3001C126BEFC500B26837 /* PlaceViewController.m */; };
 		B6E3001F126BEFC500B26837 /* PlaceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6E3001D126BEFC500B26837 /* PlaceViewController.xib */; };
 		B6F564CB12C7E45F00C60A9C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B6F564CA12C7E45F00C60A9C /* CFNetwork.framework */; };
@@ -217,6 +218,8 @@
 		B6CCC4AA12F77532006E33E7 /* FBConnect.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FBConnect.bundle; sourceTree = "<group>"; };
 		B6CCC4BD12F7754B006E33E7 /* FBLoginButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBLoginButton.h; sourceTree = "<group>"; };
 		B6CCC4BE12F7754B006E33E7 /* FBLoginButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBLoginButton.m; sourceTree = "<group>"; };
+		B6D303681346B79F001259F3 /* CCEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCEvent.h; sourceTree = "<group>"; };
+		B6D303691346B79F001259F3 /* CCEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCEvent.m; sourceTree = "<group>"; };
 		B6E3001B126BEFC500B26837 /* PlaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceViewController.h; sourceTree = "<group>"; };
 		B6E3001C126BEFC500B26837 /* PlaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceViewController.m; sourceTree = "<group>"; };
 		B6E3001D126BEFC500B26837 /* PlaceViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlaceViewController.xib; sourceTree = "<group>"; };
@@ -442,6 +445,8 @@
 		B67B68DD13341319001E4472 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B6D303681346B79F001259F3 /* CCEvent.h */,
+				B6D303691346B79F001259F3 /* CCEvent.m */,
 				B67B68DE13341319001E4472 /* CCCheckin.h */,
 				B67B68DF13341319001E4472 /* CCCheckin.m */,
 				B67B68E013341319001E4472 /* CCKeyValuePair.h */,
@@ -673,6 +678,7 @@
 				B67B693613341319001E4472 /* SBJsonParser.m in Sources */,
 				B67B693713341319001E4472 /* SBJsonWriter.m in Sources */,
 				B67B693A13341370001E4472 /* Reachability.m in Sources */,
+				B6D3036A1346B79F001259F3 /* CCEvent.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

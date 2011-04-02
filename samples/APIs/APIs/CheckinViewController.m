@@ -68,6 +68,7 @@
 
 
 - (void)dealloc {
+    [photoImage release];
     [super dealloc];
 }
 
@@ -111,10 +112,11 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {	
-	if (photoData) {
-		[photoData release];
-		photoData = nil;
-	}
+
+    if (photoImage) {
+        [photoImage release];
+        photoImage = nil;
+    }
 	
 	// get the image
 	UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
@@ -141,19 +143,11 @@
 	[picker dismissModalViewControllerAnimated:YES];
 }
 
--(void)preparePhoto:(UIImage *)photoImage
+-(void)preparePhoto:(UIImage *)image
 {		
-	if (photoData == nil) {
-		
-		// Resample the image for sending
-		NSLog(@"Start scale and rotate image from original size to %d", PHOTO_MAX_SIZE);
-		UIImage *image = scaleAndRotateImage(photoImage, PHOTO_MAX_SIZE);
-		NSLog(@"End scale and rotate image from original size to %d", PHOTO_MAX_SIZE);
-		
-		// convert to jpeg and save
-		photoData = [UIImageJPEGRepresentation(image, JPEG_COMPRESSION) retain];
-	}
-
+    if (photoImage == nil) {
+        photoImage = [[CCUploadImage alloc] initWithImage:image];
+    }
 }
 
 // Set up the image picker controller and add it to the view
@@ -186,7 +180,7 @@
     
     APIViewController *apiController = [[APIViewController alloc] initWithNibName:@"APIViewController" bundle:nil];  
     
-    [apiController.ccNetworkManager checkin:((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPlace message:msgView.text photoData:photoData contentType:@"image/jpeg"];
+    [apiController.ccNetworkManager createCheckin:((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPlace message:msgView.text image:photoImage];
     [self.navigationController pushViewController:apiController animated:YES];
     [apiController release];
 

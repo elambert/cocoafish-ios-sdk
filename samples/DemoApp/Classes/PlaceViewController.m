@@ -28,7 +28,7 @@
 	if (_ccNetworkManager == nil) {
 		_ccNetworkManager = [[CCNetworkManager alloc] initWithDelegate:self];
 	}
-	[_ccNetworkManager getPlaceCheckins:place page:CC_FIRST_PAGE perPage:CC_DEFAULT_PER_PAGE];
+	[_ccNetworkManager searchCheckins:place page:CC_FIRST_PAGE perPage:CC_DEFAULT_PER_PAGE];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handlePhotoDownloaded:) name:@"PhotoDownloadFinished" object:[Cocoafish defaultCocoafish]];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handlePhotoProcessed:) name:@"PhotosProcessed" object:[Cocoafish defaultCocoafish]];
@@ -66,13 +66,16 @@
 
 #pragma mark -
 #pragma mark CCNetworkManager Delegate Methods
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetCheckins:(NSArray *)checkins
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGet:(NSArray *)objectArray pagination:(CCPagination *)pagination
 {
-	@synchronized(self) {
-		self.placeCheckins = nil;
-		placeCheckins = [[NSMutableArray alloc] initWithArray:checkins];
-	}
- 	[self.tableView reloadData];
+    if ([objectArray count]> 1 && [[objectArray lastObject] isKindOfClass:[CCCheckin class]]) {
+
+        @synchronized(self) {
+            self.placeCheckins = nil;
+            placeCheckins = [[NSMutableArray alloc] initWithArray:objectArray];
+        }
+        [self.tableView reloadData];
+    }
 	
 }
 
@@ -85,13 +88,17 @@
 	[controller release];
 }
 
--(void)startCheckin:(CheckinViewController *)controller message:(NSString *)message photoData:(NSData *)photoData
+-(void)startCheckin:(CheckinViewController *)controller message:(NSString *)message image:(CCUploadImage *)image
 {
-	[_ccNetworkManager checkin:place message:message photoData:photoData contentType:@"image/jpeg"];
+	[_ccNetworkManager createCheckin:place message:message image:image];
 }
 
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didCheckin:(CCCheckin *)checkin
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didCreate:(CCObject *)object
 {
+    CCCheckin *checkin;
+    if ([object isKindOfClass:[CCCheckin class]]) {
+        checkin = (CCCheckin *)object;
+    }
 	if (checkin) {
 		@synchronized(self) {
 			[placeCheckins insertObject:checkin atIndex:0];

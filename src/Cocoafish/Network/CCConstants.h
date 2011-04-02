@@ -25,32 +25,6 @@ extern NSString * const CC_JSON_META_MESSAGE;
 // meta method tags
 extern NSString * const CC_JSON_META_METHOD;
 extern NSString * const CC_JSON_META_METHOD_COMPOUND;
-extern NSString * const CC_JSON_META_METHOD_CREATE_PLACE;
-extern NSString * const CC_JSON_META_METHOD_DELETE_PLACE;
-extern NSString * const CC_JSON_META_METHOD_GET_PLACES;
-extern NSString * const CC_JSON_META_METHOD_SHOW_PLACES;
-extern NSString * const CC_JSON_META_METHOD_UPDATE_PLACE;
-extern NSString * const CC_JSON_META_METHOD_REGISTER_USER;
-extern NSString * const CC_JSON_META_METHOD_LOGIN;
-extern NSString * const CC_JSON_META_METHOD_LOGOUT;
-extern NSString * const CC_JSON_META_METHOD_DELETE_USER;
-extern NSString * const CC_JSON_META_METHOD_SHOW_USERS;
-extern NSString * const CC_JSON_META_METHOD_SHOW_CURRENT_USER;
-extern NSString * const CC_JSON_META_METHOD_UPDATE_USER;
-//extern NSString * const CC_JSON_META_METHOD_SHOW_CHECKINS_ME;
-extern NSString * const CC_JSON_META_METHOD_SHOW_CHECKINS;
-extern NSString * const CC_JSON_META_METHOD_CHECKIN_PLACE;
-extern NSString * const CC_JSON_META_METHOD_CREATE_STATUS;
-//extern NSString * const CC_JSON_META_METHOD_SHOW_STATUSES_ME;
-extern NSString * const CC_JSON_META_METHOD_SHOW_STATUSES;
-extern NSString * const CC_JSON_META_METHOD_CREATE_PHOTO;
-extern NSString * const CC_JSON_META_METHOD_SEARCH_PHOTOS;
-extern NSString * const CC_JSON_META_METHOD_SHOW_PHOTOS;
-extern NSString * const CC_JSON_META_METHOD_DELETE_PHOTO;
-extern NSString * const CC_JSON_META_METHOD_SET_KEY_VALUE;
-extern NSString * const CC_JSON_META_METHOD_GET_KEY_VALUE;
-extern NSString * const CC_JSON_META_METHOD_APPEND_KEY_VALUE;
-extern NSString * const CC_JSON_META_METHOD_DELETE_KEY_VALUE;
 
 // response
 extern NSString * const CC_JSON_RESPONSE;

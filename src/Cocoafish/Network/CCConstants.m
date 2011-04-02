@@ -26,32 +26,6 @@ NSString * const CC_JSON_META_MESSAGE = @"message";
 // meta methods
 NSString * const CC_JSON_META_METHOD = @"method";
 NSString * const CC_JSON_META_METHOD_COMPOUND = @"compound";
-NSString * const CC_JSON_META_METHOD_GET_PLACES = @"searchPlaces";
-NSString * const CC_JSON_META_METHOD_SHOW_PLACES = @"showPlaces";
-NSString * const CC_JSON_META_METHOD_CREATE_PLACE = @"createPlace";
-NSString * const CC_JSON_META_METHOD_DELETE_PLACE = @"deletePlace";
-NSString * const CC_JSON_META_METHOD_UPDATE_PLACE = @"updatePlace";
-NSString * const CC_JSON_META_METHOD_REGISTER_USER = @"createUser";
-NSString * const CC_JSON_META_METHOD_LOGIN = @"loginUser";
-NSString * const CC_JSON_META_METHOD_LOGOUT = @"logoutUser";
-NSString * const CC_JSON_META_METHOD_DELETE_USER = @"deleteUser";
-NSString * const CC_JSON_META_METHOD_SHOW_USERS = @"showUsers";
-NSString * const CC_JSON_META_METHOD_SHOW_CURRENT_USER = @"showMe";
-NSString * const CC_JSON_META_METHOD_UPDATE_USER = @"updateUser";
-//NSString * const CC_JSON_META_METHOD_SHOW_CHECKINS_ME = @"showCheckinsMe";
-NSString * const CC_JSON_META_METHOD_SHOW_CHECKINS = @"searchCheckins";
-NSString * const CC_JSON_META_METHOD_CHECKIN_PLACE = @"createCheckin";
-NSString * const CC_JSON_META_METHOD_CREATE_STATUS = @"createStatus";
-//NSString * const CC_JSON_META_METHOD_SHOW_STATUSES_ME = @"showStatusesMe";
-NSString * const CC_JSON_META_METHOD_SHOW_STATUSES = @"searchStatuses";
-NSString * const CC_JSON_META_METHOD_CREATE_PHOTO = @"createPhoto";
-NSString * const CC_JSON_META_METHOD_SEARCH_PHOTOS = @"searchPhotos";
-NSString * const CC_JSON_META_METHOD_DELETE_PHOTO = @"deletePhoto";
-NSString * const CC_JSON_META_METHOD_SHOW_PHOTOS = @"showPhotos";
-NSString * const CC_JSON_META_METHOD_SET_KEY_VALUE = @"setKeyvalue";
-NSString * const CC_JSON_META_METHOD_GET_KEY_VALUE = @"getKeyvalue";
-NSString * const CC_JSON_META_METHOD_APPEND_KEY_VALUE = @"appendKeyvalue";
-NSString * const CC_JSON_META_METHOD_DELETE_KEY_VALUE = @"deleteKeyvalue";
 
 // response
 NSString * const CC_JSON_RESPONSE = @"response";

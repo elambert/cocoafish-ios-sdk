@@ -123,17 +123,19 @@
 -(void)getUserCheckins
 {
 //	if ([userCheckins count] == 0) {
-	[_ccNetworkManager showCurrentUserCheckins:CC_FIRST_PAGE perPage:CC_DEFAULT_PER_PAGE];
+	[_ccNetworkManager searchCheckins:[[Cocoafish defaultCocoafish] getCurrentUser] page:CC_FIRST_PAGE perPage:CC_DEFAULT_PER_PAGE];
 //	}
 }
 
 // successful 
-- (void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetCheckins:(NSArray *)checkins
+- (void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGet:(NSArray *)objectArray pagination:(CCPagination *)pagination
 {
-	@synchronized (self) {
-		userCheckins = [checkins retain];
-	}
-	[self.tableView reloadData];
+    if ([objectArray count]> 1 && [[objectArray lastObject] isKindOfClass:[CCCheckin class]]) {
+        @synchronized (self) {
+            userCheckins = [objectArray retain];
+        }
+        [self.tableView reloadData];
+    }
 	
 }
 
@@ -162,6 +164,18 @@
 // link with facebook account
 - (void)linkWithFacebook
 {	
+    if ([[Cocoafish defaultCocoafish] getFacebook] == nil) {
+        
+        UIAlertView *alert = [[UIAlertView alloc] 
+                              initWithTitle:@"Error" 
+                              message:@"Please initialize Cocoafish with a valid facebook id first!"
+                              delegate:self 
+                              cancelButtonTitle:@"Ok"
+                              otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+        return;
+    }
 	[[Cocoafish defaultCocoafish] facebookAuth:[NSArray arrayWithObjects:@"publish_stream", @"email", @"offline_access", nil] delegate:self];
 }
 

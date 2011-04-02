@@ -26,27 +26,36 @@
 
 @end
 
+@interface CCPagination : NSObject {
+@private
+    int _page;
+    int _perPage;
+    int _totalPages;
+    int _totalResults;
+}
+
+@property (nonatomic, readonly) int totalResults;
+@property (nonatomic, readonly) int totalPages;
+@property (nonatomic, readonly) int page;
+@property (nonatomic, readonly) int perPage;
+
+-(id)initWithJsonResponse:(NSDictionary *)jsonResponse;
+
+@end
 
 @interface CCMeta : NSObject {
 	NSString *_status;
 	NSInteger _code;
 	NSString *_message;
 	NSString *_method; // method name
-    NSNumber *_page;
-    NSNumber *_perPage;
-    NSNumber *_totalPages;
-    NSNumber *_totalResults;
-    
+    CCPagination *_pagination;
 }
 
 @property (nonatomic, readonly) NSInteger code;
 @property (nonatomic, retain, readonly) NSString *message;
 @property (nonatomic, retain, readonly) NSString *status;
 @property (nonatomic, retain, readonly) NSString *method;
-@property (nonatomic, retain, readonly) NSNumber *totalResults;
-@property (nonatomic, retain, readonly) NSNumber *totalPages;
-@property (nonatomic, retain, readonly) NSNumber *page;
-@property (nonatomic, retain, readonly) NSNumber *perPage;
+@property (nonatomic, retain, readonly) CCPagination *pagination;
 
 -(id)initWithJsonResponse:(NSDictionary *)jsonResponse;
 @end

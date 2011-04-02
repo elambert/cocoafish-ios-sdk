@@ -9,6 +9,8 @@
 #import "CCPhoto.h"
 #import "Cocoafish.h"
 #import "CCDownloadManager.h"
+#import "ASIFormDataRequest.h"
+#import "CocoaFishLibrary.h"
 
 @interface CCPhoto ()
 
@@ -133,4 +135,56 @@
 	return [[Cocoafish defaultCocoafish].downloadManager downloadPhoto:self size:photoSize];
 }
 
+@end
+
+
+#define DEFAULT_PHOTO_MAX_SIZE  0 // keep the original size
+#define DEFAULT_JPEG_COMPRESSION   0.5
+#define DEFAULT_PHOTO_FILE_NAME @"photo.jpg"
+#define DEFAULT_PHOTO_KEY   @"photo"
+
+@implementation CCUploadImage
+
+@synthesize request = _request;
+@synthesize didFinishSelector = _didFinishSelector;
+@synthesize maxPhotoSize = _maxPhotoSize;
+@synthesize jpegCompression = _jpegCompression;
+@synthesize photoFileName = _photoFileName;
+@synthesize photoKey = _photoKey;
+
+-(id)initWithImage:(UIImage *)image
+{
+    if (image == nil) {
+        return nil;
+    }
+    self = [super init];
+    if (self) {
+        _rawImage = [image retain];
+        _photoFileName = DEFAULT_PHOTO_FILE_NAME;
+        _photoKey = DEFAULT_PHOTO_KEY;
+        _maxPhotoSize = DEFAULT_PHOTO_MAX_SIZE;
+        _jpegCompression = DEFAULT_JPEG_COMPRESSION;
+        
+    }
+    return self;
+}
+-(void)processAndSetPhotoData
+{
+    UIImage *processedImage = scaleAndRotateImage(_rawImage, _maxPhotoSize);
+    
+    // convert to jpeg and save
+    NSData *photoData = [UIImageJPEGRepresentation(processedImage, _jpegCompression) retain];
+    [((ASIFormDataRequest *)_request) setData:photoData withFileName:_photoFileName andContentType:@"image/jpeg" forKey:_photoKey];
+    [photoData release];
+    
+}
+
+-(void)dealloc
+{
+    [_rawImage release];
+    [_request release];
+    [_photoFileName release];
+    [_photoKey release];
+    [super dealloc];
+}
 @end

@@ -14,9 +14,12 @@
     IBOutlet UITextView *header;
     IBOutlet UITextView *body;
     CCNetworkManager *_ccNetworkManager;
+    Boolean isDeletePlace;
+    Boolean isDeletePhoto;
 }
 
 @property (nonatomic, retain, readonly) CCNetworkManager *ccNetworkManager;
-
+@property (nonatomic) Boolean isDeletePlace;
+@property (nonatomic) Boolean isDeletePhoto;
 
 @end

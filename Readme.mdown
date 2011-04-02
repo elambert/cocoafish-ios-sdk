@@ -38,6 +38,10 @@ To build and run the sample application with Xcode (3.2):
 
 * Finally, select _Build_->_Build and Run_. This should compile the application and launch it.
 
+APIs Application
+----------------
+The APIs application under samples provides a list of api calls supported by sdk.
+
 Integrate With Your Own Application
 -----------------------------------
 

@@ -9,6 +9,7 @@
 #import "CCObject.h"
 
 @class UIImage;
+@class ASIHTTPRequest;
 typedef enum PhotoSize {
 	CC_SQUARE,
 	CC_THUMB,
@@ -45,4 +46,29 @@ typedef enum PhotoSize {
 -(UIImage *)getPhoto:(PhotoSize)photoSize;
 -(NSString *)localPath:(PhotoSize)photoSize;
 -(void)updateUrls:(NSDictionary *)urls;
+@end
+
+@interface CCUploadImage :  NSObject  {
+@private
+    UIImage *_rawImage;
+    int _maxPhotoSize;
+    double _jpegCompression;
+    
+    ASIHTTPRequest *_request;
+    SEL _didFinishSelector; // callback method once the request is finished
+    NSString *_photoFileName;
+    NSString *_photoKey;
+    
+}
+
+@property (nonatomic, retain) ASIHTTPRequest *request;
+@property (nonatomic) SEL didFinishSelector;
+@property (nonatomic) int maxPhotoSize;
+@property (nonatomic) double jpegCompression;
+@property (nonatomic,retain) NSString *photoFileName;
+@property (nonatomic, retain) NSString *photoKey;
+
+-(id)initWithImage:(UIImage *)image;
+-(void)processAndSetPhotoData;
+
 @end

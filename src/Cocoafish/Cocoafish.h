@@ -14,6 +14,7 @@
 #import "FBConnect.h"
 #import "CCPhoto.h"
 #import "CCKeyValuePair.h"
+#import "CCEvent.h"
 #import "CCResponse.h"
 
 @protocol CCFBSessionDelegate;

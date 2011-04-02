@@ -133,7 +133,7 @@
 }
 
 
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGetPhotos:(NSArray *)photos
+-(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGet:(NSArray *)photos pagination:(CCPagination *)pagination
 {
 	NSMutableDictionary *processedPhotos = [[[NSMutableDictionary alloc] init] autorelease];
 

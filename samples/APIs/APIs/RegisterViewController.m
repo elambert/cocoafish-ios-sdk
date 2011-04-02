@@ -321,11 +321,13 @@
 #pragma mark -
 #pragma mark CCNetworkManager Delegate methods
 /* Sucessful registration */
-- (void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didRegisterUser:(CCUser *)newUser
+- (void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didCreate:(CCObject *)object
 {
-	// Remove the modal view
-	[self dismissModalViewControllerAnimated:NO];
-	[delegate registerSucceeded];
+    if ([object isKindOfClass:[CCUser class]]) {
+        // Remove the modal view
+        [self dismissModalViewControllerAnimated:NO];
+        [delegate registerSucceeded];
+    }
 }
 
 

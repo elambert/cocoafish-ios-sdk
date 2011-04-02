@@ -73,7 +73,7 @@
 
 -(void)deleteAccount
 {
-    [_ccNetworkManager deleteCurrentUser];
+    [_ccNetworkManager deleteUser];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -151,9 +151,9 @@
         case PLACES:
             return 4;
         case CHECKINS:
-            return 4;
-        case STATUSES:
             return 3;
+        case STATUSES:
+            return 2;
      //   case MESSAGES:
       //      return 4;
         case PHOTOS:
@@ -246,11 +246,9 @@
                     cell.textLabel.text = @"List checkins of a place";
                     break;
                 case 2:
-                    cell.textLabel.text = @"List current user checkins";
-                    break;
-                case 3:
                 default:
-                    cell.textLabel.text = @"List checkins of a User";
+                    cell.textLabel.text = @"List a user's checkins";
+                    break;
                     break;
             }
             break;
@@ -260,11 +258,8 @@
                     cell.textLabel.text = @"Create Status";
                     break;
                 case 1:
-                    cell.textLabel.text = @"Show current user statuses";
-                    break;
-                case 2:
                 default:
-                    cell.textLabel.text = @"Show any user statuses";
+                    cell.textLabel.text = @"Show a user's statuses";
                     break;
             }
             break;
@@ -435,6 +430,7 @@
                 case 2:
                     if (testPlace) {
                         // delete the test place
+                        controller.isDeletePlace = YES;
                         [controller.ccNetworkManager deletePlace:testPlace.objectId];
                     } else {
                         // create a test place
@@ -492,16 +488,12 @@
                         return;
                     }
                     // get checkins of a place
-                    [controller.ccNetworkManager getPlaceCheckins:testPlace page:CC_FIRST_PAGE perPage:CC_DEFAULT_PER_PAGE];
+                    [controller.ccNetworkManager searchCheckins:testPlace page:CC_FIRST_PAGE perPage:CC_DEFAULT_PER_PAGE];
                     break;
                 case 2:
-                    // get current user's checkins
-                    [controller.ccNetworkManager showCurrentUserCheckins:CC_FIRST_PAGE perPage:CC_DEFAULT_PER_PAGE];
-                    break;
-                case 3:
                 default:
                     // show a user's checkins
-                    [controller.ccNetworkManager showUserCheckins:[[Cocoafish defaultCocoafish] getCurrentUser].objectId page:CC_FIRST_PAGE perPage:CC_DEFAULT_PER_PAGE];
+                     [controller.ccNetworkManager searchCheckins:[[Cocoafish defaultCocoafish] getCurrentUser] page:CC_FIRST_PAGE perPage:CC_DEFAULT_PER_PAGE];
                     break;
             }
             break;
@@ -521,13 +513,9 @@
 
                     break;
                 case 1:
-                    // get the logged in user's statuses
-                    [controller.ccNetworkManager showCurrentUserStatuses:CC_FIRST_PAGE perPage:CC_DEFAULT_PER_PAGE];
-                    break;
-                case 2:
                 default:
                     // get a user's statuses
-                    [controller.ccNetworkManager showUserStatuses:[[Cocoafish defaultCocoafish] getCurrentUser] page:CC_FIRST_PAGE perPage:CC_DEFAULT_PER_PAGE];
+                    [controller.ccNetworkManager searchUserStatuses:[[Cocoafish defaultCocoafish] getCurrentUser] page:CC_FIRST_PAGE perPage:CC_DEFAULT_PER_PAGE];
                     break;
             }
             break;
@@ -581,6 +569,7 @@
                         [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
                         return;
                     }
+                    controller.isDeletePhoto = YES;
                     [controller.ccNetworkManager deletePhoto:testPhoto.objectId];
                     break;
             }
@@ -686,7 +675,7 @@
 
 }
 
--(void)didDeletePlace:(CCNetworkManager *)networkManager response:(CCResponse *)response
+-(void)didDelete:(CCNetworkManager *)networkManager response:(CCResponse *)response
 {
 }
 
@@ -700,7 +689,7 @@
 	
 }
 
--(void)didDeleteCurrentUser:(CCNetworkManager *)networkManager response:(CCResponse *)response
+-(void)didDeleteUser:(CCNetworkManager *)networkManager response:(CCResponse *)response
 {
     // show login window
 	LoginViewController *loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];

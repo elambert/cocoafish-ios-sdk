@@ -82,6 +82,7 @@
 		B6042824133B1296008CEE69 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6042811133B1294008CEE69 /* RegisterViewController.m */; };
 		B6042825133B1296008CEE69 /* RegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6042812133B1295008CEE69 /* RegisterViewController.xib */; };
 		B6042826133B1296008CEE69 /* TapDetectingImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6042814133B1296008CEE69 /* TapDetectingImageView.m */; };
+		B6D302DC134664A3001259F3 /* CCEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = B6D302DB134664A3001259F3 /* CCEvent.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -226,6 +227,8 @@
 		B6042812133B1295008CEE69 /* RegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RegisterViewController.xib; sourceTree = "<group>"; };
 		B6042813133B1295008CEE69 /* TapDetectingImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TapDetectingImageView.h; sourceTree = "<group>"; };
 		B6042814133B1296008CEE69 /* TapDetectingImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TapDetectingImageView.m; sourceTree = "<group>"; };
+		B6D302DA134664A3001259F3 /* CCEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCEvent.h; sourceTree = "<group>"; };
+		B6D302DB134664A3001259F3 /* CCEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCEvent.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -408,6 +411,8 @@
 		B6042791133B120B008CEE69 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B6D302DA134664A3001259F3 /* CCEvent.h */,
+				B6D302DB134664A3001259F3 /* CCEvent.m */,
 				B6042792133B120B008CEE69 /* CCCheckin.h */,
 				B6042793133B120B008CEE69 /* CCCheckin.m */,
 				B6042794133B120B008CEE69 /* CCKeyValuePair.h */,
@@ -691,6 +696,7 @@
 				B6042822133B1296008CEE69 /* ProgressViewController.m in Sources */,
 				B6042824133B1296008CEE69 /* RegisterViewController.m in Sources */,
 				B6042826133B1296008CEE69 /* TapDetectingImageView.m in Sources */,
+				B6D302DC134664A3001259F3 /* CCEvent.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -887,6 +893,7 @@
 				B6042770133B1162008CEE69 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B6042771133B1162008CEE69 /* Build configuration list for PBXNativeTarget "APIsTests" */ = {
 			isa = XCConfigurationList;
@@ -895,6 +902,7 @@
 				B6042773133B1162008CEE69 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
