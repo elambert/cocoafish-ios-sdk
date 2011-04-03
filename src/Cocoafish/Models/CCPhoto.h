@@ -54,21 +54,22 @@ typedef enum PhotoSize {
     int _maxPhotoSize;
     double _jpegCompression;
     
-    ASIHTTPRequest *_request;
+    // the following are used by CCNetworkManager
     SEL _didFinishSelector; // callback method once the request is finished
+    NSString *_photoKey; 
+    ASIHTTPRequest *_request;
     NSString *_photoFileName;
-    NSString *_photoKey;
-    
 }
 
 @property (nonatomic, retain) ASIHTTPRequest *request;
 @property (nonatomic) SEL didFinishSelector;
-@property (nonatomic) int maxPhotoSize;
-@property (nonatomic) double jpegCompression;
+@property (nonatomic, readonly) int maxPhotoSize;
+@property (nonatomic, readonly) double jpegCompression;
 @property (nonatomic,retain) NSString *photoFileName;
 @property (nonatomic, retain) NSString *photoKey;
 
 -(id)initWithImage:(UIImage *)image;
+-(id)initWithImage:(UIImage *)image maxPhotoSize:(int)maxPhotoSize jpegCompression:(double)jpegCompression;
 -(void)processAndSetPhotoData;
 
 @end

@@ -69,7 +69,7 @@
 //-(void)getPlacesInRegion:(MKCoordinateRegion)region;
 
 // Photos
--(void)createPhoto:(CCObject *)object collectionName:(NSString *)collectionName image:(CCUploadImage *)image;
+-(void)createPhoto:(CCObject *)photoHost collectionName:(NSString *)collectionName image:(CCUploadImage *)image;
 -(void)searchPhotos:(CCObject *)photoHost collectionName:(NSString *)collectionName page:(int)page perPage:(int)perPage;
 -(void)showPhoto:(NSString *)photoId;
 -(void)deletePhoto:(NSString *)photoId;

@@ -639,7 +639,7 @@
 }
 
 // currently object only supports CCUser and CCPlace
--(void)createPhoto:(CCObject *)object collectionName:(NSString *)collectionName image:(CCUploadImage *)image
+-(void)createPhoto:(CCObject *)photoHost collectionName:(NSString *)collectionName image:(CCUploadImage *)image
 {
     NSString *urlPath = [self generateFullRequestUrl:@"photos/create.json" additionalParams:nil];
 
@@ -648,10 +648,10 @@
 	ASIFormDataRequest *request = [[[ASIFormDataRequest alloc] initWithURL:url] autorelease];
 	//[request setFile:photoPath forKey:@"file"];	
     
-    if ([object isKindOfClass:[CCPlace class]]) {
-        [request setPostValue:object.objectId forKey:@"place_id"];
-    } else if ([object isKindOfClass:[CCUser class]]) {
-        [request setPostValue:object.objectId forKey:@"user_id"];
+    if ([photoHost isKindOfClass:[CCPlace class]]) {
+        [request setPostValue:photoHost.objectId forKey:@"place_id"];
+    } else if ([photoHost isKindOfClass:[CCUser class]]) {
+        [request setPostValue:photoHost.objectId forKey:@"user_id"];
     } else {
         [NSException raise:@"Object type is not supported in uploadPhoto" format:@"unknow object type"];
     }
@@ -659,10 +659,10 @@
     if ([collectionName length]>0) {
         [request setPostValue:collectionName forKey:@"collection_name"];
     }
-    if ([object isKindOfClass:[CCPlace class]]) {
-        [request setPostValue:object.objectId forKey:@"place_id"];
-    } else if ([object isKindOfClass:[CCUser class]]) {
-        [request setPostValue:object.objectId forKey:@"user_id"];
+    if ([photoHost isKindOfClass:[CCPlace class]]) {
+        [request setPostValue:photoHost.objectId forKey:@"place_id"];
+    } else if ([photoHost isKindOfClass:[CCUser class]]) {
+        [request setPostValue:photoHost.objectId forKey:@"user_id"];
     } else {
         [NSException raise:@"Object type is not supported in uploadPhoto" format:@"unknow object type"];
     }

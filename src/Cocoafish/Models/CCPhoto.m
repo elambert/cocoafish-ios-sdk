@@ -139,7 +139,7 @@
 
 
 #define DEFAULT_PHOTO_MAX_SIZE  0 // keep the original size
-#define DEFAULT_JPEG_COMPRESSION   0.5
+#define DEFAULT_JPEG_COMPRESSION   1 // best quality
 #define DEFAULT_PHOTO_FILE_NAME @"photo.jpg"
 #define DEFAULT_PHOTO_KEY   @"photo"
 
@@ -168,6 +168,31 @@
     }
     return self;
 }
+
+-(id)initWithImage:(UIImage *)image maxPhotoSize:(int)maxPhotoSize jpegCompression:(double)jpegCompression
+{
+    if (image == nil) {
+        return nil;
+    }
+    if (jpegCompression <= 0 || jpegCompression > 1) {
+        [NSException raise:@"jpegCompression must be greater than zero and less or equal to 1" format:@"invalid parameter"];
+    }
+    if (maxPhotoSize <= 0) {
+        [NSException raise:@"maxPhotoSize must be greater than zero" format:@"invalid parameter"];
+    }
+    self = [super init];
+    if (self) {
+        _rawImage = [image retain];
+        _photoFileName = DEFAULT_PHOTO_FILE_NAME;
+        _photoKey = DEFAULT_PHOTO_KEY;
+        _maxPhotoSize = maxPhotoSize;
+        _jpegCompression = jpegCompression;
+        
+    }
+    return self;
+
+}
+
 -(void)processAndSetPhotoData
 {
     UIImage *processedImage = scaleAndRotateImage(_rawImage, _maxPhotoSize);
