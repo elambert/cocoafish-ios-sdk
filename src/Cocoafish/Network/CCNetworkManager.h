@@ -24,6 +24,7 @@
 @class CCPagination;
 @class CCEvent;
 @class CCUploadImage;
+@class CCMeta;
 
 @protocol CCNetworkManagerDelegate;
 
@@ -39,10 +40,9 @@
 -(id)initWithDelegate:(id)delegate;
 -(id)init;
 -(void)cancelAllRequests;
--(NSError *)handleResponse:(CCResponse *)response;
 
 // Users
--(void)registerUser:(CCUser *)user password:(NSString *)password;
+-(void)registerUser:(CCUser *)user password:(NSString *)password passwordConfirmation:(NSString *)passwordConfirmation;
 -(void)login:(NSString *)login password:(NSString *)password;
 -(void)logout;
 -(void)deleteUser;  // delete current user
@@ -54,6 +54,7 @@
 -(void)searchCheckins:(CCObject *)belongTo page:(int)page perPage:(int)perPage;
 -(void)showCheckin:(NSString *)checkId;
 -(void)createCheckin:(CCObject *)belongTo message:(NSString *)message image:(CCUploadImage *)image;
+-(void)deleteCheckin:(NSString *)checkinId;
 
 // Statuses
 -(void)createUserStatus:(NSString *)status;
@@ -92,32 +93,33 @@
 
 @optional
 // user logged in
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didLogin:(CCUser *)user;
+-(void)networkManager:(CCNetworkManager *)networkManager didLogin:(CCUser *)user;
 
 // user logged out
--(void)didLogout:(CCNetworkManager *)networkManager response:(CCResponse *)response;
-
-// did delete current user
--(void)didDeleteUser:(CCNetworkManager *)networkManager response:(CCResponse *)response;
+-(void)didLogout:(CCNetworkManager *)networkManager;
 
 // create succeeded
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didCreate:(CCObject *)object;
+-(void)networkManager:(CCNetworkManager *)networkManager didCreate:(NSArray *)objectArray objectType:(Class)objectType;
 
 // get succeeded
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGet:(NSArray *)objectArray pagination:(CCPagination *)pagination;
+-(void)networkManager:(CCNetworkManager *)networkManager didGet:(NSArray *)objectArray objectType:(Class)objectType pagination:(CCPagination *)pagination;
 
 // update succeeded
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didUpdate:(CCObject *)object;
+-(void)networkManager:(CCNetworkManager *)networkManager didUpdate:(NSArray *)objectArray objectType:(Class)objectType;
 
 // delete succeeded
--(void)didDelete:(CCNetworkManager *)networkManager response:(CCResponse *)response;
-
+-(void)networkManager:(CCNetworkManager *)networkManager didDelete:(Class)objectType;
 
 // compound
--(void)networkManager:(CCNetworkManager *)networkManager didSucceedWithCompound:(NSArray *)responses;
+-(void)networkManager:(CCNetworkManager *)networkManager meta:(CCMeta *)meta didSucceedWithCompound:(NSArray *)responses;
+
+// generic callback, if we received custom objects or above callbacks were not implemented
+-(void)networkManager:(CCNetworkManager *)networkManager meta:(CCMeta *)meta didSucceed:(NSDictionary *)jsonResponse;
 
 
 @required
 -(void)networkManager:(CCNetworkManager *)networkManager didFailWithError:(NSError *)error;
 
 @end
+
+

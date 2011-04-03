@@ -84,7 +84,7 @@
 		self.navigationItem.leftBarButtonItem = button;
 		[button release];
 		
-		self.navigationItem.title = [[[Cocoafish defaultCocoafish] getCurrentUser] first];
+		self.navigationItem.title = [[[Cocoafish defaultCocoafish] getCurrentUser] firstName];
 		
 	}
 	
@@ -128,9 +128,9 @@
 }
 
 // successful 
-- (void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGet:(NSArray *)objectArray pagination:(CCPagination *)pagination
+- (void)networkManager:(CCNetworkManager *)networkManager didGet:(NSArray *)objectArray objectType:(Class)objectType pagination:(CCPagination *)pagination
 {
-    if ([objectArray count]> 1 && [[objectArray lastObject] isKindOfClass:[CCCheckin class]]) {
+    if (objectType == [CCCheckin class]) {
         @synchronized (self) {
             userCheckins = [objectArray retain];
         }
@@ -182,7 +182,7 @@
 #pragma mark -
 #pragma mark CCNetworkManager delegate methods
 // successful logout
-- (void)didLogout:(CCNetworkManager *)networkManager response:(CCResponse *)response
+- (void)didLogout:(CCNetworkManager *)networkManager
 {	
 	// show login window
 	LoginViewController *loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];

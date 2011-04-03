@@ -256,8 +256,8 @@
 	
 	// Get the text strings
 	CCMutableUser *newUser = [[[CCMutableUser alloc] init] autorelease];
-	newUser.first = ((UITextField *)[textFields objectAtIndex:FIRST_NAME]).text;
-	newUser.last = ((UITextField *)[textFields objectAtIndex:LAST_NAME]).text;
+	newUser.firstName = ((UITextField *)[textFields objectAtIndex:FIRST_NAME]).text;
+	newUser.lastName = ((UITextField *)[textFields objectAtIndex:LAST_NAME]).text;
 	newUser.email = ((UITextField *)[textFields objectAtIndex:EMAIL_ADDRESS]).text;
 
 	NSString *password = ((UITextField *)[textFields objectAtIndex:PASSWORD]).text;
@@ -312,7 +312,7 @@
 	}
 	[self.view addSubview:registerProgress.view];
 	
-	[_ccNetworkManager registerUser:newUser password:password];
+	[_ccNetworkManager registerUser:newUser password:password passwordConfirmation:password_verify];
 	
 	// Debug
 	 NSLog(@"Registering new user: %@, password: %@", newUser, password); 
@@ -321,9 +321,9 @@
 #pragma mark -
 #pragma mark CCNetworkManager Delegate methods
 /* Sucessful registration */
-- (void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didCreate:(CCObject *)object
+- (void)networkManager:(CCNetworkManager *)networkManager didCreate:(NSArray *)objectArray objectType:(Class)objectType
 {
-    if ([object isKindOfClass:[CCUser class]]) {
+    if (objectType == [CCUser class]) {
         // Remove the modal view
         [self dismissModalViewControllerAnimated:NO];
         [delegate registerSucceeded];

@@ -11,9 +11,9 @@
 @interface CCUser ()
 
 @property (nonatomic, retain, readwrite) NSString *email;
-@property (nonatomic, retain, readwrite) NSString *userName;
-@property (nonatomic, retain, readwrite) NSString *first;
-@property (nonatomic, retain, readwrite) NSString *last;
+@property (nonatomic, retain, readwrite) NSString *username;
+@property (nonatomic, retain, readwrite) NSString *firstName;
+@property (nonatomic, retain, readwrite) NSString *lastName;
 //@property (nonatomic, readwrite) Boolean facebookAuthorized;
 @property (nonatomic, retain, readwrite) NSString *facebookAccessToken;
 
@@ -22,9 +22,9 @@
 @implementation CCUser
 
 @synthesize email = _email;
-@synthesize userName = _userName;
-@synthesize first = _first;
-@synthesize last = _last;
+@synthesize username = _username;
+@synthesize firstName = _firstName;
+@synthesize lastName = _lastName;
 //@synthesize facebookAuthorized = _facebookAuthorized;
 @synthesize facebookAccessToken = _facebookAccessToken;
 
@@ -34,9 +34,9 @@
 	if (self) {
 
 		self.email = [jsonResponse objectForKey:CC_JSON_USER_EMAIL];
-		self.userName = [jsonResponse objectForKey:CC_JSON_USERNAME];
-		self.first = [jsonResponse objectForKey:CC_JSON_USER_FIRST];
-		self.last = [jsonResponse objectForKey:CC_JSON_USER_LAST];
+		self.username = [jsonResponse objectForKey:CC_JSON_USERNAME];
+		self.firstName = [jsonResponse objectForKey:CC_JSON_USER_FIRST];
+		self.lastName = [jsonResponse objectForKey:CC_JSON_USER_LAST];
 		//self.facebookAuthorized = [[jsonResponse objectForKey:CC_JSON_USER_FACEBOOK_AUTHORIZED] boolValue];
         self.facebookAccessToken = [jsonResponse objectForKey:CC_JSON_USER_FACEBOOK_ACCESS_TOKEN];
 	}
@@ -49,8 +49,8 @@
 		return nil;
 	}
 	if ((self = [super initWithId:objectId])) {
-		self.first = first;
-		self.last = last;
+		self.firstName = first;
+		self.lastName = last;
 		self.email = email;
 	}
 	return self;
@@ -58,22 +58,22 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"CCUser:\n\temail: %@\n\tuserName: %@\n\tfirst: %@\n\tlast: %@\n\tfacebookAccessToken :%@\n\t%@",
-            self.email, self.userName, self.first, self.last, self.facebookAccessToken, [super description]];
+            self.email, self.username, self.firstName, self.lastName, self.facebookAccessToken, [super description]];
 }
 
 -(CCMutableUser *)mutableCopy
 {
-    CCMutableUser *userCopy = [[[CCMutableUser alloc] initWithId:self.objectId first:self.first last:self.last email:self.email] autorelease];;
-    userCopy.userName = [self.userName copy];
+    CCMutableUser *userCopy = [[[CCMutableUser alloc] initWithId:self.objectId first:self.firstName last:self.lastName email:self.email] autorelease];;
+    userCopy.username = [self.username copy];
     return userCopy;
 }
 
 -(void)dealloc
 {
 	self.email = nil;
-	self.userName = nil;
-	self.first = nil;
-	self.last = nil;
+	self.username = nil;
+	self.firstName = nil;
+	self.lastName = nil;
     self.facebookAccessToken = nil;
 	[super dealloc];
 }
@@ -82,10 +82,10 @@
 
 @implementation CCMutableUser
 @synthesize objectId;
-@synthesize first;
-@synthesize last;
+@synthesize firstName;
+@synthesize lastName;
 @synthesize email;
-@synthesize userName;
+@synthesize username;
 
 @end
 

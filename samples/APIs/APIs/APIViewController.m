@@ -12,14 +12,12 @@
 @interface APIViewController ()
 
 -(NSString *)arrayDescription:(NSArray *)array;
--(void)showSuccessHeader:(CCResponse *)response;
 @end
 
 @implementation APIViewController
 
 @synthesize ccNetworkManager = _ccNetworkManager;
-@synthesize isDeletePlace;
-@synthesize isDeletePhoto;
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -72,65 +70,56 @@
     return [NSString stringWithFormat:@"{\n%@\n}", [array componentsJoinedByString:@"\n"]];
 }
 
--(void)showSuccessHeader:(CCResponse *)response
-{
-    statusLabel.text = @"Success";
-    header.text = [response.meta description];
-}
-
 #pragma mark - CCNetworkManager delegate on failure
 -(void)networkManager:(CCNetworkManager *)networkManager didFailWithError:(NSError *)error
 {
     statusLabel.text = @"Failed";
-    header.text = [error localizedDescription];
+    body.text = [error localizedDescription];
 }
 
 #pragma mark - get callback
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGet:(NSArray *)objectArray pagination:(CCPagination *)pagination
+-(void)networkManager:(CCNetworkManager *)networkManager didGet:(NSArray *)objectArray objectType:(Class)objectType pagination:(CCPagination *)pagination
 {
-    [self showSuccessHeader:response];
-    body.text = [self arrayDescription:objectArray ];
+    statusLabel.text = @"Success";
+    if (pagination) {
+        body.text = [NSString stringWithFormat:@"%@\n%@", [pagination description], [self arrayDescription:objectArray]];
+    } else {
+        body.text = [self arrayDescription:objectArray];
+    }
 }
 
-
 #pragma mark - update callback
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didUpdate:(CCObject *)object
+-(void)networkManager:(CCNetworkManager *)networkManager didUpdate:(NSArray *)objectArray objectType:(Class)objectType
 {
-    [self showSuccessHeader:response];
-    body.text = [object description];
+    statusLabel.text = @"Success";
+    body.text = [self arrayDescription:objectArray];
 }
 
 #pragma mark - create callback
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didCreate:(CCObject *)object
+-(void)networkManager:(CCNetworkManager *)networkManager didCreate:(NSArray *)objectArray objectType:(Class)objectType
 {
-    [self showSuccessHeader:response];
-    body.text = [object description];
-    if ([object isKindOfClass:[CCPlace class]]) {
-        ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPlace = (CCPlace *)object;
+    statusLabel.text = @"Success";
+    body.text = [self arrayDescription:objectArray];
+    if (objectType == [CCPlace class]) {
+        CCPlace *place = [objectArray objectAtIndex:0];
+        ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPlace = place;
         NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-        [prefs setObject:object.objectId forKey:@"test_place_id"];
-    } else if ([object isKindOfClass:[CCPhoto class]] && ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPhoto == nil) {
-        ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPhoto = (CCPhoto *)object;
+        [prefs setObject:place.objectId forKey:@"test_place_id"];
+    } else if (objectType == [CCPhoto class] && ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPhoto == nil) {
+        CCPhoto *photo = [objectArray objectAtIndex:0];
+        ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPhoto = photo;
     }
 }
 
 #pragma mark - delete callback
--(void)didDelete:(CCNetworkManager *)networkManager response:(CCResponse *)response
+-(void)networkManager:(CCNetworkManager *)networkManager didDelete:(Class)objectType
 {
-    [self showSuccessHeader:response];
-    if (isDeletePlace) {
+    statusLabel.text = @"Success";
+    if (objectType == [CCPlace class]) {
         ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPlace = nil;
-    } else if (isDeletePhoto) {
+    } else if (objectType == [CCPhoto class]) {
         ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPhoto = nil;
     }
-}
-
-
-#pragma mark - Users APIs callbacks
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didUpdateUser:(CCUser *)user
-{
-    [self showSuccessHeader:response];
-    body.text = [user description];
 }
 
 @end

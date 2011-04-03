@@ -83,6 +83,7 @@
 		B6042825133B1296008CEE69 /* RegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6042812133B1295008CEE69 /* RegisterViewController.xib */; };
 		B6042826133B1296008CEE69 /* TapDetectingImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = B6042814133B1296008CEE69 /* TapDetectingImageView.m */; };
 		B6D302DC134664A3001259F3 /* CCEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = B6D302DB134664A3001259F3 /* CCEvent.m */; };
+		B6D3036D13478769001259F3 /* CCRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = B6D3036C13478769001259F3 /* CCRequest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -229,6 +230,8 @@
 		B6042814133B1296008CEE69 /* TapDetectingImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TapDetectingImageView.m; sourceTree = "<group>"; };
 		B6D302DA134664A3001259F3 /* CCEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCEvent.h; sourceTree = "<group>"; };
 		B6D302DB134664A3001259F3 /* CCEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCEvent.m; sourceTree = "<group>"; };
+		B6D3036B13478769001259F3 /* CCRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCRequest.h; sourceTree = "<group>"; };
+		B6D3036C13478769001259F3 /* CCRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCRequest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -442,6 +445,8 @@
 				B60427A6133B120B008CEE69 /* CCNetworkManager.m */,
 				B60427A7133B120B008CEE69 /* CCResponse.h */,
 				B60427A8133B120B008CEE69 /* CCResponse.m */,
+				B6D3036B13478769001259F3 /* CCRequest.h */,
+				B6D3036C13478769001259F3 /* CCRequest.m */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -697,6 +702,7 @@
 				B6042824133B1296008CEE69 /* RegisterViewController.m in Sources */,
 				B6042826133B1296008CEE69 /* TapDetectingImageView.m in Sources */,
 				B6D302DC134664A3001259F3 /* CCEvent.m in Sources */,
+				B6D3036D13478769001259F3 /* CCRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

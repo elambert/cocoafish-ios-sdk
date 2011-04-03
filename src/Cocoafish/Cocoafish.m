@@ -125,8 +125,8 @@ static Cocoafish *theDefaultCocoafish = nil;
 	NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
 	if (user) {
 		[prefs setObject:user.objectId forKey:@"cc_user_id"];
-		[prefs setObject:user.first forKey:@"cc_user_first_name"];
-		[prefs setObject:user.last forKey:@"cc_user_last_name"];
+		[prefs setObject:user.firstName forKey:@"cc_user_first_name"];
+		[prefs setObject:user.lastName forKey:@"cc_user_last_name"];
 		[prefs setObject:user.email forKey:@"cc_user_email"];
 	} else {
 		[prefs removeObjectForKey:@"cc_user_id"];

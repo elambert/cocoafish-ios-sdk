@@ -94,33 +94,6 @@
 	
 }
 
-
-// Get an array of a class type from a jsonresponse, the caller needs to speicify the jsonTag to identify 
-// the array and the class type of the objects that will be stored as array, the class type should have 
-// method initWithJsonResponse implemented
-+(NSArray *)getArrayFromJsonResonse:(NSDictionary *)jsonResponse jsonTag:(NSString *)jsonTag class:(Class)class
-{
-	if (!class_respondsToSelector(class, @selector(initWithJsonResponse:))) {
-		// class doesn't have
-		return nil;
-	}
-	NSMutableArray	*array;
-	NSArray *jsonArray = [jsonResponse objectForKey:jsonTag];
-    if (jsonArray == nil) {
-        return nil;
-    }
-	if (jsonArray && [jsonArray isKindOfClass:[NSArray class]]) {
-		array = [NSMutableArray arrayWithCapacity:[jsonArray count]];
-		for (NSDictionary *jsonObject in jsonArray) {
-			NSObject *object = (NSObject *)[[class alloc] initWithJsonResponse:jsonObject];
-			if (object) {
-				[array addObject:object];
-			}
-		}
-	}
-	return array;
-}
-
 @end
 
 @implementation CCPagination

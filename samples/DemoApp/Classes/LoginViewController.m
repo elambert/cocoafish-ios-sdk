@@ -293,7 +293,7 @@
 
 #pragma mark -
 #pragma mark CCNetworkManager delegate methods
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didLogin:(CCUser *)user
+-(void)networkManager:(CCNetworkManager *)networkManager didLogin:(CCUser *)user
 {
 		
 	// Clear the textFields

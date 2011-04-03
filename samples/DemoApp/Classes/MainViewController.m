@@ -7,6 +7,7 @@
 //
 
 #import "MainViewController.h"
+#import "Cocoafish.h"
 
 @implementation MainViewController
 @synthesize viewSwitchButton, mapViewController, listViewController;
@@ -114,10 +115,12 @@
 
 #pragma mark -
 #pragma mark CCNetworkManager delegate methods
-- (void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGet:(NSArray *)objectArray pagination:(CCPagination *)pagination
+- (void)networkManager:(CCNetworkManager *)networkManager didGet:(NSArray *)objectArray objectType:(Class)objectType pagination:(CCPagination *)pagination
 {
-	[mapViewController showPlaces:objectArray];
-	[listViewController showPlaces:objectArray];
+    if (objectType == [CCPlace class]) {
+        [mapViewController showPlaces:objectArray];
+        [listViewController showPlaces:objectArray];
+    }
 }
 
 - (void)networkManager:(CCNetworkManager *)networkManager didFailWithError:(NSError *)error

@@ -22,8 +22,6 @@
 
 -(id)initWithJsonData:(NSData *)jsonData;
 
-+(NSArray *)getArrayFromJsonResonse:(NSDictionary *)jsonResponse jsonTag:(NSString *)jsonTag class:(Class)class;
-
 @end
 
 @interface CCPagination : NSObject {

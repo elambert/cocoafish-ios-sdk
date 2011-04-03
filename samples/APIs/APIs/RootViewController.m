@@ -430,7 +430,6 @@
                 case 2:
                     if (testPlace) {
                         // delete the test place
-                        controller.isDeletePlace = YES;
                         [controller.ccNetworkManager deletePlace:testPlace.objectId];
                     } else {
                         // create a test place
@@ -569,7 +568,6 @@
                         [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
                         return;
                     }
-                    controller.isDeletePhoto = YES;
                     [controller.ccNetworkManager deletePhoto:testPhoto.objectId];
                     break;
             }
@@ -675,12 +673,8 @@
 
 }
 
--(void)didDelete:(CCNetworkManager *)networkManager response:(CCResponse *)response
-{
-}
-
 // successful logout
-- (void)didLogout:(CCNetworkManager *)networkManager response:(CCResponse *)response
+- (void)didLogout:(CCNetworkManager *)networkManager
 {	
 	// show login window
 	LoginViewController *loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
@@ -689,12 +683,14 @@
 	
 }
 
--(void)didDeleteUser:(CCNetworkManager *)networkManager response:(CCResponse *)response
+-(void)networkManager:(CCNetworkManager *)networkManager didDelete:(Class)objectType
 {
-    // show login window
-	LoginViewController *loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-	[self.navigationController pushViewController:loginViewController animated:NO];
-	[loginViewController release];
+    if (objectType == [CCUser class]) {
+        // show login window
+        LoginViewController *loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+        [self.navigationController pushViewController:loginViewController animated:NO];
+        [loginViewController release];
+    }
 }
 
 #pragma -

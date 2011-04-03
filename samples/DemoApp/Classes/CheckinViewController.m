@@ -149,7 +149,6 @@
         photoImage = [[CCUploadImage alloc] initWithImage:image];
     }
  
-
 }
 
 // Set up the image picker controller and add it to the view

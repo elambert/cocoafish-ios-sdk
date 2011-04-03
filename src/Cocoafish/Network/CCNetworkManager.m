@@ -14,6 +14,7 @@
 #import "CCConstants.h"
 #import "CCDownloadRequest.h"
 #import "OAuthCore.h"
+#import "CCRequest.h"
 
 # pragma -
 # pragma mark CCNetworkManager PrivateMethods
@@ -28,11 +29,10 @@
 -(void)createRequestDone:(ASIHTTPRequest *)request;
 -(void)getRequestDone:(ASIHTTPRequest *)request;
 -(void)updateRequestDone:(ASIHTTPRequest *)request;
--(void)deleteUserRequestDone:(ASIHTTPRequest *)request;
 -(void)deleteRequestDone:(ASIHTTPRequest *)request;
--(void)requestDone:(ASIHTTPRequest *)request;
 -(void)requestFailed:(ASIHTTPRequest *)request;
 -(void)addOauthHeaderToRequest:(ASIHTTPRequest *)request;
+-(Class)parseResultArray:(NSDictionary *)jsonResponse resultArray:(NSMutableArray **)resultArray;
 -(NSString *)generateFullRequestUrl:(NSString *)partialUrl additionalParams:(NSArray *)additionalParams;
 -(CCUser *)facebookAuth:(NSString *)fbAppId accessToken:(NSString *)accessToken error:(NSError **)error isLogin:(Boolean)isLogin;
 -(void)processImageBeforeUpload:(CCUploadImage *)image;
@@ -198,7 +198,7 @@
 #pragma mark Cocoafish API calls
 
 #pragma mark - Users related
--(void)registerUser:(CCUser *)user password:(NSString *)password
+-(void)registerUser:(CCUser *)user password:(NSString *)password passwordConfirmation:(NSString *)passwordConfirmation
 {
 	NSString *urlPath = [self generateFullRequestUrl:@"users/create.json" additionalParams:nil];
 
@@ -206,11 +206,20 @@
 	ASIFormDataRequest *request = [[[ASIFormDataRequest alloc] initWithURL:url] autorelease];
 
 	// set the form
-	[request setPostValue:user.email forKey:@"email"];
-	[request setPostValue:user.first forKey:@"first_name"];
-	[request setPostValue:user.last forKey:@"last_name"];
+    if ([user.email length] > 0) {
+        [request setPostValue:user.email forKey:@"email"];
+    }
+    if ([user.firstName length] > 0) {
+        [request setPostValue:user.firstName forKey:@"first_name"];
+    }
+    if ([user.lastName length] > 0) {
+        [request setPostValue:user.lastName forKey:@"last_name"];
+    }
+    if ([user.username length] > 0) {
+        [request setPostValue:user.username forKey:@"username"];
+    }
 	[request setPostValue:password forKey:@"password"];
-	[request setPostValue:password forKey:@"password_confirmation"];
+	[request setPostValue:passwordConfirmation forKey:@"password_confirmation"];
 	
 	[self performAsyncRequest:request callback:@selector(createRequestDone:)];
 }
@@ -264,35 +273,22 @@
 	
 }
 
--(void)deleteUser
-{
-	NSString *urlPath = [self generateFullRequestUrl:@"users/delete.json" additionalParams:nil];
-    
-	NSURL *url = [NSURL URLWithString:urlPath];
-	
-	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
-	
-	[request setRequestMethod:@"DELETE"];
-	[self performAsyncRequest:request callback:@selector(deleteUserRequestDone:)];
-	
-}
-
 -(void)updateUser:(CCUser *)updatedUser
 {
     CCUser *currentUser = [[Cocoafish defaultCocoafish] getCurrentUser];
     
     NSMutableArray *additionalParams = [[[NSMutableArray alloc] init] autorelease];
-    if ([currentUser.first caseInsensitiveCompare:updatedUser.first] != NSOrderedSame) {
-        [additionalParams addObject:[NSString stringWithFormat:@"first=%@", updatedUser.first]];
+    if ([currentUser.firstName caseInsensitiveCompare:updatedUser.firstName] != NSOrderedSame) {
+        [additionalParams addObject:[NSString stringWithFormat:@"first_name=%@", updatedUser.firstName]];
     }
-    if ([currentUser.last caseInsensitiveCompare:updatedUser.last] != NSOrderedSame) {
-        [additionalParams addObject:[NSString stringWithFormat:@"last=%@", updatedUser.last]];
+    if ([currentUser.lastName caseInsensitiveCompare:updatedUser.lastName] != NSOrderedSame) {
+        [additionalParams addObject:[NSString stringWithFormat:@"last_name=%@", updatedUser.lastName]];
     }
     if ([currentUser.email caseInsensitiveCompare:updatedUser.email] != NSOrderedSame) {
         [additionalParams addObject:[NSString stringWithFormat:@"email=%@", updatedUser.email]];
     }
-    if ([currentUser.userName caseInsensitiveCompare:updatedUser.userName] != NSOrderedSame) {
-        [additionalParams addObject:[NSString stringWithFormat:@"user_name=%@", updatedUser.userName]];
+    if ([currentUser.username caseInsensitiveCompare:updatedUser.username] != NSOrderedSame) {
+        [additionalParams addObject:[NSString stringWithFormat:@"username=%@", updatedUser.username]];
     }
     
     NSString *urlPath = [self generateFullRequestUrl:@"users/update.json" additionalParams:additionalParams];
@@ -303,6 +299,16 @@
     
 	[self performAsyncRequest:request callback:@selector(updateRequestDone:)];
     
+}
+
+-(void)deleteUser
+{
+    NSString *urlPath = [self generateFullRequestUrl:@"users/delete.json" additionalParams:nil];
+	NSURL *url = [NSURL URLWithString:urlPath];
+	
+	CCDeleteRequest *request = [[[CCDeleteRequest alloc] initWithURL:url deleteClass:[CCUser class]] autorelease];
+	
+    [self performAsyncRequest:request callback:@selector(deleteRequestDone:)];
 }
 
 #pragma mark - Facebook related
@@ -332,8 +338,9 @@
 		NSLog(@"%@", [request responseString]);
 		CCResponse *response = [[CCResponse alloc] initWithJsonData:[request responseData]];
 		if (response && [response.meta.status isEqualToString:CC_STATUS_OK]) {
-			NSArray *users = [CCResponse getArrayFromJsonResonse:response.response jsonTag:CC_JSON_USERS class:[CCUser class]];
-			if ([users count] == 1) {
+			NSMutableArray *users = nil;
+            Class class = [self parseResultArray:response.response resultArray:&users];
+			if (class == [CCUser class] && [users count] == 1) {
 				currentUser = [users objectAtIndex:0];
 			}
 			if (!currentUser) {
@@ -374,8 +381,9 @@
 		NSLog(@"%@", [request responseString]);
 		CCResponse *response = [[CCResponse alloc] initWithJsonData:[request responseData]];
 		if (response && [response.meta.status isEqualToString:CC_STATUS_OK]) {
-			NSArray *users = [CCResponse getArrayFromJsonResonse:response.response jsonTag:CC_JSON_USERS class:[CCUser class]];
-			if ([users count] == 1) {
+			NSMutableArray *users = nil;
+            Class class = [self parseResultArray:response.response resultArray:&users];
+			if (class == [CCUser class] && [users count] == 1) {
 				currentUser = [users objectAtIndex:0];
 			}
 			if (!currentUser) {
@@ -457,6 +465,16 @@
 
 }
 
+-(void)deleteCheckin:(NSString *)checkinId
+{
+    NSString *urlPath = [self generateFullRequestUrl:[NSString stringWithFormat:@"checkins/delete/%@.json", checkinId] additionalParams:nil];
+	NSURL *url = [NSURL URLWithString:urlPath];
+    
+	CCDeleteRequest *request = [[[CCDeleteRequest alloc] initWithURL:url deleteClass:[CCCheckin class]] autorelease];
+	
+    [self performAsyncRequest:request callback:@selector(deleteRequestDone:)];
+}
+
 -(void)showCheckin:(NSString *)checkinId
 {	
 	NSString *urlPath = [self generateFullRequestUrl:[NSString stringWithFormat:@"checkins/show/%@.json", checkinId] additionalParams:nil];
@@ -500,10 +518,10 @@
     NSString *urlPath = [self generateFullRequestUrl:[NSString stringWithFormat:@"places/delete/%@.json", placeId] additionalParams:nil];
 	NSURL *url = [NSURL URLWithString:urlPath];
 	
-	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
+    
+	CCDeleteRequest *request = [[[CCDeleteRequest alloc] initWithURL:url deleteClass:[CCPlace class]] autorelease];
 	
-	[request setRequestMethod:@"DELETE"];
-	[self performAsyncRequest:request  callback:@selector(deleteRequestDone:)];
+    [self performAsyncRequest:request callback:@selector(deleteRequestDone:)];
 }
 
 -(void)updatePlace:(CCPlace *)place
@@ -705,9 +723,8 @@
     NSString *urlPath = [self generateFullRequestUrl:[NSString stringWithFormat:@"photos/delete/%@.json", photoId] additionalParams:nil];
 	NSURL *url = [NSURL URLWithString:urlPath];
 	
-	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
-	
-	[request setRequestMethod:@"DELETE"];
+	CCDeleteRequest *request = [[[CCDeleteRequest alloc] initWithURL:url deleteClass:[CCPhoto class]] autorelease];	
+    
 	[self performAsyncRequest:request callback:@selector(deleteRequestDone:)];
 }
 
@@ -814,25 +831,21 @@
     NSString *urlPath = [self generateFullRequestUrl:@"keyvalues/delete.json" additionalParams:additionalParams];
 	NSURL *url = [NSURL URLWithString:urlPath];
 	
-	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
+	CCDeleteRequest *request = [[[CCDeleteRequest alloc] initWithURL:url deleteClass:[CCKeyValuePair class]] autorelease];
 	
-	[request setRequestMethod:@"DELETE"];
 	[self performAsyncRequest:request callback:@selector(deleteRequestDone:)];
 }
 
 
 # pragma -
 # pragma mark Handle Server responses
-// Get an array of a class type from a jsonresponse, the caller needs to speicify the jsonTag to identify 
-// the array and the class type of the objects that will be stored as array, the class type should have 
-// method initWithJsonResponse implemented
--(NSArray *)parseResultArray:(NSDictionary *)jsonResponse
+// Get an array of a class type from a jsonresponse,
+-(Class)parseResultArray:(NSDictionary *)jsonResponse resultArray:(NSMutableArray **)resultArray
 {
     NSArray *jsonTagArray = [jsonResponse allKeys];
-    
-    NSMutableArray	*array= nil;
+    Class class = [CCObject class];
+    NSMutableArray	*array = nil;
     for (NSString *jsonTag in jsonTagArray) {
-        Class class;
         if ([jsonTag caseInsensitiveCompare:CC_JSON_USERS] == NSOrderedSame) {
             class = [CCUser class];
         } else if ([jsonTag caseInsensitiveCompare:CC_JSON_PLACES] == NSOrderedSame) {
@@ -859,8 +872,9 @@
         }
         if (jsonArray && [jsonArray isKindOfClass:[NSArray class]]) {
             array = [NSMutableArray arrayWithCapacity:[jsonArray count]];
+            *resultArray = array;
             for (NSDictionary *jsonObject in jsonArray) {
-                NSObject *object = (NSObject *)[[class alloc] initWithJsonResponse:jsonObject];
+                CCObject *object = (CCObject *)[[class alloc] initWithJsonResponse:jsonObject];
                 if (object) {
                     [array addObject:object];
                 }
@@ -871,7 +885,7 @@
     }
 	
 	
-	return array;
+	return class;
 }
 
 -(CCResponse *)requestDoneCommon:(ASIHTTPRequest *)request
@@ -897,16 +911,17 @@
 {
     CCResponse *response = [self requestDoneCommon:request];
     if (response) {
-        if ([_delegate respondsToSelector:@selector(networkManager:response:didLogin:)]) {
-            NSArray *results = [self parseResultArray:response.response];
+        if ([_delegate respondsToSelector:@selector(networkManager:didLogin:)]) {
+            NSMutableArray *results = nil;
+            Class class = [self parseResultArray:response.response resultArray:&results];
 
             CCUser *user = nil;
 
-            if ([results count] == 1) {
+            if ([results count] == 1 && class == [CCUser class]) {
                 user = [results objectAtIndex:0];
             }
 
-            [_delegate networkManager:self response:response didLogin:user];
+            [_delegate networkManager:self didLogin:user];
             [[Cocoafish defaultCocoafish] setCurrentUser:user];
             
         }
@@ -918,9 +933,9 @@
 {
     CCResponse *response = [self requestDoneCommon:request];
     if (response) {
-        if ([_delegate respondsToSelector:@selector(didLogout:response:)]) {
+        if ([_delegate respondsToSelector:@selector(didLogout:)]) {
             
-            [_delegate didLogout:self response:response];
+            [_delegate didLogout:self];
             [[Cocoafish defaultCocoafish] setCurrentUser:nil];
         }
     } 
@@ -931,20 +946,21 @@
 {
     CCResponse *response = [self requestDoneCommon:request];
     if (response) {
-        if ([_delegate respondsToSelector:@selector(networkManager:response:didCreate:)]) {
-            NSArray *results = [self parseResultArray:response.response];
-
-            CCObject *object = nil;
-            
-            if ([results count] == 1) {
-                object = [results objectAtIndex:0];
-            }
-            
-            [_delegate networkManager:self response:response didCreate:object];
-            if ([object isKindOfClass:[CCUser class]]) {
-                [[Cocoafish defaultCocoafish] setCurrentUser:(CCUser *)object];
-            }
+        NSMutableArray *results = nil;
+        Class class = [self parseResultArray:response.response resultArray:&results];
+        if ([results count] == 1 && class == [CCUser class]) {
+            CCUser *user = [results objectAtIndex:0];
+            [[Cocoafish defaultCocoafish] setCurrentUser:user];
         }
+        if ([results count] > 0 && [_delegate respondsToSelector:@selector(networkManager:didCreate:objectType:)]) {
+            [_delegate networkManager:self didCreate:results objectType:class];
+        } else if ([_delegate respondsToSelector:@selector(networkManager:meta:didSucceed:)]) {
+            
+            // Call the generic callback if we don't know how to process the returned objects or 
+            // the didGet callback was not implemented
+            [_delegate networkManager:self meta:response.meta didSucceed:response.response];
+        }
+            
     } 
 }
 
@@ -953,10 +969,20 @@
 {
     CCResponse *response = [self requestDoneCommon:request];
     if (response) {
-        if ([_delegate respondsToSelector:@selector(networkManager:response:didGet:pagination:)]) {
-            NSArray *results = [self parseResultArray:response.response];
-
-            [_delegate networkManager:self response:response didGet:results pagination:response.meta.pagination];
+        if ([_delegate respondsToSelector:@selector(networkManager:didGet:objectType:pagination:)]) {
+            NSMutableArray *results = nil;
+            Class class = [self parseResultArray:response.response resultArray:&results];
+            if (results != nil) {
+                [_delegate networkManager:self didGet:results objectType:class pagination:response.meta.pagination];
+                return;
+            }
+        } 
+        
+        // Call the generic callback if we don't know how to process the returned objects or 
+        // the didGet callback was not implemented
+        if ([_delegate respondsToSelector:@selector(networkManager:meta:didSucceed:)]) {
+            [_delegate networkManager:self meta:response.meta didSucceed:response.response];
+        
         }
     } 
 }
@@ -966,32 +992,20 @@
 {
     CCResponse *response = [self requestDoneCommon:request];
     if (response) {
-        if ([_delegate respondsToSelector:@selector(networkManager:response:didUpdate:)]) {
-            NSArray *results = [self parseResultArray:response.response];
-            
-            CCObject *object = nil;
-            
-            if ([results count] == 1) {
-                object = [results objectAtIndex:0];
-            }
-            
-            [_delegate networkManager:self response:response didUpdate:object];
-            if ([object isKindOfClass:[CCUser class]]) {
-                [[Cocoafish defaultCocoafish] setCurrentUser:(CCUser *)object];
-            }
+        NSMutableArray *results = nil;
+        Class class = [self parseResultArray:response.response resultArray:&results];
+        if ([results count] == 1 && class == [CCUser class]) {
+            CCUser *user = [results objectAtIndex:0];
+            [[Cocoafish defaultCocoafish] setCurrentUser:user];
         }
-    } 
-}
-
-// delete ser action finished
--(void)deleteUserRequestDone:(ASIHTTPRequest *)request
-{
-    CCResponse *response = [self requestDoneCommon:request];
-    if (response) {
-        if ([_delegate respondsToSelector:@selector(didDeleteUser:response:)]) {
-            [_delegate didDeleteUser:self response:response];
+        if ([results count] > 0 && [_delegate respondsToSelector:@selector(networkManager:didUpdate:objectType:)]) {
+            [_delegate networkManager:self didUpdate:results objectType:class];
+        } else if ([_delegate respondsToSelector:@selector(networkManager:meta:didSucceed:)]) {
+            
+            // Call the generic callback if we don't know how to process the returned objects or 
+            // the didGet callback was not implemented
+            [_delegate networkManager:self meta:response.meta didSucceed:response.response];
         }
-        [[Cocoafish defaultCocoafish] setCurrentUser:nil];
     } 
 }
 
@@ -1000,9 +1014,20 @@
 {
     CCResponse *response = [self requestDoneCommon:request];
     if (response) {
-        if ([_delegate respondsToSelector:@selector(didDelete:response:)]) {
-            [_delegate didDelete:self response:response];
+        CCDeleteRequest *deleteRequest = (CCDeleteRequest *)request;
+        Class deleteClass = deleteRequest.deleteClass;
+        if (deleteClass == [CCUser class]) {
+            [[Cocoafish defaultCocoafish] setCurrentUser:nil];
         }
+        if ([_delegate respondsToSelector:@selector(networkManager:didDelete:)]) {
+            [_delegate networkManager:self didDelete:deleteClass];
+        } else if ([_delegate respondsToSelector:@selector(networkManager:meta:didSucceed:)]) {
+            
+            // Call the generic callback if we don't know how to process the returned objects or 
+            // the didGet callback was not implemented
+            [_delegate networkManager:self meta:response.meta didSucceed:response.response];
+        }
+        
     } 
 }
 
@@ -1010,8 +1035,8 @@
 {
     CCResponse *response = [self requestDoneCommon:request];
     if (response) {
-        if ([_delegate respondsToSelector:@selector(networkManager:didSucceedWithCompound:)]) {
-            [_delegate networkManager:self didSucceedWithCompound:response.responses];
+        if ([_delegate respondsToSelector:@selector(networkManager:meta:didSucceedWithCompound:)]) {
+            [_delegate networkManager:self meta:response.meta didSucceedWithCompound:response.responses];
         }
     }    
 }

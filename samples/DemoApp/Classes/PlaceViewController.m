@@ -66,9 +66,9 @@
 
 #pragma mark -
 #pragma mark CCNetworkManager Delegate Methods
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didGet:(NSArray *)objectArray pagination:(CCPagination *)pagination
+-(void)networkManager:(CCNetworkManager *)networkManager didGet:(NSArray *)objectArray objectType:(Class)objectType pagination:(CCPagination *)pagination
 {
-    if ([objectArray count]> 1 && [[objectArray lastObject] isKindOfClass:[CCCheckin class]]) {
+    if (objectType == [CCCheckin class]) {
 
         @synchronized(self) {
             self.placeCheckins = nil;
@@ -93,11 +93,11 @@
 	[_ccNetworkManager createCheckin:place message:message image:image];
 }
 
--(void)networkManager:(CCNetworkManager *)networkManager response:(CCResponse *)response didCreate:(CCObject *)object
+-(void)networkManager:(CCNetworkManager *)networkManager didCreate:(NSArray *)objectArray objectType:(Class)objectType
 {
     CCCheckin *checkin;
-    if ([object isKindOfClass:[CCCheckin class]]) {
-        checkin = (CCCheckin *)object;
+    if (objectType == [CCCheckin class]) {
+        checkin = [objectArray objectAtIndex:0];;
     }
 	if (checkin) {
 		@synchronized(self) {
@@ -196,7 +196,7 @@
 		
 	cell.textLabel.text = checkin.message;
 	
-	cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ Checked in %@", [[checkin user] first], timeElapsedFrom([checkin createdAt])];
+	cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ Checked in %@", [[checkin user] firstName], timeElapsedFrom([checkin createdAt])];
 	
     
     return cell;
