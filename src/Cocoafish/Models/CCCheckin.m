@@ -46,7 +46,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"CCCheckin:\n\tmessage=%@\n\tuser=[\n\t%@\n\t]\n\tplace=[\n\t%@\n\t]\n\tphoto=[\n\t%@\n\t]",
+    return [NSString stringWithFormat:@"CCCheckin:\n\tmessage=%@\n\tuser=[\n\t%@\n\t]\n\tplace=[\n\t%@\n\t]\n\tphoto=[\n\t%@\n\t]\n\t%@",
                                     self.message, [self.user description],
                                     [self.place description], [self.photo description], [super description]];
 }

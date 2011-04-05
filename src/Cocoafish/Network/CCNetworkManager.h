@@ -82,10 +82,18 @@
 -(void)appendValueForKey:(NSString *)key appendValue:(NSString *)appendValue;
 -(void)deleteKeyValue:(NSString *)key;
 
+// Event related
+-(void)createEvent:(NSString *)name description:(NSString *)description placeId:(NSString *)placeId startTime:(NSDate *)startTime endTime:(NSDate *)endTime;
+-(void)updateEvent:(NSString *)eventId name:(NSString *)name description:(NSString *)description placeId:(NSString *)placeId startTime:(NSDate *)startTime endTime:(NSDate *)endTime;
+-(void)showEvent:(NSString *)eventId;
+-(void)searchEvents:(CCObject *)belongTo page:(int)page perPage:(int)perPage;
+-(void)deleteEvent:(NSString *)eventId;
+
 // Used to login with cocoafish after a successful facebook login
 -(CCUser *)loginWithFacebook:(NSString *)fbAppId accessToken:(NSString *)accessToken error:(NSError **)error;
 -(CCUser *)linkWithFacebook:(NSString *)fbAppId accessToken:(NSString *)accessToken error:(NSError **)error;
 -(void)unlinkFromFacebook:(NSError **)error;
+
 @end
 
 // Delegate callback methods

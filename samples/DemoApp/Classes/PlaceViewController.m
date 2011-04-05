@@ -47,7 +47,7 @@
 		for (CCCheckin *checkin in placeCheckins) {
 			CCPhoto *photo = [photos objectForKey:checkin.photo.objectId];
 			if (photo) {
-				[photo asyncGetPhoto:CC_THUMB];
+				[photo asyncGetPhoto:CC_THUMB_100];
 			}
 			
 			i++;
@@ -188,9 +188,9 @@
 	CCCheckin *checkin = [placeCheckins objectAtIndex:indexPath.row];
 	cell.imageView.image = nil;
 	if (checkin.photo && checkin.photo.processed != NO) {
-		cell.imageView.image = [checkin.photo getPhoto:CC_THUMB];
+		cell.imageView.image = [checkin.photo getPhoto:CC_THUMB_100];
 		if (cell.imageView.image == nil) {
-			[checkin.photo asyncGetPhoto:CC_THUMB];
+			[checkin.photo asyncGetPhoto:CC_THUMB_100];
 		}
 	}
 		

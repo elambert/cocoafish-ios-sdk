@@ -14,7 +14,7 @@
 @interface CCEvent : CCObject {
 @private
     NSString *_name;
-    NSString *_note;
+    NSString *_details;
     NSDate *_startTime;
     NSDate *_endTime;
 	CCUser *_user;
@@ -22,7 +22,7 @@
 }
 
 @property (nonatomic, retain, readonly) NSString *name;
-@property (nonatomic, retain, readonly) NSString *note;
+@property (nonatomic, retain, readonly) NSString *details;
 @property (nonatomic, retain, readonly) CCUser *user;
 @property (nonatomic, retain, readonly) CCPlace *place;
 @property (nonatomic, retain, readonly) NSDate *startTime;

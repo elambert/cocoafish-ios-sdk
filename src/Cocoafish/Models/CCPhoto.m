@@ -97,17 +97,17 @@
 {
 	@synchronized(self) {
 		switch (photoSize) {
-			case CC_SQUARE:
+			case CC_SQUARE_75:
 				return [_urls objectForKey:@"square_75"];
-			case CC_THUMB:
+			case CC_THUMB_100:
 				return [_urls objectForKey:@"thumb_100"];
-			case CC_SMALL:
+			case CC_SMALL_240:
 				return [_urls objectForKey:@"small_240"];
 			case CC_MEDIUM_500:
 				return [_urls objectForKey:@"medium_500"];
 			case CC_MEDIUM_640:
 				return [_urls objectForKey:@"medium_640"];
-			case CC_LARGE:
+			case CC_LARGE_1024:
 				return [_urls objectForKey:@"large_1024"];			
 			case CC_ORIGINAL:
 				return [_urls objectForKey:@"original"];

@@ -836,6 +836,106 @@
 	[self performAsyncRequest:request callback:@selector(deleteRequestDone:)];
 }
 
+#pragma mark - Event related
+-(void)createEvent:(NSString *)name description:(NSString *)description placeId:(NSString *)placeId startTime:(NSDate *)startTime endTime:(NSDate *)endTime
+{    
+    NSString *urlPath = [self generateFullRequestUrl:@"events/create.json" additionalParams:nil];
+    
+	NSURL *url = [NSURL URLWithString:urlPath];
+	
+    ASIFormDataRequest *request = [[[ASIFormDataRequest alloc] initWithURL:url] autorelease];
+    
+    if (name) {
+        [request setPostValue:name forKey:@"name"];
+    }
+    if (description) {
+        [request setPostValue:description forKey:@"description"];
+    }
+    if (placeId) {
+        [request setPostValue:placeId forKey:@"place_id"];
+    }
+    if (startTime) {
+        [request setPostValue:[startTime description] forKey:@"start_time"];
+    }
+    if (endTime) {
+        [request setPostValue:[endTime description] forKey:@"end_time"];
+    }
+
+	[self performAsyncRequest:request callback:@selector(createRequestDone:)];
+    
+}
+
+-(void)updateEvent:(NSString *)eventId name:(NSString *)name description:(NSString *)description placeId:(NSString *)placeId startTime:(NSDate *)startTime endTime:(NSDate *)endTime
+
+{
+    NSMutableArray *additionalParams = [[[NSMutableArray alloc] init] autorelease];
+    if (name) {
+        [additionalParams addObject:[NSString stringWithFormat:@"name=%@", name]];
+    }
+    if (description) {
+        [additionalParams addObject:[NSString stringWithFormat:@"description=%@", description]];
+    }
+    if (placeId) {
+        [additionalParams addObject:[NSString stringWithFormat:@"place_id=%@", placeId]];
+    }
+    if (startTime) {
+        [additionalParams addObject:[NSString stringWithFormat:@"start_time=%@", startTime]];
+    }
+    if (endTime) {
+        [additionalParams addObject:[NSString stringWithFormat:@"end_time=%@", endTime]];
+    }
+    
+    NSString *urlPath = [self generateFullRequestUrl:[NSString stringWithFormat:@"events/update/%@.json", eventId] additionalParams:additionalParams];
+    NSURL *url = [NSURL URLWithString:urlPath];
+	
+	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
+    [request setRequestMethod:@"PUT"];
+    
+	[self performAsyncRequest:request callback:@selector(updateRequestDone:)];
+    
+}
+
+-(void)showEvent:(NSString *)eventId
+{
+    NSString *urlPath = [self generateFullRequestUrl:[NSString stringWithFormat:@"events/show/%@.json", eventId] additionalParams:nil];
+    
+	NSURL *url = [NSURL URLWithString:urlPath];
+	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
+	
+	[self performAsyncRequest:request callback:@selector(getRequestDone:)];
+    
+}
+-(void)searchEvents:(CCObject *)belongTo page:(int)page perPage:(int)perPage
+{
+    NSMutableArray *additionalParams = [NSMutableArray arrayWithObjects:[NSString stringWithFormat:@"page=%d", page], [NSString stringWithFormat:@"per_page=%d", perPage], nil];
+    
+    if ([belongTo isKindOfClass:[CCUser class]]) {
+        [additionalParams addObject:[NSString stringWithFormat:@"user_id=%@", belongTo.objectId]]; 
+    } else if ([belongTo isKindOfClass:[CCPlace class]]) {
+        [additionalParams addObject:[NSString stringWithFormat:@"place_id=%@", belongTo.objectId]]; 
+    } else {
+        [NSException raise:@"Object type is not supported in searchEvents" format:@"unknow object type"];
+    }
+    
+	NSString *urlPath = [self generateFullRequestUrl:@"events/search.json" additionalParams:additionalParams];
+    
+	NSURL *url = [NSURL URLWithString:urlPath];
+	
+	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
+	
+	[self performAsyncRequest:request callback:@selector(getRequestDone:)];
+}
+
+-(void)deleteEvent:(NSString *)eventId
+{
+    NSString *urlPath = [self generateFullRequestUrl:[NSString stringWithFormat:@"events/delete/%@.json", eventId] additionalParams:nil];
+	NSURL *url = [NSURL URLWithString:urlPath];
+	
+	CCDeleteRequest *request = [[[CCDeleteRequest alloc] initWithURL:url deleteClass:[CCEvent class]] autorelease];
+	
+    [self performAsyncRequest:request callback:@selector(deleteRequestDone:)];    
+}
+
 
 # pragma -
 # pragma mark Handle Server responses
@@ -858,8 +958,9 @@
             class = [CCStatus class];
         } else if ([jsonTag caseInsensitiveCompare:CC_JSON_KEY_VALUES] == NSOrderedSame) {
             class = [CCKeyValuePair class];
+        } else if ([jsonTag caseInsensitiveCompare:CC_JSON_EVENTS] == NSOrderedSame) {
+            class = [CCEvent class];
         } else  {
-
             continue;
         }
         if (!class_respondsToSelector(class, @selector(initWithJsonResponse:))) {

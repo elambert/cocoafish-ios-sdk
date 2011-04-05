@@ -18,6 +18,7 @@
 
 -(Boolean)checkTestPlace;
 -(Boolean)checkTestPhoto;
+-(Boolean)checkTestEvent;
 @end
 
 @implementation RootViewController
@@ -53,6 +54,7 @@
     }
     testPlace = ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPlace;
     testPhoto = ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPhoto;
+    testEvent = ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testEvent;
     if (!testPlace) {
         // remove test place from last run
         NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
@@ -143,6 +145,25 @@
     
 }
 
+// Some actions requires a test place to be creatd first
+-(Boolean)checkTestEvent
+{
+    Boolean ret = YES;
+    if (ret && !testEvent) {
+        ret = NO;
+        UIAlertView *alert = [[UIAlertView alloc] 
+                              initWithTitle:@"Missing test event" 
+                              message:@"Please goto Events section and create a test event first!"
+                              delegate:self 
+                              cancelButtonTitle:@"Ok"
+                              otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+    }
+    return ret;
+    
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     switch (section) {
@@ -159,6 +180,8 @@
         case PHOTOS:
             return 6;
         case KEY_VALUES:
+            return 4;
+        case EVENTS:
             return 4;
         default:
             break;
@@ -183,6 +206,8 @@
             return @"Photoes";
         case KEY_VALUES:
             return @"Key/Value Pairs";
+        case EVENTS:
+            return @"Events";
         default:
             break;
     }
@@ -303,6 +328,28 @@
                     break;
                 }
                 
+            break;
+        case EVENTS:
+            switch (indexPath.row) {
+                case 0:
+                    if (!testEvent) {
+                        cell.textLabel.text = @"Create a test event";
+                    } else {
+                        cell.textLabel.text = @"Delete the test event";
+                    }
+                    break;
+                case 1:
+                    cell.textLabel.text = @"Get an event";
+                    break;
+                case 2:
+                    cell.textLabel.text = @"Update an event";
+                    break;
+                case 3:
+                default:
+                    cell.textLabel.text = @"Search events";
+                    break;
+            }
+            
             break;
         default:
             break;
@@ -605,6 +652,52 @@
                     break;
             }
             break;
+        case EVENTS:
+            switch (indexPath.row) {
+                case 0:
+                    if (!testEvent) {
+                        if (![self checkTestPlace]) {
+                            [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+                            return;
+                        }
+                        [controller.ccNetworkManager createEvent:@"Cocoafish Happy Hour" description:@"Bring your own drink" placeId:testPlace.objectId startTime:[NSDate date] endTime:[NSDate dateWithTimeIntervalSinceNow:7200]];
+                    } else {
+                        [controller.ccNetworkManager deleteEvent:testEvent.objectId];
+                    }
+                    break;
+                case 1:
+                    if (![self checkTestEvent]) {
+                        [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+                        return;
+                    }
+                    [controller.ccNetworkManager showEvent:testEvent.objectId];
+                    break;
+                case 2:
+                    if (![self checkTestEvent]) {
+                        [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+                        return;
+                    }
+                    prompt = [AlertPrompt alloc];
+                    prompt = [prompt initWithTitle:@"Enter a a new event name" message:@"Please enter a new Event name" delegate:self cancelButtonTitle:@"Cancel" okButtonTitle:@"Okay" defaultInput:testEvent.name];
+                    lastIndexPath = [indexPath copy];
+                    [prompt show];
+                    [prompt release];
+                    [controller release];
+                    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+                    
+                    return;
+                    break;
+                case 3:
+                default:
+                    if (![self checkTestPlace]) {
+                        [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+                        return;
+                    }
+                    [controller.ccNetworkManager searchEvents:testPlace page:CC_FIRST_PAGE perPage:CC_DEFAULT_PER_PAGE];
+                    break;
+            }
+            
+            break;
         default:
             break;
     }
@@ -655,6 +748,8 @@
                 // append key value
                 [controller.ccNetworkManager appendValueForKey:@"Test" appendValue:entered];
             }
+        } else if (lastIndexPath.section == EVENTS) {
+            [controller.ccNetworkManager updateEvent:testEvent.objectId name:entered description:nil placeId:nil startTime:nil endTime:nil];
         } else {
             CCMutablePlace *updatedPlace = [testPlace mutableCopy];
             updatedPlace.name = entered;

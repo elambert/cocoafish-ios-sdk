@@ -91,3 +91,10 @@ extern NSString * const CC_JSON_STATUSES;
 extern NSString * const CC_JSON_KEY_VALUES;
 extern NSString * const CC_JSON_KEY;
 extern NSString * const CC_JSON_VALUE;
+
+// CCEvent
+extern NSString * const CC_JSON_EVENTS;
+extern NSString * const CC_JSON_NAME;
+extern NSString * const CC_JSON_DETAILS;
+extern NSString * const CC_JSON_START_TIME;
+extern NSString * const CC_JSON_END_TIME;

@@ -92,3 +92,10 @@ NSString * const CC_JSON_TAKEN_AT = @"taken_at";
 NSString * const CC_JSON_KEY_VALUES = @"keyvalues";
 NSString * const CC_JSON_KEY = @"name";
 NSString * const CC_JSON_VALUE = @"value";
+
+// CCEvent
+NSString * const CC_JSON_EVENTS = @"events";
+NSString * const CC_JSON_NAME = @"name";
+NSString * const CC_JSON_DETAILS = @"details";
+NSString * const CC_JSON_START_TIME = @"start_time";
+NSString * const CC_JSON_END_TIME = @"end_time";

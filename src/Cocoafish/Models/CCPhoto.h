@@ -11,12 +11,12 @@
 @class UIImage;
 @class ASIHTTPRequest;
 typedef enum PhotoSize {
-	CC_SQUARE,
-	CC_THUMB,
-	CC_SMALL,
+	CC_SQUARE_75,
+	CC_THUMB_100,
+	CC_SMALL_240,
 	CC_MEDIUM_500,
 	CC_MEDIUM_640,
-	CC_LARGE,
+	CC_LARGE_1024,
 	CC_ORIGINAL
 } PhotoSize;
 

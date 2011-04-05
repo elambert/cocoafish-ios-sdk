@@ -40,7 +40,7 @@
 		for (CCCheckin *checkin in userCheckins) {
 			CCPhoto *photo = [photos objectForKey:checkin.photo.objectId];
 			if (photo) {
-				[photo asyncGetPhoto:CC_THUMB];
+				[photo asyncGetPhoto:CC_THUMB_100];
 			}
 			
 			i++;
@@ -235,9 +235,9 @@
 	CCCheckin *checkin = [userCheckins objectAtIndex:indexPath.row];
 	cell.imageView.image = nil;
 	if (checkin.photo && checkin.photo.processed == YES) {
-		cell.imageView.image = [checkin.photo getPhoto:CC_THUMB];
+		cell.imageView.image = [checkin.photo getPhoto:CC_THUMB_100];
 		if (cell.imageView.image == nil) {
-			[checkin.photo asyncGetPhoto:CC_THUMB];
+			[checkin.photo asyncGetPhoto:CC_THUMB_100];
 		}
 	}
     cell.textLabel.text = checkin.message;

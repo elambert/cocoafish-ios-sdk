@@ -108,6 +108,9 @@
     } else if (objectType == [CCPhoto class] && ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPhoto == nil) {
         CCPhoto *photo = [objectArray objectAtIndex:0];
         ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPhoto = photo;
+    } else if (objectType == [CCEvent class]) {
+        CCEvent *event = [objectArray objectAtIndex:0];
+        ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testEvent = event;
     }
 }
 
@@ -119,6 +122,8 @@
         ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPlace = nil;
     } else if (objectType == [CCPhoto class]) {
         ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPhoto = nil;
+    } else if (objectType == [CCEvent class]) {
+        ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testEvent = nil;
     }
 }
 

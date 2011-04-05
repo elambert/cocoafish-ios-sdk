@@ -7,10 +7,12 @@
 //
 
 #import "CCEvent.h"
+#import "CCUser.h"
+#import "CCPlace.h"
 
 @interface CCEvent ()
 @property (nonatomic, retain, readwrite) NSString *name;
-@property (nonatomic, retain, readwrite) NSString *note;
+@property (nonatomic, retain, readwrite) NSString *details;
 @property (nonatomic, retain, readwrite) CCUser *user;
 @property (nonatomic, retain, readwrite) CCPlace *place;
 @property (nonatomic, retain, readwrite) NSDate *startTime;
@@ -20,9 +22,58 @@
 @implementation CCEvent
 
 @synthesize name = _name;
-@synthesize note = _note;
+@synthesize details = _details;
 @synthesize user = _user;
 @synthesize place = _place;
 @synthesize startTime = _startTime;
 @synthesize endTime = _endTime;
+
+-(id)initWithJsonResponse:(NSDictionary *)jsonResponse
+{
+	self = [super initWithJsonResponse:jsonResponse];
+	if (self) {
+		@try {
+            self.name = [jsonResponse objectForKey:CC_JSON_NAME];
+            self.details = [jsonResponse objectForKey:CC_JSON_DETAILS];
+			self.user = [[CCUser alloc] initWithJsonResponse:[jsonResponse objectForKey:CC_JSON_USER]];
+			self.place = [[CCPlace alloc] initWithJsonResponse:[jsonResponse objectForKey:CC_JSON_PLACE]];
+            NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+            dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZ";
+            
+            NSString *dateString = [jsonResponse objectForKey:CC_JSON_START_TIME];
+            if (dateString) {
+                self.startTime = [dateFormatter dateFromString:dateString];
+            }
+            
+            dateString = [jsonResponse objectForKey:CC_JSON_END_TIME];
+            if (dateString) {
+                self.endTime = [dateFormatter dateFromString:dateString];
+            }
+        }
+		@catch (NSException *e) {
+			NSLog(@"Error: Failed to parse Event object. Reason: %@", [e reason]);
+			[self release];
+			self = nil;
+		}
+	}
+	return self;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"CCEvent:\n\tname=%@\n\tdetails=%@\n\tstartTime=%@\n\tendTime=%@\n\tuser=[\n\t%@\n\t]\n\tplace=[\n\t%@\n\t]\n\t%@",
+            self.name, self.details, [self.startTime description], [self.endTime description], [self.user description],
+            [self.place description], [super description]];
+}
+
+-(void)dealloc
+{
+	self.user = nil;
+	self.place = nil;
+	self.name = nil;
+	self.details = nil;
+    self.startTime = nil;
+    self.endTime = nil;
+	[super dealloc];
+}
 @end
+
