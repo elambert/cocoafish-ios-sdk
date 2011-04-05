@@ -660,7 +660,7 @@
                             [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
                             return;
                         }
-                        [controller.ccNetworkManager createEvent:@"Cocoafish Happy Hour" description:@"Bring your own drink" placeId:testPlace.objectId startTime:[NSDate date] endTime:[NSDate dateWithTimeIntervalSinceNow:7200]];
+                        [controller.ccNetworkManager createEvent:@"Cocoafish Happy Hour" details:@"Bring your own drink" placeId:testPlace.objectId startTime:[NSDate date] endTime:[NSDate dateWithTimeIntervalSinceNow:7200]];
                     } else {
                         [controller.ccNetworkManager deleteEvent:testEvent.objectId];
                     }
@@ -749,7 +749,7 @@
                 [controller.ccNetworkManager appendValueForKey:@"Test" appendValue:entered];
             }
         } else if (lastIndexPath.section == EVENTS) {
-            [controller.ccNetworkManager updateEvent:testEvent.objectId name:entered description:nil placeId:nil startTime:nil endTime:nil];
+            [controller.ccNetworkManager updateEvent:testEvent.objectId name:entered details:nil placeId:nil startTime:nil endTime:nil];
         } else {
             CCMutablePlace *updatedPlace = [testPlace mutableCopy];
             updatedPlace.name = entered;

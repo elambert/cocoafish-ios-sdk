@@ -837,7 +837,7 @@
 }
 
 #pragma mark - Event related
--(void)createEvent:(NSString *)name description:(NSString *)description placeId:(NSString *)placeId startTime:(NSDate *)startTime endTime:(NSDate *)endTime
+-(void)createEvent:(NSString *)name details:(NSString *)details placeId:(NSString *)placeId startTime:(NSDate *)startTime endTime:(NSDate *)endTime
 {    
     NSString *urlPath = [self generateFullRequestUrl:@"events/create.json" additionalParams:nil];
     
@@ -848,8 +848,8 @@
     if (name) {
         [request setPostValue:name forKey:@"name"];
     }
-    if (description) {
-        [request setPostValue:description forKey:@"description"];
+    if (details) {
+        [request setPostValue:details forKey:@"details"];
     }
     if (placeId) {
         [request setPostValue:placeId forKey:@"place_id"];
@@ -865,15 +865,15 @@
     
 }
 
--(void)updateEvent:(NSString *)eventId name:(NSString *)name description:(NSString *)description placeId:(NSString *)placeId startTime:(NSDate *)startTime endTime:(NSDate *)endTime
+-(void)updateEvent:(NSString *)eventId name:(NSString *)name details:(NSString *)details placeId:(NSString *)placeId startTime:(NSDate *)startTime endTime:(NSDate *)endTime
 
 {
     NSMutableArray *additionalParams = [[[NSMutableArray alloc] init] autorelease];
     if (name) {
         [additionalParams addObject:[NSString stringWithFormat:@"name=%@", name]];
     }
-    if (description) {
-        [additionalParams addObject:[NSString stringWithFormat:@"description=%@", description]];
+    if (details) {
+        [additionalParams addObject:[NSString stringWithFormat:@"details=%@", details]];
     }
     if (placeId) {
         [additionalParams addObject:[NSString stringWithFormat:@"place_id=%@", placeId]];

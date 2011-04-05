@@ -83,8 +83,8 @@
 -(void)deleteKeyValue:(NSString *)key;
 
 // Event related
--(void)createEvent:(NSString *)name description:(NSString *)description placeId:(NSString *)placeId startTime:(NSDate *)startTime endTime:(NSDate *)endTime;
--(void)updateEvent:(NSString *)eventId name:(NSString *)name description:(NSString *)description placeId:(NSString *)placeId startTime:(NSDate *)startTime endTime:(NSDate *)endTime;
+-(void)createEvent:(NSString *)name details:(NSString *)details placeId:(NSString *)placeId startTime:(NSDate *)startTime endTime:(NSDate *)endTime;
+-(void)updateEvent:(NSString *)eventId name:(NSString *)name details:(NSString *)details placeId:(NSString *)placeId startTime:(NSDate *)startTime endTime:(NSDate *)endTime;
 -(void)showEvent:(NSString *)eventId;
 -(void)searchEvents:(CCObject *)belongTo page:(int)page perPage:(int)perPage;
 -(void)deleteEvent:(NSString *)eventId;
