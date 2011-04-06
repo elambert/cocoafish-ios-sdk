@@ -111,6 +111,9 @@
     } else if (objectType == [CCEvent class]) {
         CCEvent *event = [objectArray objectAtIndex:0];
         ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testEvent = event;
+    } else if (objectType == [CCMessage class] && ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testMessage == nil ) {
+        CCMessage *message = [objectArray objectAtIndex:0];
+        ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testMessage = message;
     }
 }
 
@@ -124,6 +127,8 @@
         ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPhoto = nil;
     } else if (objectType == [CCEvent class]) {
         ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testEvent = nil;
+    } else if (objectType == [CCMessage class]) {
+        ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testMessage = nil;
     }
 }
 

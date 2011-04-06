@@ -16,6 +16,7 @@
 #import "CCKeyValuePair.h"
 #import "CCEvent.h"
 #import "CCResponse.h"
+#import "CCMessage.h"
 
 @protocol CCFBSessionDelegate;
 

@@ -15,6 +15,7 @@
 		B613B34912692EDA00EC9ABA /* UserController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B613B34712692EDA00EC9ABA /* UserController.xib */; };
 		B613B684126BAC4300EC9ABA /* ProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B613B682126BAC4300EC9ABA /* ProgressViewController.m */; };
 		B613B685126BAC4300EC9ABA /* ProgressViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B613B683126BAC4300EC9ABA /* ProgressViewController.xib */; };
+		B6314425134BBB1B0065A657 /* CCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B6314424134BBB1B0065A657 /* CCMessage.m */; };
 		B6544E50125E83A4003AFCAB /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6544E4E125E83A4003AFCAB /* MapViewController.m */; };
 		B6544E51125E83A4003AFCAB /* MapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6544E4F125E83A4003AFCAB /* MapViewController.xib */; };
 		B6544E55125E83F7003AFCAB /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6544E53125E83F7003AFCAB /* MainViewController.m */; };
@@ -103,6 +104,8 @@
 		B613B681126BAC4300EC9ABA /* ProgressViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressViewController.h; sourceTree = "<group>"; };
 		B613B682126BAC4300EC9ABA /* ProgressViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressViewController.m; sourceTree = "<group>"; };
 		B613B683126BAC4300EC9ABA /* ProgressViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProgressViewController.xib; sourceTree = "<group>"; };
+		B6314423134BBB1B0065A657 /* CCMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCMessage.h; sourceTree = "<group>"; };
+		B6314424134BBB1B0065A657 /* CCMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCMessage.m; sourceTree = "<group>"; };
 		B6544E4D125E83A4003AFCAB /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		B6544E4E125E83A4003AFCAB /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		B6544E4F125E83A4003AFCAB /* MapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MapViewController.xib; sourceTree = "<group>"; };
@@ -464,6 +467,8 @@
 				B67B68E913341319001E4472 /* CCStatus.m */,
 				B67B68EA13341319001E4472 /* CCUser.h */,
 				B67B68EB13341319001E4472 /* CCUser.m */,
+				B6314423134BBB1B0065A657 /* CCMessage.h */,
+				B6314424134BBB1B0065A657 /* CCMessage.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -685,6 +690,7 @@
 				B67B693A13341370001E4472 /* Reachability.m in Sources */,
 				B6D3036A1346B79F001259F3 /* CCEvent.m in Sources */,
 				B6D3037013485434001259F3 /* CCRequest.m in Sources */,
+				B6314425134BBB1B0065A657 /* CCMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

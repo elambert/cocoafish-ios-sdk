@@ -26,4 +26,6 @@
 
 -(id)initWithId:(NSString *)objectId;
 
+-(NSString *)arrayDescription:(NSArray *)array;
+
 @end

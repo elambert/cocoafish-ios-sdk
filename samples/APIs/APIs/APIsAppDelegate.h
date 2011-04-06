@@ -13,11 +13,13 @@
     CCPlace *_testPlace;
     CCPhoto *_testPhoto;
     CCEvent *_testEvent;
+    CCMessage *_testMessage;
 }
 
 @property (nonatomic, retain) CCPlace *testPlace;
 @property (nonatomic, retain) CCPhoto *testPhoto;
 @property (nonatomic, retain) CCEvent *testEvent;
+@property (nonatomic, retain) CCMessage *testMessage;
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 

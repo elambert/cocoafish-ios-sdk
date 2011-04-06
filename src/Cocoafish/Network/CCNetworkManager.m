@@ -936,6 +936,109 @@
     [self performAsyncRequest:request callback:@selector(deleteRequestDone:)];    
 }
 
+#pragma - Messages related
+// Message related
+-(void)createMessage:(NSString *)subject body:(NSString *)body toUserIds:(NSArray *)toUserIds
+{
+    NSString *urlPath = [self generateFullRequestUrl:@"messages/create.json" additionalParams:nil];
+    
+	NSURL *url = [NSURL URLWithString:urlPath];
+	
+    ASIFormDataRequest *request = [[[ASIFormDataRequest alloc] initWithURL:url] autorelease];
+    
+    if (subject) {
+        [request setPostValue:subject forKey:@"subject"];
+    }
+    if (body) {
+        [request setPostValue:body forKey:@"body"];
+    }
+    if (toUserIds) {
+        [request setPostValue:[toUserIds componentsJoinedByString:@","] forKey:@"to_ids"];
+    }
+    
+	[self performAsyncRequest:request callback:@selector(createRequestDone:)];
+    
+}
+-(void)replyMessage:(NSString *)messageId body:(NSString *)body
+{
+    NSString *urlPath = [self generateFullRequestUrl:[NSString stringWithFormat:@"messages/reply/%@.json", messageId] additionalParams:nil];
+    
+	NSURL *url = [NSURL URLWithString:urlPath];
+	
+    ASIFormDataRequest *request = [[[ASIFormDataRequest alloc] initWithURL:url] autorelease];
+    
+    if (body) {
+        [request setPostValue:body forKey:@"body"];
+    }
+	[self performAsyncRequest:request callback:@selector(createRequestDone:)];
+}
+
+-(void)showMessage:(NSString *)messageId
+{
+    NSString *urlPath = [self generateFullRequestUrl:[NSString stringWithFormat:@"messages/show/%@.json", messageId] additionalParams:nil];
+    
+	NSURL *url = [NSURL URLWithString:urlPath];
+	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
+	
+	[self performAsyncRequest:request callback:@selector(getRequestDone:)];
+}
+
+-(void)showInboxMessages:(int)page perPage:(int)perPage
+{
+    NSMutableArray *additionalParams = [NSMutableArray arrayWithObjects:[NSString stringWithFormat:@"page=%d", page], [NSString stringWithFormat:@"per_page=%d", perPage], nil];
+    NSString *urlPath = [self generateFullRequestUrl:@"messages/show/inbox.json" additionalParams:additionalParams];
+    
+	NSURL *url = [NSURL URLWithString:urlPath];
+	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
+	
+	[self performAsyncRequest:request callback:@selector(getRequestDone:)];
+}
+
+-(void)showSentMessages:(int)page perPage:(int)perPage
+{
+    NSMutableArray *additionalParams = [NSMutableArray arrayWithObjects:[NSString stringWithFormat:@"page=%d", page], [NSString stringWithFormat:@"per_page=%d", perPage], nil];
+    NSString *urlPath = [self generateFullRequestUrl:@"messages/show/sent.json" additionalParams:additionalParams];
+    
+	NSURL *url = [NSURL URLWithString:urlPath];
+	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
+	
+	[self performAsyncRequest:request callback:@selector(getRequestDone:)];
+}
+
+-(void)showMessageThreads:(int)page perPage:(int)perPage
+{
+    NSMutableArray *additionalParams = [NSMutableArray arrayWithObjects:[NSString stringWithFormat:@"page=%d", page], [NSString stringWithFormat:@"per_page=%d", perPage], nil];
+    NSString *urlPath = [self generateFullRequestUrl:@"messages/show/threads.json" additionalParams:additionalParams];
+    
+	NSURL *url = [NSURL URLWithString:urlPath];
+	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
+	
+	[self performAsyncRequest:request callback:@selector(getRequestDone:)];
+    
+}
+
+-(void)showThreadMessages:(NSString *)threadId page:(int)page perPage:(int)perPage
+{
+    NSMutableArray *additionalParams = [NSMutableArray arrayWithObjects:[NSString stringWithFormat:@"page=%d", page], [NSString stringWithFormat:@"per_page=%d", perPage], nil];
+    NSString *urlPath = [self generateFullRequestUrl:[NSString stringWithFormat:@"messages/show/thread/%@.json", threadId] additionalParams:additionalParams];
+    
+	NSURL *url = [NSURL URLWithString:urlPath];
+	ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:url] autorelease];
+	
+	[self performAsyncRequest:request callback:@selector(getRequestDone:)];
+    
+}
+
+-(void)deleteMessage:(NSString *)messageId
+{
+    NSString *urlPath = [self generateFullRequestUrl:[NSString stringWithFormat:@"messages/delete/%@.json", messageId] additionalParams:nil];
+	NSURL *url = [NSURL URLWithString:urlPath];
+	
+	CCDeleteRequest *request = [[[CCDeleteRequest alloc] initWithURL:url deleteClass:[CCEvent class]] autorelease];
+	
+    [self performAsyncRequest:request callback:@selector(deleteRequestDone:)]; 
+    
+}
 
 # pragma -
 # pragma mark Handle Server responses
@@ -960,6 +1063,8 @@
             class = [CCKeyValuePair class];
         } else if ([jsonTag caseInsensitiveCompare:CC_JSON_EVENTS] == NSOrderedSame) {
             class = [CCEvent class];
+        } else if ([jsonTag caseInsensitiveCompare:CC_JSON_MESSAGES] == NSOrderedSame) {
+            class = [CCMessage class];
         } else  {
             continue;
         }

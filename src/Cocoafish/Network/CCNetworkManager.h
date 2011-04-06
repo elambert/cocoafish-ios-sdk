@@ -25,6 +25,7 @@
 @class CCEvent;
 @class CCUploadImage;
 @class CCMeta;
+@class CCMessage;
 
 @protocol CCNetworkManagerDelegate;
 
@@ -88,6 +89,16 @@
 -(void)showEvent:(NSString *)eventId;
 -(void)searchEvents:(CCObject *)belongTo page:(int)page perPage:(int)perPage;
 -(void)deleteEvent:(NSString *)eventId;
+
+// Message related
+-(void)createMessage:(NSString *)subject body:(NSString *)body toUserIds:(NSArray *)toUserIds;
+-(void)replyMessage:(NSString *)messageId body:(NSString *)body;
+-(void)showMessage:(NSString *)messageId;
+-(void)showInboxMessages:(int)page perPage:(int)perPage;
+-(void)showSentMessages:(int)page perPage:(int)perPage;
+-(void)showMessageThreads:(int)page perPage:(int)perPage;
+-(void)showThreadMessages:(NSString *)threadId page:(int)page perPage:(int)perPage;
+-(void)deleteMessage:(NSString *)messageId;
 
 // Used to login with cocoafish after a successful facebook login
 -(CCUser *)loginWithFacebook:(NSString *)fbAppId accessToken:(NSString *)accessToken error:(NSError **)error;

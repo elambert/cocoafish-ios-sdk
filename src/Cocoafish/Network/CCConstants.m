@@ -99,3 +99,12 @@ NSString * const CC_JSON_NAME = @"name";
 NSString * const CC_JSON_DETAILS = @"details";
 NSString * const CC_JSON_START_TIME = @"start_time";
 NSString * const CC_JSON_END_TIME = @"end_time";
+
+// CCMessage
+NSString * const CC_JSON_MESSAGES = @"messages";
+NSString * const CC_JSON_THREAD_ID = @"thread_id";
+NSString * const CC_JSON_STATUS = @"status";
+NSString * const CC_JSON_SUBJECT = @"subject";
+NSString * const CC_JSON_BODY = @"body";
+NSString * const CC_JSON_FROM = @"from";
+NSString * const CC_JSON_TO = @"to";

@@ -20,6 +20,7 @@ static NSString * const facebookAppId = nil;
 @synthesize testPlace = _testPlace;
 @synthesize testPhoto = _testPhoto;
 @synthesize testEvent = _testEvent;
+@synthesize testMessage = _testMessage;
 @synthesize window=_window;
 
 @synthesize navigationController=_navigationController;
@@ -86,6 +87,7 @@ static NSString * const facebookAppId = nil;
     [_testPlace release];
     [_testPhoto release];
     [_testEvent release];
+    [_testMessage release];
     [super dealloc];
 }
 

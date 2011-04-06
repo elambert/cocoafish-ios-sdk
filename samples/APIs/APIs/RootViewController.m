@@ -19,6 +19,7 @@
 -(Boolean)checkTestPlace;
 -(Boolean)checkTestPhoto;
 -(Boolean)checkTestEvent;
+-(Boolean)checkTestMessage;
 @end
 
 @implementation RootViewController
@@ -55,6 +56,7 @@
     testPlace = ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPlace;
     testPhoto = ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPhoto;
     testEvent = ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testEvent;
+    testMessage = ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testMessage;
     if (!testPlace) {
         // remove test place from last run
         NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
@@ -70,11 +72,21 @@
 
 -(void)startLogout
 {
+    if (testPlace) {
+        [_ccNetworkManager deletePlace:testPlace.objectId];
+        NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+        [prefs removeObjectForKey:@"test_place_id"];
+    }
     [_ccNetworkManager logout];
 }
 
 -(void)deleteAccount
 {
+    if (testPlace) {
+        [_ccNetworkManager deletePlace:testPlace.objectId];
+        NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+        [prefs removeObjectForKey:@"test_place_id"];
+    }
     [_ccNetworkManager deleteUser];
 }
 
@@ -164,6 +176,25 @@
     
 }
 
+// Some actions requires a test place to be creatd first
+-(Boolean)checkTestMessage
+{
+    Boolean ret = YES;
+    if (ret && !testMessage) {
+        ret = NO;
+        UIAlertView *alert = [[UIAlertView alloc] 
+                              initWithTitle:@"Missing test message" 
+                              message:@"Please goto Messages section and send a test message first!"
+                              delegate:self 
+                              cancelButtonTitle:@"Ok"
+                              otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+    }
+    return ret;
+    
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     switch (section) {
@@ -175,8 +206,8 @@
             return 3;
         case STATUSES:
             return 2;
-     //   case MESSAGES:
-      //      return 4;
+        case MESSAGES:
+            return 7;
         case PHOTOS:
             return 6;
         case KEY_VALUES:
@@ -200,8 +231,8 @@
             return @"Checkins";
         case STATUSES:
             return @"Statuses";
-     //   case MESSAGES:
-     //       return @"Messages";
+        case MESSAGES:
+            return @"Messages";
         case PHOTOS:
             return @"Photoes";
         case KEY_VALUES:
@@ -287,6 +318,37 @@
                     cell.textLabel.text = @"Show a user's statuses";
                     break;
             }
+            break;
+        case MESSAGES:
+            switch (indexPath.row) {
+                case 0:
+                    if (!testMessage) {
+                        cell.textLabel.text = @"Send a test message";
+                    } else {
+                        cell.textLabel.text = @"Delete the test message";
+                    }
+                    break;
+                case 1:
+                    cell.textLabel.text = @"Reply to a message";
+                    break;
+                case 2:
+                    cell.textLabel.text = @"Show a message";
+                    break;
+                case 3:
+                    cell.textLabel.text = @"Show Inbox Messages";
+                    break;
+                case 4:
+                    cell.textLabel.text = @"Show Sent Messages";
+                    break;
+                case 5:
+                    cell.textLabel.text = @"Show Message Threads";
+                    break;
+                case 6:
+                default:
+                    cell.textLabel.text = @"Show Messages in a Thread";
+                    break;
+            }
+            
             break;
         case PHOTOS:
             switch (indexPath.row) {
@@ -652,6 +714,68 @@
                     break;
             }
             break;
+        case MESSAGES:
+            switch (indexPath.row) {
+                case 0:
+                    if (!testMessage) {
+                        prompt = [AlertPrompt alloc];
+                        prompt = [prompt initWithTitle:@"Enter a subject for Message 'Test'" message:@"Please enter a Subject for Message 'Test'" delegate:self cancelButtonTitle:@"Cancel" okButtonTitle:@"Okay" defaultInput:@"Hello from Cocoafish"];
+                        lastIndexPath = [indexPath copy];
+                        [prompt show];
+                        [prompt release];
+                        [controller release];
+                        [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+                        
+                        return;
+
+                    } else {
+                        [controller.ccNetworkManager deleteMessage:testMessage.objectId];
+                    }
+                    break;
+                case 1:
+                    if (![self checkTestMessage]) {
+                        [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+                        return;
+                    }
+                    prompt = [AlertPrompt alloc];
+                    prompt = [prompt initWithTitle:@"Enter a reply for message" message:@"Please enter a reply message" delegate:self cancelButtonTitle:@"Cancel" okButtonTitle:@"Okay" defaultInput:@"I have received it!"];
+                    lastIndexPath = [indexPath copy];
+                    [prompt show];
+                    [prompt release];
+                    [controller release];
+                    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+                    
+                    return;
+                    break;
+                case 2:
+                    if (![self checkTestMessage]) {
+                        [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+                        return;
+                    }
+                    [controller.ccNetworkManager showMessage:testMessage.objectId];
+                    break;
+                case 3:
+                    [controller.ccNetworkManager showInboxMessages:CC_FIRST_PAGE perPage:CC_DEFAULT_PER_PAGE];
+
+                    break;
+                case 4:
+                    [controller.ccNetworkManager showSentMessages:CC_FIRST_PAGE perPage:CC_DEFAULT_PER_PAGE];
+                    break;
+                case 5:
+                    [controller.ccNetworkManager showMessageThreads:CC_FIRST_PAGE perPage:CC_DEFAULT_PER_PAGE];
+                    break;
+                case 6:
+                default:
+                    if (![self checkTestMessage]) {
+                        [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+                        return;
+                    }
+                    [controller.ccNetworkManager showThreadMessages:testMessage.threadId page:CC_FIRST_PAGE perPage:CC_DEFAULT_PER_PAGE];
+
+                    break;
+            }
+            
+            break;
         case EVENTS:
             switch (indexPath.row) {
                 case 0:
@@ -750,6 +874,13 @@
             }
         } else if (lastIndexPath.section == EVENTS) {
             [controller.ccNetworkManager updateEvent:testEvent.objectId name:entered details:nil placeId:nil startTime:nil endTime:nil];
+        } else if (lastIndexPath.section == MESSAGES) {
+            if (lastIndexPath.row == 0) {
+                [controller.ccNetworkManager createMessage:entered body:@"Thanks for using Cocoafish" toUserIds:[NSArray arrayWithObject:[[Cocoafish defaultCocoafish] getCurrentUser].objectId]];
+            } else {
+                [controller.ccNetworkManager replyMessage:testMessage.objectId body:entered];
+
+            }
         } else {
             CCMutablePlace *updatedPlace = [testPlace mutableCopy];
             updatedPlace.name = entered;
@@ -771,6 +902,15 @@
 // successful logout
 - (void)didLogout:(CCNetworkManager *)networkManager
 {	
+    ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPlace = nil;
+    ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testEvent = nil;
+    ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPhoto = nil;
+    ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testMessage = nil;
+    testPlace = nil;
+    testEvent = nil;
+    testPhoto = nil;
+    testMessage = nil;
+    
 	// show login window
 	LoginViewController *loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
 	[self.navigationController pushViewController:loginViewController animated:NO];
@@ -781,6 +921,15 @@
 -(void)networkManager:(CCNetworkManager *)networkManager didDelete:(Class)objectType
 {
     if (objectType == [CCUser class]) {
+        ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPlace = nil;
+        ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testEvent = nil;
+        ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testPhoto = nil;
+        ((APIsAppDelegate *)[UIApplication sharedApplication].delegate).testMessage = nil;
+        testPlace = nil;
+        testEvent = nil;
+        testPhoto = nil;
+        testMessage = nil;
+        
         // show login window
         LoginViewController *loginViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
         [self.navigationController pushViewController:loginViewController animated:NO];

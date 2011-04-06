@@ -32,29 +32,33 @@
 {
 	self = [super initWithJsonResponse:jsonResponse];
 	if (self) {
+        NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+        dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZ";
+        NSString *dateString = nil;
 		@try {
             self.name = [jsonResponse objectForKey:CC_JSON_NAME];
-            self.details = [jsonResponse objectForKey:CC_JSON_DETAILS];
 			self.user = [[CCUser alloc] initWithJsonResponse:[jsonResponse objectForKey:CC_JSON_USER]];
 			self.place = [[CCPlace alloc] initWithJsonResponse:[jsonResponse objectForKey:CC_JSON_PLACE]];
-            NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-            dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZ";
+
             
-            NSString *dateString = [jsonResponse objectForKey:CC_JSON_START_TIME];
+            dateString = [jsonResponse objectForKey:CC_JSON_START_TIME];
             if (dateString) {
                 self.startTime = [dateFormatter dateFromString:dateString];
             }
-            
-            dateString = [jsonResponse objectForKey:CC_JSON_END_TIME];
-            if (dateString) {
-                self.endTime = [dateFormatter dateFromString:dateString];
-            }
+
         }
 		@catch (NSException *e) {
 			NSLog(@"Error: Failed to parse Event object. Reason: %@", [e reason]);
 			[self release];
 			self = nil;
 		}
+        self.details = [jsonResponse objectForKey:CC_JSON_DETAILS];
+        
+        dateString = [jsonResponse objectForKey:CC_JSON_END_TIME];
+        if (dateString) {
+            self.endTime = [dateFormatter dateFromString:dateString];
+        }
+
 	}
 	return self;
 }

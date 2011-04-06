@@ -83,6 +83,10 @@
 		B6042994133D3973008CEE69 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = B6042948133D3973008CEE69 /* SBJsonParser.m */; };
 		B6042995133D3973008CEE69 /* SBJsonWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = B6042949133D3973008CEE69 /* SBJsonWriter.h */; };
 		B6042996133D3973008CEE69 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = B604294A133D3973008CEE69 /* SBJsonWriter.m */; };
+		B6314436134C32D10065A657 /* CCEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = B6314432134C32D10065A657 /* CCEvent.h */; };
+		B6314437134C32D10065A657 /* CCEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = B6314433134C32D10065A657 /* CCEvent.m */; };
+		B6314438134C32D10065A657 /* CCMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = B6314434134C32D10065A657 /* CCMessage.h */; };
+		B6314439134C32D10065A657 /* CCMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = B6314435134C32D10065A657 /* CCMessage.m */; };
 		B68992AC12C30077006D4ED8 /* YAJL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B68992AA12C30077006D4ED8 /* YAJL.framework */; };
 /* End PBXBuildFile section */
 
@@ -168,6 +172,10 @@
 		B6042948133D3973008CEE69 /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
 		B6042949133D3973008CEE69 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		B604294A133D3973008CEE69 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
+		B6314432134C32D10065A657 /* CCEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCEvent.h; sourceTree = "<group>"; };
+		B6314433134C32D10065A657 /* CCEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCEvent.m; sourceTree = "<group>"; };
+		B6314434134C32D10065A657 /* CCMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCMessage.h; sourceTree = "<group>"; };
+		B6314435134C32D10065A657 /* CCMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCMessage.m; sourceTree = "<group>"; };
 		B689924712C2FBE7006D4ED8 /* libCocoafish.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libCocoafish.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B68992AA12C30077006D4ED8 /* YAJL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = YAJL.framework; sourceTree = "<group>"; };
 		B68992BC12C30516006D4ED8 /* libz.1.2.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.3.dylib; path = usr/lib/libz.1.2.3.dylib; sourceTree = SDKROOT; };
@@ -288,6 +296,10 @@
 		B6042913133D3973008CEE69 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B6314432134C32D10065A657 /* CCEvent.h */,
+				B6314433134C32D10065A657 /* CCEvent.m */,
+				B6314434134C32D10065A657 /* CCMessage.h */,
+				B6314435134C32D10065A657 /* CCMessage.m */,
 				B6042914133D3973008CEE69 /* CCCheckin.h */,
 				B6042915133D3973008CEE69 /* CCCheckin.m */,
 				B6042916133D3973008CEE69 /* CCKeyValuePair.h */,
@@ -420,6 +432,8 @@
 				B6042991133D3973008CEE69 /* SBJsonBase.h in Headers */,
 				B6042993133D3973008CEE69 /* SBJsonParser.h in Headers */,
 				B6042995133D3973008CEE69 /* SBJsonWriter.h in Headers */,
+				B6314436134C32D10065A657 /* CCEvent.h in Headers */,
+				B6314438134C32D10065A657 /* CCMessage.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -507,6 +521,8 @@
 				B6042992133D3973008CEE69 /* SBJsonBase.m in Sources */,
 				B6042994133D3973008CEE69 /* SBJsonParser.m in Sources */,
 				B6042996133D3973008CEE69 /* SBJsonWriter.m in Sources */,
+				B6314437134C32D10065A657 /* CCEvent.m in Sources */,
+				B6314439134C32D10065A657 /* CCMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

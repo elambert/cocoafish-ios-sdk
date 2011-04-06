@@ -28,4 +28,5 @@
 @property (nonatomic, retain, readonly) NSDate *startTime;
 @property (nonatomic, retain, readonly) NSDate *endTime;
 
+-(id)initWithJsonResponse:(NSDictionary *)jsonResponse;
 @end

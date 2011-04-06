@@ -98,3 +98,12 @@ extern NSString * const CC_JSON_NAME;
 extern NSString * const CC_JSON_DETAILS;
 extern NSString * const CC_JSON_START_TIME;
 extern NSString * const CC_JSON_END_TIME;
+
+// CCMessage
+extern NSString * const CC_JSON_MESSAGES;
+extern NSString * const CC_JSON_THREAD_ID;
+extern NSString * const CC_JSON_STATUS;
+extern NSString * const CC_JSON_SUBJECT;
+extern NSString * const CC_JSON_BODY;
+extern NSString * const CC_JSON_FROM;
+extern NSString * const CC_JSON_TO;

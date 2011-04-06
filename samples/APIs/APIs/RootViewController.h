@@ -15,9 +15,9 @@ typedef enum SECTIONS {
     PLACES,
     CHECKINS,
     STATUSES,
+    MESSAGES,
     PHOTOS,
     KEY_VALUES,
-//    MESSAGES,
     EVENTS,
     NUM_SECTIONS
 } sections;
@@ -28,6 +28,7 @@ typedef enum SECTIONS {
     CCNetworkManager *_ccNetworkManager;
     CCPhoto *testPhoto;
     CCEvent *testEvent;
+    CCMessage *testMessage;
 }
 
 

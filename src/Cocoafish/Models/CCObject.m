@@ -67,6 +67,11 @@
                 [self.updatedAt description]];
 }
 
+-(NSString *)arrayDescription:(NSArray *)array
+{
+    return [NSString stringWithFormat:@"{\n\t%@\n\t}", [array componentsJoinedByString:@"\n\t"]];
+}
+
 -(void)dealloc
 {
 	self.createdAt = nil;
