@@ -6,8 +6,7 @@
 //  Copyright 2011 Cocoafish Inc. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
+#import "CCObject.h"
 
 @interface CCMessage : CCObject {
     
