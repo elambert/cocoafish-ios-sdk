@@ -19,24 +19,32 @@ Setup Your Environment
 
 * Pull this SDK from GitHub:
 
-       git clone git://github.com/cocoafish-ios-sdk/cocoafish-ios-sdk.git
+       git clone git://github.com/cocoafish/cocoafish-ios-sdk.git
 
 Sample Applications
 -------------------
 
 This SDK comes with a sample application that demonstrates authorization, making API calls including user registration, Facebook integration, checkin, place searches and photo uploads to guide you in development.
 
+The Sample appication requires some authorization and API keys inorder to access the services provided by CocoaFish. You will need to obtain these values before you can run the Sample Application. To do so, follow the steps below:
+
+* Log into cocoafish (http://cocoafish.com)
+
+* View the list of Applications currently registered with your account by selecting the "<YourName>'s Apps" link from the top menu bar. This should bring you to the Applications page.
+
+* On the Applications page, you should see a line entitled "Cocoafish Sample App". On that line, click on the "Actions" drop down menu then select the "Show/Edit Apps" option. This will bring you to the Application details page which list the keys used by this Application. Make a note of these keys and their values.
+
+* Note, the values for all keys except for "Facebook App Id" should be already populated. If you want to use Facebook integration, you will need populate the "Facebook App Id" key with your own ID. To do so, select the "Edit" link at the bottom of the Application Details page.
+
 To build and run the sample application with Xcode (4.0):
 
 * Open the included Xcode Project File by selecting _File_->_Open..._ and select samples/DemoApp/DemoApp.xcodeproj.
 
-* Verify your compiler settings by checking the menu items under _Project_->_Set Active SDK_ and _Project_->_Set Active Executable_. For most developers, the defaults should be OK.
-
 * Create a Cocoafish App ID (see http://cocoafish.com/). If you'd like to integrate your app with Facebook, provide your Facebook app id.
 
-* Modify Classes/DemoAppDelegate.m to fill in your actual Cocoafish app key or OAuth consumer key and secret, along with an optional Facebook App id. Modify the method call didFinishLaunchingWithOptions to initialize Cocoafish using the either app key or OAuth consumer key/secret. If you are not using Facebook integration, pass in nil to customAppIds.
+* Modify Classes/DemoAppDelegate.m to fill in your actual Cocoafish app key (cocoafishAppKey) or OAuth consumer key (oauthConsumerKey) and secret (oauthConsumerSecret), along with an optional Facebook App id (facebookAppId). If you are using Facebook integration, you will need to modify the didFinishLaunchingWithOptions method so that the Cocoafish object is initialized with the Facebook App ID, there is comment above the cocoafish initialization line which shows you how to do this.
 
-* Finally, select _Build_->_Build and Run_. This should compile the application and launch it.
+* Finally, select _Product_ -> _Build_ to build the application and then _Product_ -> _Run_ to launch it.
 
 * Select view/edit places to add a couple places to your app.
 
